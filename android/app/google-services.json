@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "293055731275",
+    "project_id": "ato-project-b6bf2",
+    "storage_bucket": "ato-project-b6bf2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:293055731275:android:90bce2eb00c78c98ab1fce",
+        "android_client_info": {
+          "package_name": "com.project.ato"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbMUpX3xJigu-xiRWEqFTdF-NHP-RU7T0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
