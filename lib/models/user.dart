@@ -1,4 +1,6 @@
 class UserModel {
+  static UserModel? user;
+
   String id;
   String name;
   String email;
@@ -31,7 +33,6 @@ class UserModel {
     };
     return map;
   }
-
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
       id: json["id"],

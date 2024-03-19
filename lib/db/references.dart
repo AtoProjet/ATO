@@ -1,23 +1,28 @@
+import 'package:ato/db/references.dart';
 import 'package:ato/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-
-class Refs{
+class Fire{
+  static FirebaseApp? app;
+  static FirebaseAuth? auth;
+  static FirebaseFirestore? db;
   bool _ready= false;
   late final CollectionReference userRef;
   late final Reference userImageRef;
-  static final Refs _ref= Refs();
+  static final Fire _ref= Fire();
 
   void _initDBReferences() {
-    final FirebaseFirestore db = FirebaseFirestore.instanceFor(app: app);
-    userRef = db.collection("users");
+    db = FirebaseFirestore.instanceFor(app: app!);
+    userRef = db!.collection("users");
   }
 
   void _initStorageReferences() {
-    final FirebaseStorage storage = FirebaseStorage.instanceFor(app: app);
+    final FirebaseStorage storage = FirebaseStorage.instanceFor(app: app );
     userImageRef = storage.ref().child("users");
   }
-  static Refs instance(){
+  static Fire instance(){
     if(_ref._ready){
       return _ref;
     }

@@ -6,7 +6,6 @@ import 'customs/components.dart';
 
 class AccountTypeScreen extends StatefulWidget {
    const AccountTypeScreen({super.key, required this.title});
-
   final String title;
 
   @override
@@ -17,13 +16,14 @@ class _AccountTypeScreenState extends State<AccountTypeScreen> {
   @override
   Widget build(BuildContext context) {
     setAsFullScreen();
+
     return Scaffold(
       appBar: getAppBar(context, ""),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text("Select acocunt type:"),
+            const Text("Select account type:"),
             Container(
               width: double.infinity,
               margin: const EdgeInsets.fromLTRB(48.0, 32.0, 48.0, 4.0),
@@ -32,8 +32,7 @@ class _AccountTypeScreenState extends State<AccountTypeScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            RegisterScreen(accountType: "Donor")),
+                        builder: (context) => const RegisterScreen(accountType: "Donor")),
                   );
                 },
                 child: const Text('Donor'),

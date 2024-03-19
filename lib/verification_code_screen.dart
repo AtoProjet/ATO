@@ -1,4 +1,5 @@
 import 'package:ato/customs/styles.dart';
+import 'package:ato/db/references.dart';
 import 'package:ato/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ class VerificationCodeScreen extends StatefulWidget {
 
 class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
 
-  User user = auth.currentUser!;
+  User user = Fire.auth!.currentUser!;
   List<TextEditingController> controllers =
   List.generate(5, (index) => TextEditingController());
   bool isError = false;

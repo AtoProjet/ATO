@@ -34,8 +34,10 @@ AppBar getAppBar(BuildContext context, String text,
       ),
     ),
     toolbarHeight: height,
+    backgroundColor: Colors.transparent,
   );
 }
+
 
 MaterialButton darkMaterialButton({
   required VoidCallback? onPressed,

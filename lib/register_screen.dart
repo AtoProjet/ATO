@@ -1,3 +1,4 @@
+import 'package:ato/main.dart';
 import 'package:ato/verification_code_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:ato/customs/components.dart';
@@ -23,16 +24,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String? _phoneError;
   String? _passwordError;
   String? _confirmPasswordError;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController(text: "ato.966000@gmail.com");
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _nameController =
+      TextEditingController(text: "User 1323");
+  final TextEditingController _emailController =
+      TextEditingController(text: "ato.966000@gmail.com");
+  final TextEditingController _phoneController =
+      TextEditingController(text: "0598765432");
   final TextEditingController _confirmPasswordController =
-      TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
+      TextEditingController(text: "123456");
+  final TextEditingController _passwordController =
+      TextEditingController(text: "123456");
 
-  final List<String> years =
-      List.generate(100, (index) => (DateTime.now().year - index).toString());
+  final List<String> years = List.generate(
+      100, (index) => (DateTime.now().year - index - 18).toString());
   final List<String> months = [
     'January',
     'February',
@@ -61,51 +65,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
     "Northern Borders",
     "Asir"
   ];
-  late String year;
-  late String month;
-  late String area;
+  String? year;
+  String? month;
+  String? area;
   bool _agreeToTerms = false;
   bool _valid = false;
-  bool _verificationSent = false;
-
-  addUserToDB(id, accountType) async {
-    String name = _nameController.text.trim();
-    String email = _emailController.text.trim();
-    String phone = _phoneController.text.trim();
-    String birthDate = "$month, $year";
-    try {
-      UserModel userModel = UserModel(
-          id: id,
-          name: name,
-          email: email,
-          phone: phone,
-          birthDate: birthDate,
-          area: area,
-          role: accountType);
-      await Refs.instance().userRef.doc(id).set(userModel);
-    } catch (e) {
-      setState(() {
-        _error = e.toString();
-      });
-    }
-  }
-
-  register() async {
-    String email = _emailController.text.trim();
-    String password = _passwordController.text.trim();
-    try {
-      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      await addUserToDB(userCredential.user?.uid, widget.accountType);
-      _sendVerificationEmail();
-    } catch (e) {
-      setState(() {
-        _error = e.toString();
-      });
-    }
-  }
 
   _validateInputs() {
     String password = _passwordController.text.trim();
@@ -115,19 +79,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
       _emailError = validateEmail(_emailController.text);
       _phoneError = validatePhone(_phoneController.text);
       _passwordError = validatePassword(password);
-      if(_nameError!= null)
-        print(_nameError);
-      if(_emailError!= null)
-        print(_emailError);
-      if(_phoneError!= null)
-        print(_phoneError);
-      if(_passwordError!= null)
-        print(_passwordError);
-      if (password != confirmPassword) {
-        _confirmPasswordError = "Password and Confirm Password didn't match";
-      }
-      if(_confirmPasswordError!= null)
+      _confirmPasswordError = password != confirmPassword
+          ? "Password and Confirm Password didn't match"
+          : null;
+      _error =
+          _agreeToTerms ? null : "You must agree with terms and conditions";
+      if (_nameError != null) print(_nameError);
+      if (_emailError != null) print(_emailError);
+      if (_phoneError != null) print(_phoneError);
+      if (_passwordError != null) print(_passwordError);
+      if (_confirmPasswordError != null) {
+        print(password);
+        print(confirmPassword);
         print(_confirmPasswordError);
+      }
 
       _valid = _nameError == null &&
           _emailError == null &&
@@ -214,9 +179,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     DropdownButton<String>(
-                      value: months.first,
+                      value: month ?? months.first,
                       onChanged: (value) {
-                        month = value!;
+                        setState(() {
+                          month = value!;
+                        });
                       },
                       items:
                           months.map<DropdownMenuItem<String>>((String value) {
@@ -230,9 +197,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       width: 24.0,
                     ),
                     DropdownButton<String>(
-                      value: years.first,
+                      value: year ?? years.first,
                       onChanged: (value) {
-                        year = value!;
+                        setState(() {
+                          year = value!;
+                        });
                       },
                       items:
                           years.map<DropdownMenuItem<String>>((String value) {
@@ -246,18 +215,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
               ),
               const SizedBox(
-                  height: 20,
-                  width: double.infinity,
-                  child: Text('Area')),
+                  height: 20, width: double.infinity, child: Text('Area')),
               SizedBox(
                 width: double.infinity,
                 child: DropdownButton<String>(
-                  value: areas.first,
+                  value: area ?? areas.first,
                   onChanged: (value) {
-                    area = value!;
+                    setState(() {
+                      area = value!;
+                    });
                   },
-                  items:
-                  areas.map<DropdownMenuItem<String>>((String value) {
+                  items: areas.map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text(value),
@@ -291,22 +259,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   onPressed: () async {
                     _validateInputs();
                     if (_valid && _agreeToTerms) {
-                      print("Valid");
                       try {
                         register();
-                        if(_verificationSent){
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => VerificationCodeScreen()),
-                          );
-                        }
                       } catch (e) {
                         setState(() {
                           _error = e.toString();
                         });
                       }
-                    }
-                    else{
+                    } else {
                       print("Not valid");
                     }
                   },
@@ -321,12 +281,53 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  void _sendVerificationEmail() {
-    User user = _auth.currentUser!;
-    user.sendEmailVerification().then((_) {
+  addUserToDB(id, accountType) async {
+    String name = _nameController.text.trim();
+    String email = _emailController.text.trim();
+    String phone = _phoneController.text.trim();
+    String birthDate = "$month, $year";
+    try {
+      UserModel userModel = UserModel(
+          id: id,
+          name: name,
+          email: email,
+          phone: phone,
+          birthDate: birthDate,
+          area: area!,
+          role: accountType);
+      await Fire.instance().userRef.doc(id).set(userModel);
+    } catch (e) {
       setState(() {
-        _verificationSent= true;
+        _error = e.toString();
       });
+    }
+  }
+
+  register() async {
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
+    try {
+      UserCredential userCredential =
+          await Fire.auth!.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      await addUserToDB(userCredential.user?.uid, widget.accountType);
+      _sendVerificationEmail();
+    } catch (e) {
+      setState(() {
+        _error = e.toString();
+      });
+    }
+  }
+
+  void _sendVerificationEmail() {
+    User user = Fire.auth!.currentUser!;
+    user.sendEmailVerification().then((_) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => VerificationCodeScreen()),
+      );
     }).catchError((error) {
       setState(() {
         _error = 'Failed to send verification email: $error';
