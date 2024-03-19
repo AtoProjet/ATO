@@ -1,0 +1,147 @@
+import 'package:ato/customs/styles.dart';
+import 'package:ato/main.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:ato/customs/components.dart';
+import 'package:flutter/services.dart';
+
+class VerificationCodeScreen extends StatefulWidget {
+  @override
+  createState() => _VerificationCodeScreenState();
+}
+
+class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
+
+  User user = auth.currentUser!;
+  List<TextEditingController> controllers =
+  List.generate(5, (index) => TextEditingController());
+  bool isError = false;
+  String _msg = "";
+  String? _error;
+
+  @override
+  Widget build(BuildContext context) {
+    _msg = 'Verification email sent to ${user.email}';
+    return Scaffold(
+      appBar: getAppBar(context, ''),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(
+                width: double.infinity,
+                child: Text("Check Your Email", style: headerStyle())),
+            Text(_msg,
+                style: const TextStyle(fontWeight: FontWeight.w700,
+                    color: Colors.grey,
+                    fontSize: 18)),
+            const SizedBox(height: 24),
+
+            if (_error != null)
+              SizedBox(height: 24,
+                  child: Text(
+                      _error!, style: const TextStyle(color: Colors.red))),
+            if (_error == null)
+              const SizedBox(height: 24),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: List.generate(5, (index) => _buildInputField(index)),
+            ),
+            const SizedBox(height: 32),
+            SizedBox(
+              height: 48,
+              child: darkMaterialButton(
+                onPressed: _verifyCode,
+                child: const Text('Verify Code'),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('Didn\'t receive code?'),
+                TextButton(
+                  onPressed: () {
+                    _resendVerificationEmail();
+                  },
+                  child: const Text('Resend'),
+                ),
+              ],
+            ),
+
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInputField(int index) {
+    return SizedBox(
+      width: 48,
+      height: 48,
+      child: TextField(
+        controller: controllers[index],
+        textAlign: TextAlign.center,
+        maxLength: 1,
+        keyboardType: TextInputType.number,
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.digitsOnly
+        ],
+        decoration: InputDecoration(
+          focusedBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.blue),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide: BorderSide(
+              color: isError ? Colors.red : Theme
+                  .of(context)
+                  .dividerColor,
+            ),
+          ),
+          counterText: '',
+        ),
+        onChanged: (value) {
+          if (value.isNotEmpty) {
+            FocusScope.of(context).nextFocus();
+          }
+        },
+      ),
+    );
+  }
+
+  void _verifyCode() {
+    String dbCode = "8888";
+    String code = '';
+    for (int i = 0; i < 5; i++) {
+      code += controllers[i].text;
+    }
+    if (code.isEmpty || code != dbCode) {
+      setState(() {
+        isError = true;
+      });
+    }
+    else {
+      setState(() {
+        isError = false;
+      });
+    }
+  }
+
+
+  void _resendVerificationEmail() {
+    if (!user.emailVerified) {
+      user.sendEmailVerification().then((_) {
+        setState(() {
+          _msg= "A new Verification email has been sent to ${user.email}!";
+          _error = null;
+        });
+      }).catchError((error) {
+        setState(() {
+          _error = 'Failed to resend verification email: $error';
+        });
+      });
+    }
+  }
+}

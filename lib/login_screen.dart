@@ -6,7 +6,6 @@ import 'customs/styles.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
-
   @override
   createState() {
     return _LoginScreenState();

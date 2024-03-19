@@ -2,18 +2,21 @@ class UserModel {
   String id;
   String name;
   String email;
-  String? phone;
-  String? role;
+  String phone;
+  String birthDate;
+  String area;
+  String role;
   String? image;
 
   UserModel(
       {required this.id,
       required this.name,
       required this.email,
-      this.phone,
-      this.role,
-      this.image}
-      );
+      required this.phone,
+        required this.birthDate,
+        required this.area,
+      required this.role,
+      this.image});
 
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = {
@@ -21,6 +24,8 @@ class UserModel {
       'name': name,
       'email': email,
       'phone': phone,
+      'birthDate': birthDate,
+      'area': area,
       'role': role,
       'image': image,
     };
@@ -33,6 +38,8 @@ class UserModel {
       name: json["name"],
       email: json["email"],
       phone: json["phone"],
+      birthDate: json["birthDate"],
+      area: json["area"],
       role: json["role"],
       image: json["image"],
     );

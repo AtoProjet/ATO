@@ -52,6 +52,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '293055731275',
     projectId: 'ato-project-b6bf2',
     authDomain: 'ato-project-b6bf2.firebaseapp.com',
+    databaseURL: 'https://ato-project-b6bf2-default-rtdb.firebaseio.com',
     storageBucket: 'ato-project-b6bf2.appspot.com',
     measurementId: 'G-7WTT5TH9WC',
   );
@@ -61,6 +62,7 @@ class DefaultFirebaseOptions {
     appId: '1:293055731275:android:90bce2eb00c78c98ab1fce',
     messagingSenderId: '293055731275',
     projectId: 'ato-project-b6bf2',
+    databaseURL: 'https://ato-project-b6bf2-default-rtdb.firebaseio.com',
     storageBucket: 'ato-project-b6bf2.appspot.com',
   );
 
@@ -69,6 +71,7 @@ class DefaultFirebaseOptions {
     appId: '1:293055731275:ios:1f0d98ae4cce5eb6ab1fce',
     messagingSenderId: '293055731275',
     projectId: 'ato-project-b6bf2',
+    databaseURL: 'https://ato-project-b6bf2-default-rtdb.firebaseio.com',
     storageBucket: 'ato-project-b6bf2.appspot.com',
     iosBundleId: 'com.project.ato',
   );

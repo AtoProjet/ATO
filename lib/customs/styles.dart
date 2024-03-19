@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-ButtonStyle darkButtonStyle({double fontSize = 16.0}) {
+Color hexToColor(String hexColor) {
+  hexColor = hexColor.replaceAll("#", "");
+  int hexValue = int.parse(hexColor, radix: 16);
+  return Color(hexValue | 0xFF000000);
+}
+ButtonStyle darkButtonStyle({ double fontSize = 16.0, Color? color  , }) {
+  color??= hexToColor("A4BBCAFF");
   return ElevatedButton.styleFrom(
-    foregroundColor: Colors.white,
-    backgroundColor: Colors.indigo,
+    foregroundColor: Colors.grey.shade300,
+    backgroundColor: color,
     textStyle: TextStyle(fontSize: fontSize),
     elevation: 5,
     shape: RoundedRectangleBorder(
@@ -23,6 +29,14 @@ ButtonStyle buttonStyle({double fontSize = 14.0}) {
       borderRadius: BorderRadius.circular(15),
     ),
     padding: const EdgeInsets.all(15),
+  );
+}
+
+TextStyle headerStyle({double fontSize = 24.0}) {
+  return TextStyle(
+    color: Colors.indigo.shade700,
+    fontWeight: FontWeight.w800,
+    fontSize: fontSize,
   );
 }
 
