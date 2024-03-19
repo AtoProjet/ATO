@@ -1,5 +1,6 @@
 import 'package:ato/customs/components.dart';
 import 'package:ato/db/references.dart';
+import 'package:ato/home_screen.dart';
 import 'package:ato/tools/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -37,7 +38,6 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-
   login() async {
     String email = _emailController.text.trim();
     String password = _passwordController.text.trim();
@@ -47,7 +47,11 @@ class _LoginScreenState extends State<LoginScreen> {
         password: password,
       );
       if(userCredential.user !=null){
-        print('Register success: ${userCredential.user!.uid}');
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const HomeScreen(title: "")),
+        );
       }
       else{
         setState(() {

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 AppBar getAppBar(BuildContext context, String text,
     {bool showBackground = true,
     bool showBackIcon = true,
-      
+
     double height = 140.0}) {
   return AppBar(
     flexibleSpace: showBackground
