@@ -168,9 +168,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 UserModel.user =
                     UserModel.fromJson(data as Map<String, dynamic>);
                 if (Fire.auth.currentUser!.emailVerified) {
-                  goToScreen(context, const HomeScreen());
+                  goToScreenAndClearHistory(context, const HomeScreen());
                 } else {
-                  goToScreen(context, const VerificationCodeScreen());
+                  goToScreenAndClearHistory(context, const VerificationCodeScreen());
                 }
               });
             }
