@@ -32,9 +32,9 @@ ButtonStyle buttonStyle({double fontSize = 14.0}) {
   );
 }
 
-TextStyle headerStyle({double fontSize = 24.0}) {
+TextStyle headerStyle({double fontSize = 20.0, Color color= Colors.blueGrey}) {
   return TextStyle(
-    color: Colors.indigo.shade700,
+    color: color,
     fontWeight: FontWeight.w800,
     fontSize: fontSize,
   );

@@ -1,17 +1,20 @@
-import 'package:ato/customs/styles.dart';
+import 'package:ato/components/styles.dart';
 import 'package:ato/db/references.dart';
 import 'package:ato/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:ato/customs/components.dart';
+import 'package:ato/components/widgets.dart';
 import 'package:flutter/services.dart';
 
-class VerificationCodeScreen extends StatefulWidget {
+class OldVerificationCodeScreen extends StatefulWidget {
+  static String title= "Verification Code";
+
+  const OldVerificationCodeScreen({super.key});
   @override
-  createState() => _VerificationCodeScreenState();
+  createState() => _OldVerificationCodeScreenState();
 }
 
-class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
+class _OldVerificationCodeScreenState extends State<OldVerificationCodeScreen> {
 
   User user = Fire.auth!.currentUser!;
   List<TextEditingController> controllers =
@@ -23,8 +26,9 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
   @override
   Widget build(BuildContext context) {
     _msg = 'Verification email sent to ${user.email}';
-    return Scaffold(
-      appBar: getAppBar(context, ''),
+    return atoScaffold(
+      title: OldVerificationCodeScreen.title,
+      context: context,
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -54,7 +58,7 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
               height: 48,
               child: darkMaterialButton(
                 onPressed: _verifyCode,
-                child: const Text('Verify Code'),
+                text: 'Verify Code',
               ),
             ),
             const SizedBox(height: 20),
@@ -113,6 +117,7 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
   }
 
   void _verifyCode() {
+    // TODO FIX THIS CODE
     String dbCode = "8888";
     String code = '';
     for (int i = 0; i < 5; i++) {
