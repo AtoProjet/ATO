@@ -1,3 +1,4 @@
+import 'package:ato/components/styles.dart';
 import 'package:ato/components/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 class AgreementScreen extends StatefulWidget {
   const AgreementScreen({super.key});
   static String title= "Terms and Conditions";
+
 
   @override
   State<AgreementScreen> createState() => _AgreementScreenState();
@@ -25,8 +27,9 @@ class _AgreementScreenState extends State<AgreementScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  const Text(
-                    'You have pushed the button this many times:',
+                   Text(
+                    'Terms and Conditions:',
+                    style: headerStyle(),
                   ),
                   Text(
                     'TTTTTTTTT',

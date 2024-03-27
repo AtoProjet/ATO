@@ -247,12 +247,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text('Already have an account?'),
+                const Text('Already have an account?', style: TextStyle(fontSize: 16),),
                 TextButton(
                   onPressed: () {
                     goToScreen(context, const LoginScreen());
                   },
-                  child: const Text('Login'),
+                  child: const Text('Login',style: TextStyle(fontSize: 16)),
                 ),
               ],
             ),
