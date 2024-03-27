@@ -1,5 +1,5 @@
 import 'package:ato/components/actions.dart';
-import 'package:ato/components/consts.dart';
+import 'package:ato/db/consts.dart';
 import 'package:ato/components/styles.dart';
 import 'package:ato/components/widgets.dart';
 import 'package:flutter/cupertino.dart';
@@ -28,7 +28,7 @@ class _AgreementScreenState extends State<AgreementScreen> {
             SizedBox(
               width: double.infinity,
               child: Text(
-                'Terms:',
+                'Terms and Conditions:',
                 style: headerStyle(),
               ),
             ),
@@ -44,7 +44,7 @@ class _AgreementScreenState extends State<AgreementScreen> {
             SizedBox(
               width: double.infinity,
               child: Text(
-                'Conditions:',
+                'With ATO:',
                 style: headerStyle(),
               ),
             ),
