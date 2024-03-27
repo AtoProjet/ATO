@@ -1,3 +1,4 @@
+import 'package:ato/sr_screens/agreement_screen.dart';
 import 'package:ato/sr_screens/login_screen.dart';
 import 'package:ato/components/actions.dart';
 import 'verification_code_screen.dart';
@@ -96,12 +97,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
       title: RegisterScreen.title,
       isLoading: _isLoading,
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(32.0, 64.0, 32.0, 0.0),
+        padding:const EdgeInsets.fromLTRB(0.0, 64.0, 0.0, 0.0) ,
         child: ListView(
+          padding:const EdgeInsets.fromLTRB(32.0, 0.0, 32.0, 0.0) ,
           scrollDirection: Axis.vertical,
           children: [
-            if (_error != null)
-              Text(_error!, style: const TextStyle(color: Colors.red)),
+              Text(_error!=null? _error!: "", style: const TextStyle(color: Colors.red)),
             TextField(
               controller: _nameController,
               decoration: InputDecoration(
@@ -215,33 +216,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 const Text('I agree to '),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: (){
+                    goToScreen(context, const AgreementScreen());
+                  },
                   child: const Text('Terms and Conditions'),
                 ),
               ],
             ),
             const SizedBox(height: 36.0),
-            SizedBox(
-              height: 48,
-              width: 120,
-              child: darkMaterialButton(
-                onPressed: () async {
-                  _validateInputs();
-                  if (_valid && _agreeToTerms) {
-                    try {
-                      register();
-                      // addUserToDB(widget.accountType);
-                    } catch (e) {
-                      setState(() {
-                        _error = e.toString();
-                      });
+            Center(
+              child: SizedBox(
+                height: 48,
+                width: 120,
+                child: darkMaterialButton(
+                  onPressed: () async {
+                    _validateInputs();
+                    if (_valid && _agreeToTerms) {
+                      try {
+                        register();
+                        // addUserToDB(widget.accountType);
+                      } catch (e) {
+                        setState(() {
+                          _error = e.toString();
+                        });
+                      }
+                    } else {
+                      print("Not valid");
                     }
-                  } else {
-                    print("Not valid");
-                  }
-                },
-                // TODO fix this condition
-                text: 'Continue',
+                  },
+                  // TODO fix this condition
+                  text: 'Continue',
+                ),
               ),
             ),
             const SizedBox(height: 20),
@@ -257,7 +262,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 48),
           ],
         ),
       ),

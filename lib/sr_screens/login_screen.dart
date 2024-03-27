@@ -46,67 +46,65 @@ class _LoginScreenState extends State<LoginScreen> {
       title: LoginScreen.title,
       isLoading: _isLoading,
       context: context,
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: ListView(
-            shrinkWrap: true,
-            scrollDirection: Axis.vertical,
-            children: [
-              if (_error != null)
-                Text(_error!, style: const TextStyle(color: Colors.red)),
-              TextField(
-                controller: _emailController,
-                decoration: InputDecoration(
-                    labelText: 'Email',
-                    errorText: _emailError,
-                    hintText: "you@email.com"),
-              ),
-              const SizedBox(height: 12.0),
-              TextField(
-                controller: _passwordController,
-                obscureText: true,
-                keyboardType: TextInputType.visiblePassword,
-                decoration: InputDecoration(
-                    labelText: 'Password',
-                    errorText: _passwordError,
-                    hintText: "Text contains 6 letters or more"),
-              ),
-              const SizedBox(height: 36.0),
-              Center(
-                child: SizedBox(
-                  width: 100,
-                  child: darkMaterialButton(
-                    onPressed: () async {
-                      _validateInputs();
-                      if (_valid) {
-                        try {
-                          login();
-                        } catch (e) {
-                          _error = e.toString();
-                        }
+      body: Center(
+        child: ListView(
+          padding: const EdgeInsets.all(48.0),
+          shrinkWrap: true,
+          scrollDirection: Axis.vertical,
+          children: [
+            if (_error != null)
+              Text(_error!, style: const TextStyle(color: Colors.red)),
+            TextField(
+              controller: _emailController,
+              decoration: InputDecoration(
+                  labelText: 'Email',
+                  errorText: _emailError,
+                  hintText: "you@email.com"),
+            ),
+            const SizedBox(height: 12.0),
+            TextField(
+              controller: _passwordController,
+              obscureText: true,
+              keyboardType: TextInputType.visiblePassword,
+              decoration: InputDecoration(
+                  labelText: 'Password',
+                  errorText: _passwordError,
+                  hintText: "Text contains 6 letters or more"),
+            ),
+            const SizedBox(height: 36.0),
+            Center(
+              child: SizedBox(
+                width: 100,
+                child: darkMaterialButton(
+                  onPressed: () async {
+                    _validateInputs();
+                    if (_valid) {
+                      try {
+                        login();
+                      } catch (e) {
+                        _error = e.toString();
                       }
-                    },
-                    text: 'Login',
-                  ),
+                    }
+                  },
+                  text: 'Login',
                 ),
               ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('You don\'t have an account?'),
-                  TextButton(
-                    onPressed: () {
-                      goToScreen(context, const AccountTypeScreen());
-                    },
-                    child: const Text('Register'),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-            ],
-          ),
+            ),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('You don\'t have an account?'),
+                TextButton(
+                  onPressed: () {
+                    goToScreen(context, const AccountTypeScreen());
+                  },
+                  child: const Text('Register'),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+          ],
         ),
       ),
     );

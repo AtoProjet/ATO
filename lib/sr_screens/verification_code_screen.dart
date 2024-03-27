@@ -42,100 +42,99 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
       showBackButton: false,
       isLoading: _isLauding,
       context: context,
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            const SizedBox(height: 30),
-            SizedBox(
-                width: double.infinity,
-                child: Text("Check Your Email", style: headerStyle())),
-            SizedBox(
+      body: ListView(
+        padding: const EdgeInsets.all(48.0),
+        scrollDirection: Axis.vertical,
+        shrinkWrap: false,
+        children: [
+          const SizedBox(height: 30),
+          SizedBox(
               width: double.infinity,
-              child: Text(_msg,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.w700,
-                      color: Colors.grey,
-                      fontSize: 16)),
-            ),
-            const SizedBox(height: 20),
-            const Divider(),
-            SizedBox(
-              width: double.infinity,
-              child: Center(
-                child: Text(
-                  _verified ? "Verified" : "Not Verified",
-                  style: headerStyle(
-                      fontSize: 24,
-                      color: _verified ? Colors.green : Colors.red),
-                ),
+              child: Text("Check Your Email", style: headerStyle())),
+          SizedBox(
+            width: double.infinity,
+            child: Text(_msg,
+                style: const TextStyle(
+                    fontWeight: FontWeight.w700,
+                    color: Colors.grey,
+                    fontSize: 16)),
+          ),
+          const SizedBox(height: 20),
+          const Divider(),
+          SizedBox(
+            width: double.infinity,
+            child: Center(
+              child: Text(
+                _verified ? "Verified" : "Not Verified",
+                style: headerStyle(
+                    fontSize: 24,
+                    color: _verified ? Colors.green : Colors.red),
               ),
             ),
-            const Divider(),
-            const SizedBox(height: 20),
-            darkMaterialButton(onPressed: () async {
-              setState(() {
-                _isLauding = true;
-              });
-              await Fire.auth.currentUser!.reload();
-              user = Fire.auth.currentUser!;
-              setState(() {
-                _verified = user.emailVerified;
-                _isLauding = false;
-              });
-            }, text: "Check Status!",
-                enabled: !_verified),
-            const SizedBox(height: 20),
-            darkMaterialButton(onPressed: () {
-              goToScreen(context, const HomeScreen());
-            }, enabled: _verified,
-                text: "Go To Home"),
-            const SizedBox(height: 20),
-            TextButton(
-              onPressed: () {
-                logout();
-              },
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.logout_outlined,
-                    size: 24,
-                  ),
-                  SizedBox(width: 8),
-                  Text(
-                    "Use another account",
-                    style: TextStyle(
-                        fontSize: 16,),
-                  ),
-                ],
-              ),
-            ),
-            Row(
+          ),
+          const Divider(),
+          const SizedBox(height: 20),
+          darkMaterialButton(onPressed: () async {
+            setState(() {
+              _isLauding = true;
+            });
+            await Fire.auth.currentUser!.reload();
+            user = Fire.auth.currentUser!;
+            setState(() {
+              _verified = user.emailVerified;
+              _isLauding = false;
+            });
+          }, text: "Check Status!",
+              enabled: !_verified),
+          const SizedBox(height: 20),
+          darkMaterialButton(onPressed: () {
+            goToScreen(context, const HomeScreen());
+          }, enabled: _verified,
+              text: "Go To Home"),
+          const SizedBox(height: 20),
+          TextButton(
+            onPressed: () {
+              logout();
+            },
+            child: const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text('Didn\'t receive code?',
-            style: TextStyle(
-              fontSize: 16,),
-
-      ),
-                TextButton(
-                  onPressed: () {
-                    _resendVerificationEmail();
-                  },
-                  child: const Text('Resend',
-                    style: TextStyle(
+                Icon(
+                  Icons.logout_outlined,
+                  size: 24,
+                ),
+                SizedBox(width: 8),
+                Text(
+                  "Use another account",
+                  style: TextStyle(
                       fontSize: 16,),
-
-                  ),
                 ),
               ],
             ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('Didn\'t receive code?',
+          style: TextStyle(
+            fontSize: 16,),
 
-            Text(_error, style: const TextStyle(color: Colors.red),)
-          ],
-        ),
+            ),
+              TextButton(
+                onPressed: () {
+                  _resendVerificationEmail();
+                },
+                child: const Text('Resend',
+                  style: TextStyle(
+                    fontSize: 16,),
+
+                ),
+              ),
+            ],
+          ),
+
+          Text(_error, style: const TextStyle(color: Colors.red),)
+        ],
       ),
     );
   }

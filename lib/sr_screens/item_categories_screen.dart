@@ -20,16 +20,14 @@ class _ItemCategoriesScreenState extends State<ItemCategoriesScreen> {
       showBottomBar: true,
 
       title: ItemCategoriesScreen.title,
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: ListView(
-            shrinkWrap: true,
-            scrollDirection: Axis.vertical,
-            children: [
+      body: Center(
+        child: ListView(
+          padding: const EdgeInsets.all(16.0),
+          shrinkWrap: true,
+          scrollDirection: Axis.vertical,
+          children: [
 
-            ],
-          ),
+          ],
         ),
       ),
     );
