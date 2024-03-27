@@ -28,7 +28,7 @@ class _AgreementScreenState extends State<AgreementScreen> {
             SizedBox(
               width: double.infinity,
               child: Text(
-                'Terms and Conditions:',
+                'Terms:',
                 style: headerStyle(),
               ),
             ),
@@ -44,7 +44,7 @@ class _AgreementScreenState extends State<AgreementScreen> {
             SizedBox(
               width: double.infinity,
               child: Text(
-                'Privacy Policy:',
+                'Conditions:',
                 style: headerStyle(),
               ),
             ),
