@@ -163,14 +163,14 @@ class _LoginScreenState extends State<LoginScreen> {
             if (doc.exists) {
               var data = doc.data();
               setState(() {
-                UserModel.user =
-                    UserModel.fromJson(data as Map<String, dynamic>);
-                if (Fire.auth.currentUser!.emailVerified) {
-                  goToScreenAndClearHistory(context, const HomeScreen());
-                } else {
-                  goToScreenAndClearHistory(context, const VerificationCodeScreen());
-                }
+                UserModel.user = UserModel.fromJson(data as Map<String, dynamic>);
               });
+              if (Fire.auth.currentUser!.emailVerified) {
+                goToScreenAndClearHistory(context, const HomeScreen());
+              } else {
+                goToScreenAndClearHistory(context, const VerificationCodeScreen());
+              }
+
             }
           });
         } else {
