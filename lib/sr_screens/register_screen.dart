@@ -92,10 +92,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return atoScaffold(
       context: context,
       showAppBarBackground: true,
+      showAppBar: true,
       title: RegisterScreen.title,
       isLoading: _isLoading,
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 32.0),
+        padding: const EdgeInsets.fromLTRB(32.0, 64.0, 32.0, 64.0),
         child: ListView(
           scrollDirection: Axis.vertical,
           children: [
