@@ -96,7 +96,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       title: RegisterScreen.title,
       isLoading: _isLoading,
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(32.0, 64.0, 32.0, 64.0),
+        padding: const EdgeInsets.fromLTRB(32.0, 64.0, 32.0, 0.0),
         child: ListView(
           scrollDirection: Axis.vertical,
           children: [

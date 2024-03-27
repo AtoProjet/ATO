@@ -43,5 +43,6 @@ TextStyle headerStyle({double fontSize = 20.0, Color color= Colors.blueGrey}) {
 void setAsFullScreen({bool isFullScreen= true}) {
   SystemChrome.setEnabledSystemUIMode(
     isFullScreen ? SystemUiMode.immersive : SystemUiMode.edgeToEdge,
-    overlays: [],
-  );}
+    overlays: [SystemUiOverlay.bottom],
+  );
+}
