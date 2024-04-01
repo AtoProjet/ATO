@@ -1,3 +1,4 @@
+import 'package:ato/admin_screens/admin_home.dart';
 import 'package:ato/sr_screens/account_type_screen.dart';
 import 'package:ato/components/widgets.dart';
 import 'package:ato/db/references.dart';
@@ -163,14 +164,21 @@ class _LoginScreenState extends State<LoginScreen> {
             if (doc.exists) {
               var data = doc.data();
               setState(() {
-                UserModel.user = UserModel.fromJson(data as Map<String, dynamic>);
+                UserModel.user =
+                    UserModel.fromJson(data as Map<String, dynamic>);
+                print("User Role " + UserModel.user!.role);
+                if (Fire.auth.currentUser!.emailVerified) {
+                  if(UserModel.user!.role == "Admin"){
+                    goToScreenAndClearHistory(context, const AdminHome());
+                  }
+                  else{
+                    goToScreenAndClearHistory(context, const HomeScreen());
+                  }
+                }
+                else {
+                  goToScreenAndClearHistory(context, const VerificationCodeScreen());
+                }
               });
-              if (Fire.auth.currentUser!.emailVerified) {
-                goToScreenAndClearHistory(context, const HomeScreen());
-              } else {
-                goToScreenAndClearHistory(context, const VerificationCodeScreen());
-              }
-
             }
           });
         } else {
