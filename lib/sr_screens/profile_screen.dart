@@ -1,12 +1,17 @@
+import 'package:ato/components/constants.dart';
 import 'package:ato/components/widgets.dart';
 import 'package:ato/components/styles.dart';
+import 'package:ato/db/firebaseChatServices.dart';
 import 'package:ato/db/references.dart';
 import 'package:ato/models/user.dart';
+import 'package:ato/sr_screens/chat_support_screen.dart';
 import 'package:ato/sr_screens/login_screen.dart';
 import 'package:ato/components/actions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+
+import '../components/tools.dart';
 
 class ProfileScreen extends StatefulWidget {
   static String title = "Profile";
@@ -112,6 +117,50 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             const SizedBox(width: 16),
                             Text(
                               "عربي",
+                              style: TextStyle(
+                                  color: Colors.black87, fontSize: _fontSize, fontWeight: FontWeight.w700),
+                            )
+                          ],
+                        ),
+                      ),
+                      const Divider(),
+                      TextButton(
+                        onPressed: () async{
+                          print("Starting the function to create chatroom");
+                          String adminId = GenAdminId;
+                          var chatRoomId =
+                          getChatRoomIdById(user.id, adminId);
+                          print("Chat Room id is "+ chatRoomId);
+                          //print("Creating chatRoomInfoMap");
+
+                          Map<String, dynamic> chatRoomInfoMap = {
+                            "users": [user.id, adminId ],
+                          };
+                          print("Triggering Database methods");
+
+                          await FirebaseChatServices()
+                              .createChatRoom(chatRoomId, chatRoomInfoMap);
+                          print("Completed");
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ChatSupportScreen(
+                                      name: user.name, userId: user.id )));
+
+
+                        },
+                        child:  Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const SizedBox(width: 16),
+                            Icon(
+                              Icons.message,
+                              color: Colors.black87,
+                              size: _iconSize,
+                            ),
+                            const SizedBox(width: 16),
+                            Text(
+                              "Support",
                               style: TextStyle(
                                   color: Colors.black87, fontSize: _fontSize, fontWeight: FontWeight.w700),
                             )

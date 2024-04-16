@@ -8,8 +8,6 @@ import '../components/constants.dart';
 import '../widgets/admin_widgets/common_widgets/eduMaterialBox.dart';
 
 class EduMaterialScreen extends StatefulWidget {
-
-
   const EduMaterialScreen({super.key});
 
   @override
@@ -18,31 +16,25 @@ class EduMaterialScreen extends StatefulWidget {
 
 class _EduMaterialScreenState extends State<EduMaterialScreen> {
 
-  late String  url_img;
   final storage = FirebaseStorage.instance;
-  @override
-  void initState(){
-    super.initState();
-    url_img = '';
-    print('Inside init state');
-    getImageUrl();
-}
+  String imgUrl = "";
 
-Future<void> getImageUrl() async {
-final ref = storage.ref().child('BackgroundImages/books.jpeg');
-final url  = await ref.getDownloadURL();
-print('Inside getImageUrl');
-setState(() {
-  url_img = url;
-});
-}
+
+  Future<String> getImageUrl(String imageName) async {
+    final ref = storage.ref().child("BackgroundImages/"+imageName);
+    final url = await ref.getDownloadURL();
+    if (url is String) {
+      imgUrl = url;
+    }
+    return imgUrl;
+  }
 
   Widget build(BuildContext context) {
     //var ref = FirebaseStorage.instance.ref().child("gs://ato-project-b6bf2.appspot.com/BackgroundImages/books.jpeg");
     //String url_img = "";
     //ref.getDownloadURL().then((loc) => setState(() => url_img = loc));
 
-    print ("the url image is : "+ url_img);
+
 
     return Scaffold(
       body: SafeArea(
@@ -54,7 +46,7 @@ setState(() {
               height: 120.0,
               child: const SizedBox(
                 height: 80,
-                child:  Image(
+                child: Image(
                   image: AssetImage('assets/images/ic_logo.jpg'),
                   fit: BoxFit.contain,
                 ),
@@ -62,27 +54,64 @@ setState(() {
             ),
             Gap(0),
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 10,10,20),
+              padding: const EdgeInsets.fromLTRB(20, 10, 10, 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Types Of Educational",
-                        style: kLabelEduMaterialsH_font,),
-                      Text("Materials",
-                        style: kLabelEduMaterialsH_font,),
+                      Text(
+                        "Types Of Educational",
+                        style: kLabelEduMaterialsH_font,
+                      ),
+                      Text(
+                        "Materials",
+                        style: kLabelEduMaterialsH_font,
+                      ),
                     ],
                   )
                 ],
               ),
             ),
             Gap(20),
-            EduMaterialBox(url_img: url_img, text1: 'Articles with', text2: 'Pictures',),
-            Gap(18),
-            EduMaterialBox(url_img: url_img, text1: 'Announcement', text2: 'of Campaigns',),
+            FutureBuilder<String>(
+                future: getImageUrl("books.jpeg"),
+                builder:
+                    (BuildContext context, AsyncSnapshot<String> snapshot) {
+                  if (snapshot.hasError)
+                    return Text("ERROR: ${snapshot.error}");
+                  if (!snapshot.hasData)
+                    return Center(child: CircularProgressIndicator());
 
+                  var data = snapshot.data;
+                  return EduMaterialBox(
+                    url_img: data!,
+                    text1: 'Articles with',
+                    text2: 'Pictures',
+                  );
+                }),
+            Gap(18),
+            FutureBuilder<String>(
+                future: getImageUrl("books.jpeg"),
+                builder:
+                    (BuildContext context, AsyncSnapshot<String> snapshot) {
+                  if (snapshot.hasError)
+                    return Text("ERROR: ${snapshot.error}");
+                  if (!snapshot.hasData)
+                    return Center(child: CircularProgressIndicator());
+
+                  var data = snapshot.data;
+                  return EduMaterialBox(
+                    url_img: data!,
+                    text1: 'Announcement',
+                    text2: 'of Campaigns',
+                  );
+                }),
+
+            // EduMaterialBox(url_img: url_img, text1: 'Articles with', text2: 'Pictures',),
+            // Gap(18),
+            // EduMaterialBox(url_img: url_img, text1: 'Announcement', text2: 'of Campaigns',),
           ],
         ),
       ),

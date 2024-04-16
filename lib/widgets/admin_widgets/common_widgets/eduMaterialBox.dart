@@ -32,8 +32,21 @@ class EduMaterialBox extends StatelessWidget {
                       Container(
                         width: 250,
                         height: 120,
-                    child: url_img == null ? Image.asset('icons/default_profile_icon.png', height: 110.0,)
-                        :Image.network(url_img,fit: BoxFit.cover,
+                    child: Image.network(url_img,fit: BoxFit.cover,
+
+                      loadingBuilder: (BuildContext context, Widget child,
+                          ImageChunkEvent? loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return Center(
+                          child: CircularProgressIndicator(
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes!
+                                : null,
+                          ),
+                        );
+                      },
+
                         // decoration: BoxDecoration(
                         //   borderRadius: BorderRadius.circular(2),
                         //   image: DecorationImage(

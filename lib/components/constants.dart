@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+const GenAdminId = "kjPvPNWHwsaUBpDDnea6ZZrYuri1";
+
 const kPrimaryColor = Color(0xFF456897);
 const kPrimaryColor2 = Colors.orange;
 const kTextFeildIconColor = Color(0xFF5D5D5D);
@@ -10,11 +12,14 @@ const kBottomNavBarInactiveIconColor = Color(0xFF1E1E1E);
 const kNavigationBarPrimaryColor = Colors.black38;
 const kRatingStarColor = Color(0xff016a83);
 //const kQuoteBackgroundColor = Color(0xffe5e5e5);
-const kQuoteBackgroundColor = Color(0xffd9d9d9);
+const kQuoteBackgroundColor = Color(0xFFE1E1E1);
 const kLightGrayColor = Color(0xff797979);
 const kAddButtonColor = Color(0xff97bfce);
 const kRemoveButtonColor = Color(0xffdcdcdc);
 const kDividerColor = Color(0xff989898);
+const kChat2Color = Color(0xFFBEDAFF);
+
+
 
 const kLabelTextContent_font = TextStyle(
   fontWeight: FontWeight.bold,
@@ -94,6 +99,18 @@ const kLabelManageAccountGen_font = TextStyle(
   fontWeight: FontWeight.w700,
   fontSize: 14.0,
   color: Color(0xff262626),
+);
+const kLabelManageAccountDisable_font = TextStyle(
+
+  fontWeight: FontWeight.w700,
+  fontSize: 14.0,
+  color: Color(0xffbb0000),
+);
+const kLabelManageAccountEnable_font = TextStyle(
+
+  fontWeight: FontWeight.w700,
+  fontSize: 14.0,
+  color: Color(0xFF277A00),
 );
 
 const kLabelChatH_font = TextStyle(

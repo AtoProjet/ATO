@@ -1,4 +1,6 @@
+import 'package:ato/admin_screens/admin_UserChatsScreen.dart';
 import 'package:ato/admin_screens/admin_profile.dart';
+import 'package:ato/admin_screens/manage_accounts_screen.dart';
 import 'package:ato/admin_screens/sidebar_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,9 +28,10 @@ class _AdminHomeState extends State<AdminHome> {
   Widget build(BuildContext context) {
     List<Widget> _widgetoptions = <Widget>[
       AdminProfile(),
-      Text('page 3'),
+      ManageAccountsScreen(),
       EduMaterialScreen(),
       Text('page 4'),
+      AdminUserChatScreen(),
       SidebarScreen(),
     ];
 
@@ -53,11 +56,11 @@ class _AdminHomeState extends State<AdminHome> {
                   color: kBottomNavBarActiveIconColor, size: 33),
               label: ""),
           BottomNavigationBarItem(
-              icon: Icon(Icons.chat,
+              icon: Icon(Icons.people,
                   size: 30, color: kBottomNavBarInactiveIconColor),
-              activeIcon: Icon(Icons.chat,
+              activeIcon: Icon(Icons.people,
                   color: kBottomNavBarActiveIconColor, size: 33),
-              label: ''),
+              label: ""),
           BottomNavigationBarItem(
               icon: Icon(Icons.grid_view,
                   size: 30, color: kBottomNavBarInactiveIconColor),
@@ -75,6 +78,16 @@ class _AdminHomeState extends State<AdminHome> {
                 color: kBottomNavBarActiveIconColor,
                 size: 33,
               ),
+
+              label: ''),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.support_agent,
+                  size: 30, color: kBottomNavBarInactiveIconColor),
+              activeIcon: Icon(
+                Icons.support_agent,
+                color: kBottomNavBarActiveIconColor,
+                size: 33,
+              ),
               label: ''),
           BottomNavigationBarItem(
               icon: Icon(Icons.list,
@@ -84,7 +97,8 @@ class _AdminHomeState extends State<AdminHome> {
                 color: kBottomNavBarActiveIconColor,
                 size: 33,
               ),
-              label: '')
+              label: ''),
+
         ],
       ),
     );

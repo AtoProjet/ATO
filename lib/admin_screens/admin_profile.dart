@@ -28,7 +28,7 @@ class _AdminProfileState extends State<AdminProfile> {
         Container(
           alignment: Alignment.bottomRight,
           width: double.infinity,
-          height: 120.0,
+          height: 100.0,
           child: const SizedBox(
             height: 80,
             child:  Image(

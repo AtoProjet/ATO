@@ -40,6 +40,8 @@ dependencies:
   firebase_storage: ^11.6.10
   cloud_firestore: ^4.15.9
   carousel_slider: ^4.0.0
+  intl: ^0.19.0
+  rxdart: ^0.27.7
   gap: ^3.0.1
 dev_dependencies:
   flutter_test:

@@ -9,6 +9,8 @@ class UserModel {
   String area;
   String role;
   String? image;
+  bool isActive;
+  bool isDeleted;
 
   UserModel(
       {required this.id,
@@ -18,6 +20,8 @@ class UserModel {
         required this.birthDate,
         required this.area,
       required this.role,
+      required this.isActive,
+      required this.isDeleted,
       this.image});
 
   Map<String, dynamic> toMap() {
@@ -30,6 +34,8 @@ class UserModel {
       'area': area,
       'role': role,
       'image': image,
+      'isActive': isActive,
+      'isDeleted': isDeleted,
     };
     return map;
   }
@@ -43,6 +49,8 @@ class UserModel {
       area: json["area"],
       role: json["role"],
       image: json["image"],
+      isActive: json["isActive"],
+      isDeleted: json["isDeleted"],
     );
   }
 

@@ -1,3 +1,4 @@
+import 'package:ato/admin_screens/account_disabled_screen.dart';
 import 'package:ato/admin_screens/admin_home.dart';
 import 'package:ato/sr_screens/account_type_screen.dart';
 import 'package:ato/components/widgets.dart';
@@ -38,8 +39,14 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     if (addTest) {
       setState(() {
-        _emailController.text = "ato.966000@gmail.com";
-        _passwordController.text = "123456";
+        // _emailController.text = "ato.966000@gmail.com";
+        // _passwordController.text = "123456";
+
+
+        // _emailController.text = "ayazanjum15@gmail.com";
+        // _passwordController.text = "123456";
+
+
       });
     }
     setAsFullScreen();
@@ -156,7 +163,10 @@ class _LoginScreenState extends State<LoginScreen> {
     print("Check User");
     if (Fire.auth.currentUser != null) {
       Fire.auth.currentUser!.reload().then((_) {
+
         if (Fire.auth.currentUser != null) {
+
+          print("The uid is " + Fire.auth.currentUser!.uid);
           Fire.userRef.doc(Fire.auth.currentUser!.uid).get().then((doc) async {
             setState(() {
               _isLoading = false;
@@ -164,15 +174,26 @@ class _LoginScreenState extends State<LoginScreen> {
             if (doc.exists) {
               var data = doc.data();
               setState(() {
+                print ("setting the user model");
                 UserModel.user =
                     UserModel.fromJson(data as Map<String, dynamic>);
+                print ("set successgful");
                 print("User Role " + UserModel.user!.role);
                 if (Fire.auth.currentUser!.emailVerified) {
+                  print ("set successgful");
+
                   if(UserModel.user!.role == "Admin"){
                     goToScreenAndClearHistory(context, const AdminHome());
                   }
                   else{
-                    goToScreenAndClearHistory(context, const HomeScreen());
+                    // check if the user account isActive is false, Admin has disabled the account
+                    if(UserModel.user!.isActive == false){
+                      goToScreenAndClearHistory(context, const AccountDisabledScreen());
+                    }
+                    else{
+                      goToScreenAndClearHistory(context, const HomeScreen());
+                    }
+
                   }
                 }
                 else {
@@ -191,8 +212,10 @@ class _LoginScreenState extends State<LoginScreen> {
           _isLoading = false;
         });
       });
-    } else {
+    }
+    else {
       setState(() {
+        print(" The Fire Auth current user was null");
         _isLoading = false;
       });
     }

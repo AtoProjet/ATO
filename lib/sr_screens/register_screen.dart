@@ -55,7 +55,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     "Al-Madinah",
     "Al-Munawwarah" "Al-Jouf",
     "Tabuk",
-    "Hail" "Riyadh",
+    "Hail", "Riyadh",
     "Al-Qassim",
     "Najran",
     "Jazan",
@@ -325,7 +325,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           phone: phone,
           birthDate: birthDate,
           area: area,
-          role: accountType);
+          role: accountType, isActive: true, isDeleted: false);
       await Fire.userRef.doc(id).set(UserModel.user!.toMap());
       _sendVerificationEmail();
     } catch (e) {
