@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+final Color cardBackgroundColor= hexToColor("#A8E1E1E1");
+final Color buttonColor=  hexToColor("213045").withOpacity(0.5);
+
 Color hexToColor(String hexColor) {
   hexColor = hexColor.replaceAll("#", "");
   int hexValue = int.parse(hexColor, radix: 16);
   return Color(hexValue | 0xFF000000);
 }
+
+// Color cardBackgroundColor(){
+//   return hexToColor("#D9D9D9");
+// }
+
 ButtonStyle darkButtonStyle({ double fontSize = 16.0, Color? color  , }) {
   color??= hexToColor("A4BBCAFF");
   return ElevatedButton.styleFrom(
@@ -45,4 +53,8 @@ void setAsFullScreen({bool isFullScreen= true}) {
     isFullScreen ? SystemUiMode.immersive : SystemUiMode.edgeToEdge,
     overlays: [SystemUiOverlay.bottom],
   );
+}
+
+Size screenSize(BuildContext context){
+  return MediaQuery.of(context).size;
 }

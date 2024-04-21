@@ -1,0 +1,280 @@
+import 'package:ato/db/references.dart';
+import 'package:ato/models/locale.dart';
+import 'package:ato/models/user.dart';
+import 'package:flutter/cupertino.dart';
+
+enum Tr {
+  appName,
+  switchLang,
+  iAmNewUser,
+  iHaveAnAccount,
+  notifications,
+  orders,
+  logout,
+  clothes,
+  books,
+  toys,
+  shoesAndBags,
+  categories,
+  color,
+  ok,
+  accountType,
+  selectAccountType,
+  beneficiary,
+  donor,
+  description,
+  size,
+  addItem,
+  men,
+  women,
+  children,
+  termsAndConditions,
+  withATO,
+  goBackToRegister,
+  add,
+  itemDetails,
+  communication,
+  home,
+  shopping,
+  filter,
+  searchResultsFor,
+  cart,
+  chat,
+  support,
+  profile,
+  email,
+  password,
+  textContains6lettersOrMore,
+  login,
+  youDontHaveAnAccount,
+  register,
+  notFound,
+  registrationError,
+  verificationCode,
+  checkYourEmail,
+  verified,
+  notVerified,
+  checkStatus,
+  goToHome,
+  useAnotherAccount,
+  didNotReceiveCode,
+  resend,
+  aNewVerificationEmailHasBeenSentTo,
+  failedToResendVerificationEmail,
+  forG,
+  details,
+  continueText, thankYou, yourCartIsEmpty, name, quantity, nameIsRequired, descriptionIsRequired, quantityIsRequired,
+}
+
+final Map<String, Map<Tr, String>> _lang = {
+  "ar": {
+    Tr.appName: 'آتو',
+    Tr.switchLang: 'English',
+    Tr.iAmNewUser: 'أنا مستخدم جديد',
+    Tr.iHaveAnAccount: "لدي حساب",
+    Tr.notifications: "التنبيهات",
+    Tr.orders: "الطلبات",
+    Tr.logout: "تسجيل الخروج",
+    Tr.clothes: "الملابس",
+    Tr.books: "الكتب",
+    Tr.toys: "الألعاب",
+    Tr.shoesAndBags: "الأحذية والحقائب",
+    Tr.categories: "التصنيفات",
+    Tr.color: 'اللون',
+    Tr.ok: 'موافق',
+    Tr.accountType: 'نوع الحساب',
+    Tr.selectAccountType: 'اختر نوع الحساب',
+    Tr.beneficiary: 'المستفيد',
+    Tr.donor: 'المتبرع',
+    Tr.description: 'الوصف',
+    Tr.size: 'المقاس',
+    Tr.addItem: 'أضف عنصراً',
+    Tr.men: 'رجالي',
+    Tr.women: 'نسائي',
+    Tr.children: 'أطفال',
+    Tr.termsAndConditions: 'الشروط والأحكام',
+    Tr.withATO: 'مع آتو',
+    Tr.goBackToRegister: 'العودة للتسجيل',
+    Tr.add: 'أضف',
+    Tr.itemDetails: 'تفاصيل العنصر',
+    Tr.communication: 'التواصل',
+    Tr.home: 'الرئيسية',
+    Tr.shopping: 'التسوق',
+    Tr.filter: 'تصفية',
+    Tr.searchResultsFor: 'نتائج البحث عن',
+    Tr.cart: 'السلة',
+    Tr.chat: 'المحادثة',
+    Tr.support: 'الدعم',
+    Tr.profile: 'الملف الشخصي',
+    Tr.email: 'البريد الإلكتروني',
+    Tr.password: 'كلمة المرور',
+    Tr.textContains6lettersOrMore: 'يجب أن تحتوي النص على 6 أحرف أو أكثر',
+    Tr.login: 'تسجيل الدخول',
+    Tr.youDontHaveAnAccount: 'ليس لديك حساب؟',
+    Tr.register: 'سجل الآن',
+    Tr.notFound: 'غير موجود',
+    Tr.registrationError: 'خطأ في التسجيل',
+    Tr.verificationCode: 'كود التحقق',
+    Tr.checkYourEmail: 'تحقق من بريدك الإلكتروني',
+    Tr.verified: 'تم التحقق',
+    Tr.notVerified: 'لم يتم التحقق',
+    Tr.checkStatus: 'تحقق من الحالة',
+    Tr.goToHome: 'الذهاب إلى الرئيسية',
+    Tr.useAnotherAccount: 'استخدم حساب آخر',
+    Tr.didNotReceiveCode: 'لم تستلم الرمز؟',
+    Tr.resend: 'إعادة إرسال',
+    Tr.aNewVerificationEmailHasBeenSentTo:
+        'تم إرسال بريد إلكتروني جديد للتحقق إلى',
+    Tr.failedToResendVerificationEmail: 'فشل في إعادة إرسال بريد التحقق',
+    Tr.forG: 'لصالح',
+    Tr.details: 'التفاصيل',
+    Tr.continueText: 'إستمرار',
+    Tr.thankYou: 'شكرا لاستخدامك آتو',
+    Tr.yourCartIsEmpty: 'سلتك فارغة',
+    Tr.name: 'الإسم',
+    Tr.quantity: 'العدد',
+    Tr.nameIsRequired: 'الإسم مطلوب!',
+    Tr.descriptionIsRequired: 'الوصف مطلوب!',
+    Tr.quantityIsRequired: 'العدد مطلوب!',
+
+  },
+  'en': {
+    Tr.appName: 'ATO',
+    Tr.switchLang: 'عربي',
+    Tr.iAmNewUser: 'I am a new user',
+    Tr.iHaveAnAccount: 'I have an Account',
+    Tr.notifications: "Notifications",
+    Tr.orders: "Orders",
+    Tr.logout: "Logout",
+    Tr.clothes: "Clothes",
+    Tr.books: "Books",
+    Tr.toys: "Toys",
+    Tr.shoesAndBags: "Shoes and Pages",
+    Tr.categories: "Categories",
+    Tr.color: 'Color',
+    Tr.ok: 'OK',
+    Tr.accountType: 'Account Type',
+    Tr.selectAccountType: 'Select Account Type',
+    Tr.beneficiary: 'Beneficiary',
+    Tr.donor: 'Donor',
+    Tr.description: 'Description',
+    Tr.size: 'Size',
+    Tr.addItem: 'Add Item',
+    Tr.men: 'Men',
+    Tr.women: 'Women',
+    Tr.children: 'Children',
+    Tr.termsAndConditions: 'Terms and Conditions',
+    Tr.withATO: 'With ATO',
+    Tr.goBackToRegister: 'Go back to register',
+    Tr.add: 'Add',
+    Tr.itemDetails: 'Item Details',
+    Tr.communication: 'Communication',
+    Tr.home: 'Home',
+    Tr.shopping: 'Shopping',
+    Tr.filter: 'Filter',
+    Tr.searchResultsFor: 'Search results for',
+    Tr.cart: 'Cart',
+    Tr.chat: 'Chat',
+    Tr.support: 'Support',
+    Tr.profile: 'Profile',
+    Tr.email: 'Email',
+    Tr.password: 'Password',
+    Tr.textContains6lettersOrMore: 'Text contains 6 letters or more',
+    Tr.login: 'Login',
+    Tr.youDontHaveAnAccount: 'You don\'t have an account?',
+    Tr.register: 'Register now',
+    Tr.notFound: 'Not Found',
+    Tr.registrationError: 'Registration Error',
+    Tr.verificationCode: 'Verification Code',
+    Tr.checkYourEmail: 'Check your email',
+    Tr.verified: 'Verified',
+    Tr.notVerified: 'Not Verified',
+    Tr.checkStatus: 'Check Status',
+    Tr.goToHome: 'Go to home',
+    Tr.useAnotherAccount: 'Use another account',
+    Tr.didNotReceiveCode: 'Did not receive the code?',
+    Tr.resend: 'Resend',
+    Tr.aNewVerificationEmailHasBeenSentTo:
+        'A new verification email has been sent to',
+    Tr.failedToResendVerificationEmail: 'Failed to resend verification email',
+    Tr.forG: 'For G',
+    Tr.details: 'Details',
+    Tr.continueText: 'Continue',
+    Tr.thankYou: 'Thank you for choosing ATO',
+    Tr.yourCartIsEmpty: 'Your cart is empty!',
+    Tr.name: 'Name',
+    Tr.quantity: 'Quantity',
+    Tr.nameIsRequired: 'Name is required!',
+    Tr.descriptionIsRequired: 'Description is required!',
+    Tr.quantityIsRequired: 'Quantity is required!',
+
+  },
+};
+
+class LocaleProvider extends ChangeNotifier {
+  Locale get locale => _locale;
+  Locale _locale = const Locale('en');
+  final List<Locale> locales = [
+    const Locale('ar'),
+    const Locale('en'),
+  ];
+
+  void setLocale(Locale newLocale) {
+    if (!locales.contains(newLocale)) {
+      return;
+    }
+    _locale = newLocale;
+    notifyListeners();
+  }
+
+  LocaleProvider() {
+
+    Fire.localeRef.doc(UserModel.user!.id).get().then((localeDoc) {
+      if (localeDoc.exists) {
+        LocaleModel localeModel =
+            LocaleModel.fromJson(localeDoc.data() as Map<String, dynamic>);
+        String name = localeModel.name;
+        if (name == "en") {
+          setLocale(en());
+        } else {
+          setLocale(ar());
+        }
+      } else {
+        setLocale(en());
+      }
+    });
+    }
+
+  bool isAr() {
+    return _locale.languageCode == ar().languageCode;
+  }
+
+  bool isEn() {
+    return _locale.languageCode == en().languageCode;
+  }
+
+  Locale ar() {
+    return locales[0];
+  }
+
+  Locale en() {
+    return locales[1];
+  }
+
+  String of(Tr key) {
+    Map<Tr, String> trs = _lang[locale.languageCode]!;
+    if (trs.containsKey(key)) {
+      return trs[key]!;
+    }
+    return key.name;
+  }
+
+  ofStr(String text) {
+    for (Tr tr in Tr.values) {
+      if (tr.name == text) {
+        return of(tr);
+      }
+    }
+    return text;
+  }
+}

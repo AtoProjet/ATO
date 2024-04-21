@@ -1,9 +1,8 @@
+import 'package:ato/admin_screens/account_disabled_screen.dart';
 import 'package:ato/admin_screens/admin_home.dart';
-import 'package:ato/providers/locale_provider.dart';
 import 'package:ato/sr_screens/account_type_screen.dart';
 import 'package:ato/components/widgets.dart';
 import 'package:ato/db/references.dart';
-import 'package:provider/provider.dart';
 import 'home_screen.dart';
 import 'package:ato/models/user.dart';
 import 'package:ato/components/actions.dart';
@@ -14,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:ato/components/styles.dart';
 
 class LoginScreen extends StatefulWidget {
-  static Tr title = Tr.login;
+  static String title = "Login";
 
   const LoginScreen({super.key});
 
@@ -25,22 +24,34 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _emailController = TextEditingController(text: "ato.966000@gmail.com");
-  final TextEditingController _passwordController = TextEditingController(text: "123456");
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   String? _error;
   String? _emailError;
   String? _passwordError;
   bool _valid = false;
   bool _isLoading = false;
+
   bool addTest = true;
 
   @override
   Widget build(BuildContext context) {
-    LocaleProvider loc = Provider.of(context);
+    if (addTest) {
+      setState(() {
+        // _emailController.text = "ato.966000@gmail.com";
+        // _passwordController.text = "123456";
+
+
+        // _emailController.text = "ayazanjum15@gmail.com";
+        // _passwordController.text = "123456";
+
+
+      });
+    }
     setAsFullScreen();
     return atoScaffold(
-      title: loc.of(LoginScreen.title),
+      title: LoginScreen.title,
       isLoading: _isLoading,
       context: context,
       body: Center(
@@ -54,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
             TextField(
               controller: _emailController,
               decoration: InputDecoration(
-                  labelText: loc.of(Tr.email),
+                  labelText: 'Email',
                   errorText: _emailError,
                   hintText: "you@email.com"),
             ),
@@ -64,10 +75,9 @@ class _LoginScreenState extends State<LoginScreen> {
               obscureText: true,
               keyboardType: TextInputType.visiblePassword,
               decoration: InputDecoration(
-                  labelText: loc.of(Tr.password),
+                  labelText: 'Password',
                   errorText: _passwordError,
-                  hintText: loc.of(Tr.textContains6lettersOrMore),
-            ),
+                  hintText: "Text contains 6 letters or more"),
             ),
             const SizedBox(height: 36.0),
             Center(
@@ -78,13 +88,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     _validateInputs();
                     if (_valid) {
                       try {
-                        login(loc);
+                        login();
                       } catch (e) {
                         _error = e.toString();
                       }
                     }
                   },
-                  text: loc.of(Tr.login),
+                  text: 'Login',
                 ),
               ),
             ),
@@ -92,12 +102,12 @@ class _LoginScreenState extends State<LoginScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                 Text(loc.of(Tr.youDontHaveAnAccount)),
+                const Text('You don\'t have an account?'),
                 TextButton(
                   onPressed: () {
                     goToScreen(context, const AccountTypeScreen());
                   },
-                  child:  Text(loc.of(Tr.register)),
+                  child: const Text('Register'),
                 ),
               ],
             ),
@@ -116,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  login(LocaleProvider loc) {
+  login() {
     setState(() {
       _isLoading = true;
     });
@@ -135,14 +145,14 @@ class _LoginScreenState extends State<LoginScreen> {
         } else {
           setState(() {
             _isLoading = false;
-            _error = loc.of(Tr.notFound);
+            _error = "Not Found!";
           });
         }
       });
     } catch (e) {
       setState(() {
         _isLoading = false;
-        _error = '${loc.of(Tr.registrationError)}: $e';
+        _error = 'Registration Error: $e';
       });
     }
   }
@@ -151,7 +161,10 @@ class _LoginScreenState extends State<LoginScreen> {
     print("Check User");
     if (Fire.auth.currentUser != null) {
       Fire.auth.currentUser!.reload().then((_) {
+
         if (Fire.auth.currentUser != null) {
+
+          print("The uid is " + Fire.auth.currentUser!.uid);
           Fire.userRef.doc(Fire.auth.currentUser!.uid).get().then((doc) async {
             setState(() {
               _isLoading = false;
@@ -159,15 +172,26 @@ class _LoginScreenState extends State<LoginScreen> {
             if (doc.exists) {
               var data = doc.data();
               setState(() {
+                print ("setting the user model");
                 UserModel.user =
                     UserModel.fromJson(data as Map<String, dynamic>);
+                print ("set successgful");
                 print("User Role " + UserModel.user!.role);
                 if (Fire.auth.currentUser!.emailVerified) {
+                  print ("set successgful");
+
                   if(UserModel.user!.role == "Admin"){
                     goToScreenAndClearHistory(context, const AdminHome());
                   }
                   else{
-                    goToScreenAndClearHistory(context,  HomeScreen());
+                    // check if the user account isActive is false, Admin has disabled the account
+                    if(UserModel.user!.isActive == false){
+                      goToScreenAndClearHistory(context, const AccountDisabledScreen());
+                    }
+                    else{
+                      goToScreenAndClearHistory(context, const HomeScreen());
+                    }
+
                   }
                 }
                 else {
@@ -186,8 +210,10 @@ class _LoginScreenState extends State<LoginScreen> {
           _isLoading = false;
         });
       });
-    } else {
+    }
+    else {
       setState(() {
+        print(" The Fire Auth current user was null");
         _isLoading = false;
       });
     }

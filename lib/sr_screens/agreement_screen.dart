@@ -2,13 +2,15 @@ import 'package:ato/components/actions.dart';
 import 'package:ato/db/consts.dart';
 import 'package:ato/components/styles.dart';
 import 'package:ato/components/widgets.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/locale_provider.dart';
 
 class AgreementScreen extends StatefulWidget {
   const AgreementScreen({super.key});
 
-  static String title = "Terms and Conditions";
+  static Tr title = Tr.termsAndConditions;
 
   @override
   State<AgreementScreen> createState() => _AgreementScreenState();
@@ -17,8 +19,9 @@ class AgreementScreen extends StatefulWidget {
 class _AgreementScreenState extends State<AgreementScreen> {
   @override
   Widget build(BuildContext context) {
+    LocaleProvider loc = Provider.of(context);
     return atoScaffold(
-      title: AgreementScreen.title,
+      title: loc.of(AgreementScreen.title),
       context: context,
       body: Padding(
         padding: const EdgeInsets.fromLTRB(24.0, 64.0, 24.0, 24.0),
@@ -28,7 +31,7 @@ class _AgreementScreenState extends State<AgreementScreen> {
             SizedBox(
               width: double.infinity,
               child: Text(
-                'Terms and Conditions:',
+                "${loc.of(Tr.termsAndConditions)}:",
                 style: headerStyle(),
               ),
             ),
@@ -44,7 +47,7 @@ class _AgreementScreenState extends State<AgreementScreen> {
             SizedBox(
               width: double.infinity,
               child: Text(
-                'With ATO:',
+                "${loc.of(Tr.withATO)}:",
                 style: headerStyle(),
               ),
             ),
@@ -59,9 +62,9 @@ class _AgreementScreenState extends State<AgreementScreen> {
             const Divider(),
             const SizedBox(height: 24),
             Center(
-              child: darkMaterialButton(onPressed: (){
+              child: atoDarkMaterialButton(onPressed: (){
                 goBack(context);
-              }, text: "Go back To Register"),
+              }, text: loc.of(Tr.goBackToRegister)),
             ),
             const SizedBox(height: 48),
 

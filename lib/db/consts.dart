@@ -30,3 +30,8 @@ const String conditions2 =
     '\n8. Changes and Cancellations: The program reserves the right to change the terms of use and its policies at any time without prior notice.'
     '\n9. Legal Resolutions: Use of the Software is subject to the laws and regulations of the country in which it is used, and in the event of disputes they are settled by applicable laws.'
     '\n10. Communication and Support: Users can communicate with the support team via the chat in the program to solve any questions or problems they face.';
+
+const List<String> categories = ["toys", "clothes", "books", "shoesAndBags"];
+const List<String> genders= ["men", "women", "children"];
+final List<String> sizes = ["XS", "S", "M", "L", "XL"];
+

@@ -1,23 +1,24 @@
+import 'package:ato/providers/locale_provider.dart';
 import 'package:ato/models/item.dart';
 
 class ClothModel extends ItemModel{
   String size;
   String forGender;
-  String color;
+  int color;
   ClothModel(
-      {required this.size,
-      required this.forGender,
-      required this.color, required super.id, required super.name, required super.categoryId, required super.quantity, required super.donorId, required super.details,
-        super.image
-});
+      {super.id, required super.name, required super.category, required super.quantity, required super.donorId, required super.details,
+        required super.image,
+        required this.size,
+        required this.forGender,
+        required this.color,
+      });
 
   @override
   Map<String, dynamic> toMap() {
-
     Map<String, dynamic> map = {
       "id": id,
       "name": name,
-      "categoryId": categoryId,
+      "category": category,
       'size': size,
       'forGender': forGender,
       'color': color,
@@ -39,11 +40,24 @@ class ClothModel extends ItemModel{
       image: json["image"],
       id: json["id"],
       name: json["name"],
-      categoryId: json["categoryId"],
+      category: json["category"],
     );
   }
 
   factory ClothModel.fromOb(Object ob) {
     return ob as ClothModel;
+  }
+
+  @override
+  String print(LocaleProvider loc) {
+    return  '\n${super.print(loc)}'
+        '\n${loc.of(Tr.size)}: $size'
+        '\n${loc.of(Tr.forG)}: ${loc.ofStr(forGender)}'
+        '\n${loc.of(Tr.color)}: $color';
+  }
+
+  @override
+  String toString() {
+    return '${super.toString()} $size, $forGender ';
   }
 }

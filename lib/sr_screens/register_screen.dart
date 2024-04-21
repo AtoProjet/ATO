@@ -228,7 +228,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               child: SizedBox(
                 height: 48,
                 width: 120,
-                child: darkMaterialButton(
+                child: atoDarkMaterialButton(
                   onPressed: () async {
                     _validateInputs();
                     if (_valid && _agreeToTerms) {

@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:ato/firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,7 +10,10 @@ class Fire{
   static  FirebaseFirestore? _db;
   static FirebaseStorage? _storage;
   static CollectionReference? _userRef;
+  static CollectionReference? _itemRef;
+  static CollectionReference? _localeRef;
   static Reference? _userImageRef;
+  static Reference? _itemImageRef;
   static FirebaseApp get app => _app!;
 
   static init() async{
@@ -26,10 +28,15 @@ class Fire{
   }
 
   static void _initDBReferences() {
+    _localeRef = db.collection("locales");
     _userRef = db.collection("users");
+    _itemRef = db.collection("items");
+
   }
+
   static void _initStorageReferences() {
     _userImageRef = storage.ref().child("users");
+    _itemImageRef = storage.ref().child("items");
   }
 
   static FirebaseAuth get auth => _auth!;
@@ -41,4 +48,10 @@ class Fire{
   static CollectionReference get userRef => _userRef!;
 
   static Reference get userImageRef => _userImageRef!;
+
+  static Reference get itemImageRef => _itemImageRef!;
+
+  static CollectionReference get itemRef => _itemRef!;
+
+  static CollectionReference get localeRef => _localeRef! ;
 }

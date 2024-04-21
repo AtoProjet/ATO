@@ -1,4 +1,6 @@
+import 'package:ato/providers/locale_provider.dart';
 import 'package:ato/db/references.dart';
+import 'package:provider/provider.dart';
 import 'home_screen.dart';
 import 'login_screen.dart';
 import 'account_type_screen.dart';
@@ -13,7 +15,7 @@ import 'package:ato/components/widgets.dart';
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
-  final String title = "ATO";
+  final Tr title = Tr.appName;
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -30,6 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    LocaleProvider loc = Provider.of(context);
     setAsFullScreen();
     return atoScaffold(
       context: context,
@@ -51,22 +54,22 @@ class _SplashScreenState extends State<SplashScreen> {
                 Container(
                   width: double.infinity,
                   margin: const EdgeInsets.fromLTRB(48.0, 8.0, 48.0, 4.0),
-                  child: darkMaterialButton(
+                  child: atoDarkMaterialButton(
                     onPressed: () {
                       goToScreen(context, const AccountTypeScreen());
                     },
-                    text: 'I am a new user',
+                    text: loc.of(Tr.iAmNewUser),
                   ),
                 ),
               if (!_isLoading && UserModel.user == null)
                 Container(
                   width: double.infinity,
                   margin: const EdgeInsets.fromLTRB(48.0, 4.0, 48.0, 72.0),
-                  child: darkMaterialButton(
+                  child: atoDarkMaterialButton(
                     onPressed: () {
                       goToScreen(context, const LoginScreen());
                     },
-                    text: 'I have an Account',
+                    text: loc.of(Tr.iHaveAnAccount),
                   ),
                 ),
             ],

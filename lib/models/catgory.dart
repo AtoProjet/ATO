@@ -1,11 +1,9 @@
+import 'package:ato/providers/locale_provider.dart';
+
 class CategoryModel {
   String id;
   String name;
-  CategoryModel(
-      {required this.id,
-      required this.name
-      });
-
+  CategoryModel({required this.id, required this.name});
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = {
       'id': id,
@@ -13,6 +11,7 @@ class CategoryModel {
     };
     return map;
   }
+
   factory CategoryModel.fromJson(Map<String, dynamic> json) {
     return CategoryModel(
       id: json["id"],

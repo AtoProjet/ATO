@@ -1,13 +1,14 @@
 import 'package:ato/components/styles.dart';
 import 'package:ato/db/references.dart';
-import 'package:ato/main.dart';
+import 'package:ato/providers/locale_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ato/components/widgets.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 class OldVerificationCodeScreen extends StatefulWidget {
-  static String title= "Verification Code";
+  static Tr title= Tr.verificationCode;
 
   const OldVerificationCodeScreen({super.key});
   @override
@@ -25,9 +26,10 @@ class _OldVerificationCodeScreenState extends State<OldVerificationCodeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    LocaleProvider loc = Provider.of(context);
     _msg = 'Verification email sent to ${user.email}';
     return atoScaffold(
-      title: OldVerificationCodeScreen.title,
+      title: loc.of(OldVerificationCodeScreen.title),
       context: context,
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -56,7 +58,7 @@ class _OldVerificationCodeScreenState extends State<OldVerificationCodeScreen> {
             const SizedBox(height: 32),
             SizedBox(
               height: 48,
-              child: darkMaterialButton(
+              child: atoDarkMaterialButton(
                 onPressed: _verifyCode,
                 text: 'Verify Code',
               ),
