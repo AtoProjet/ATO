@@ -27,11 +27,17 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  UserModel user = UserModel.user!;
+  late UserModel user;
   final double _fontSize= 18;
   final double _iconSize= 32;
   @override
+  void initState() {
+    user= UserModel.user!;
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
+
     LocaleProvider loc = Provider.of(context);
     return Center(
         child: ListView(
@@ -39,13 +45,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
           shrinkWrap: false,
           scrollDirection: Axis.vertical,
           children: [
-            atoProfileImage(url: user.image),
+            atoProfileImage(url: user!.image),
             Center(
                 child: Text(
-              user.name,
+              user!.name,
               style: headerStyle(),
             )),
-            Center(child: Text(user.email)),
+            Center(child: Text(user!.email)),
             Container(
               margin: const EdgeInsets.fromLTRB(36,20, 36, 20 ),
               child: ClipRRect(
@@ -56,7 +62,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      if(UserModel.user!.role== "Admin")
+                      if(user.role== "Admin")
                       TextButton(
                         onPressed: () {},
                         child:  Row(
@@ -77,9 +83,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ],
                         ),
                       ),
-                      if(UserModel.user!.role== "Admin")
+                      if(user.role== "Admin")
                       const Divider(),
-                      if(UserModel.user!.role== "Donor" || UserModel.user!.role== "Admin")
+                      if(user.role== "Donor" || user.role== "Admin")
                       TextButton(
                         onPressed: () {},
                         child:  Row(
@@ -100,7 +106,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ],
                         ),
                       ),
-                      if(UserModel.user!.role== "Donor" || UserModel.user!.role== "Admin")
+                      if(user.role== "Donor" || user.role== "Admin")
                       const Divider(),
                       TextButton(
                         onPressed: () {
@@ -130,12 +136,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           print("Starting the function to create chatroom");
                           String adminId = GenAdminId;
                           var chatRoomId =
-                          getChatRoomIdById(user.id, adminId);
+                          getChatRoomIdById(user!.id, adminId);
                           print("Chat Room id is "+ chatRoomId);
                           //print("Creating chatRoomInfoMap");
 
                           Map<String, dynamic> chatRoomInfoMap = {
-                            "users": [user.id, adminId ],
+                            "users": [user!.id, adminId ],
                           };
                           print("Triggering Database methods");
 
@@ -146,7 +152,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ChatSupportScreen(
-                                      name: user.name, userId: user.id )));
+                                      name: user!.name, userId: user!.id )));
 
 
                         },
@@ -204,7 +210,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   logout(){
     Fire.auth.signOut().then((value){
       setState(() {
-        UserModel.user= null;
         goToScreenAndClearHistory(context, const LoginScreen());
       });
 
@@ -222,7 +227,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     } else{
       target= loc.ar();
     }
-    await Fire.localeRef.doc(UserModel.user!.id).set(LocaleModel(name: target.languageCode).toMap());
+    await Fire.localeRef.doc(user.id).set(LocaleModel(name: target.languageCode).toMap());
     loc.setLocale(target);
   }
   showOrders(){

@@ -234,7 +234,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     if (_valid && _agreeToTerms) {
                       try {
                         register();
-                        // addUserToDB(widget.accountType);
                       } catch (e) {
                         setState(() {
                           _error = e.toString();
@@ -250,8 +249,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
             ),
             const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            Wrap(
+              alignment: WrapAlignment.center,
               children: [
                 const Text('Already have an account?', style: TextStyle(fontSize: 16),),
                 TextButton(

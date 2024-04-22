@@ -155,15 +155,13 @@ MaterialButton atoDarkMaterialButton({
       borderRadius: BorderRadius.circular(8),
     ),
     padding: const EdgeInsets.all(4),
-    child: Stack(
+    child: Wrap(
+      alignment: WrapAlignment.start,
         children: [
-      if (icon != null) Container(
-          alignment: AlignmentDirectional.centerStart,
-          padding: const EdgeInsets.only(left: 8, ),
-          child: Image.asset(icon,
-            color: changeIconColor?Colors.white.withOpacity(0.8): null, height: fontSize*1.5,)),
-      Container(
-        alignment: icon!= null? Alignment.bottomLeft: Alignment.center,
+      if (icon != null) Image.asset(icon,
+        alignment: Alignment.centerLeft,
+        color: changeIconColor?Colors.white.withOpacity(0.8): null, height: fontSize*1.5,),
+      Padding(
         padding: icon!= null? const EdgeInsets.only(left: 16): EdgeInsets.zero,
         child: Text(
           text,

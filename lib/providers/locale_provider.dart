@@ -228,21 +228,22 @@ class LocaleProvider extends ChangeNotifier {
   }
 
   LocaleProvider() {
-
-    Fire.localeRef.doc(UserModel.user!.id).get().then((localeDoc) {
-      if (localeDoc.exists) {
-        LocaleModel localeModel =
-            LocaleModel.fromJson(localeDoc.data() as Map<String, dynamic>);
-        String name = localeModel.name;
-        if (name == "en") {
-          setLocale(en());
+    if(UserModel.user != null) {
+      Fire.localeRef.doc(UserModel.user!.id).get().then((localeDoc) {
+        if (localeDoc.exists) {
+          LocaleModel localeModel =
+          LocaleModel.fromJson(localeDoc.data() as Map<String, dynamic>);
+          String name = localeModel.name;
+          if (name == "en") {
+            setLocale(en());
+          } else {
+            setLocale(ar());
+          }
         } else {
-          setLocale(ar());
+          setLocale(en());
         }
-      } else {
-        setLocale(en());
-      }
-    });
+      });
+    }
     }
 
   bool isAr() {

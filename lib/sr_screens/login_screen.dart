@@ -3,6 +3,7 @@ import 'package:ato/providers/locale_provider.dart';
 import 'package:ato/sr_screens/account_type_screen.dart';
 import 'package:ato/components/widgets.dart';
 import 'package:ato/db/references.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'home_screen.dart';
 import 'package:ato/models/user.dart';
@@ -34,6 +35,11 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _valid = false;
   bool _isLoading = false;
   bool addTest = true;
+  @override
+  void initState() {
+    UserModel.user= null;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,10 +95,10 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            Wrap(
+              alignment: WrapAlignment.center,
               children: [
-                 Text(loc.of(Tr.youDontHaveAnAccount)),
+                 Text(loc.of(Tr.youDontHaveAnAccount), ),
                 TextButton(
                   onPressed: () {
                     goToScreen(context, const AccountTypeScreen());
