@@ -5,6 +5,7 @@ import 'package:ato/components/widgets.dart';
 import 'package:ato/db/references.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import '../admin_screens/account_disabled_screen.dart';
 import 'home_screen.dart';
 import 'package:ato/models/user.dart';
 import 'package:ato/components/actions.dart';
@@ -26,8 +27,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _emailController = TextEditingController(text: "ato.966000@gmail.com");
-  final TextEditingController _passwordController = TextEditingController(text: "123456");
+  // final TextEditingController _emailController = TextEditingController(text: "ato.966000@gmail.com");
+  // final TextEditingController _passwordController = TextEditingController(text: "123456");
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   String? _error;
   String? _emailError;
@@ -169,11 +173,19 @@ class _LoginScreenState extends State<LoginScreen> {
                     UserModel.fromJson(data as Map<String, dynamic>);
                 print("User Role " + UserModel.user!.role);
                 if (Fire.auth.currentUser!.emailVerified) {
+
                   if(UserModel.user!.role == "Admin"){
                     goToScreenAndClearHistory(context, const AdminHome());
                   }
                   else{
-                    goToScreenAndClearHistory(context,  HomeScreen());
+                    // check if the user account isActive is false, Admin has disabled the account
+                    if(UserModel.user!.isActive == false){
+                      goToScreenAndClearHistory(context, const AccountDisabledScreen());
+                    }
+                    else{
+                      goToScreenAndClearHistory(context, const HomeScreen());
+                    }
+
                   }
                 }
                 else {

@@ -1,6 +1,8 @@
 import 'package:ato/providers/locale_provider.dart';
 import 'package:ato/db/references.dart';
 import 'package:provider/provider.dart';
+import '../admin_screens/account_disabled_screen.dart';
+import '../admin_screens/admin_home.dart';
 import 'home_screen.dart';
 import 'login_screen.dart';
 import 'account_type_screen.dart';
@@ -90,7 +92,19 @@ class _SplashScreenState extends State<SplashScreen> {
                 UserModel.user =
                     UserModel.fromJson(data as Map<String, dynamic>);
                   if (Fire.auth.currentUser!.emailVerified) {
-                    goToScreen(context, const HomeScreen());
+                    if(UserModel.user!.role == "Admin"){
+                      goToScreenAndClearHistory(context, const AdminHome());
+                    }
+                    else{
+                      // check if the user account isActive is false, Admin has disabled the account
+                      if(UserModel.user!.isActive == false){
+                        goToScreenAndClearHistory(context, const AccountDisabledScreen());
+                      }
+                      else{
+                        goToScreenAndClearHistory(context, const HomeScreen());
+                      }
+                    }
+                    //goToScreen(context, const HomeScreen());
                   } else {
                     goToScreen(context, const VerificationCodeScreen());
                   }

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:ato/admin_screens/articles_screen.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -85,10 +86,19 @@ class _EduMaterialScreenState extends State<EduMaterialScreen> {
                     return Center(child: CircularProgressIndicator());
 
                   var data = snapshot.data;
-                  return EduMaterialBox(
-                    url_img: data!,
-                    text1: 'Articles with',
-                    text2: 'Pictures',
+                  return GestureDetector(
+                    onTap: (){
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ArticlesPage()));
+                    },
+                    child: EduMaterialBox(
+
+                      url_img: data!,
+                      text1: 'Articles with',
+                      text2: 'Pictures',
+                    ),
                   );
                 }),
             Gap(18),

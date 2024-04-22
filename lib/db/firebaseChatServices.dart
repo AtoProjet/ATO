@@ -1,6 +1,3 @@
-
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -49,6 +46,7 @@ class FirebaseChatServices {
         .orderBy("time", descending: true)
         .snapshots();
   }
+
   Future<QuerySnapshot> getUserInfo(String userId) async {
     return await FirebaseFirestore.instance
         .collection("users")
@@ -65,13 +63,13 @@ class FirebaseChatServices {
   }
 
   Future<Stream<QuerySnapshot>> getUserAccounts() async {
-
-    var query = FirebaseFirestore.instance.collection("users")
-        .where(
-        Filter.or(
-            Filter("role", isEqualTo: "Donor"),
-            Filter("role", isEqualTo: "Beneficiary"),
-        )).snapshots();
+    var query = FirebaseFirestore.instance
+        .collection("users")
+        .where(Filter.or(
+          Filter("role", isEqualTo: "Donor"),
+          Filter("role", isEqualTo: "Beneficiary"),
+        ))
+        .snapshots();
 
     // Stream<QuerySnapshot> list1 = FirebaseFirestore.instance
     //     .collection("users")
@@ -83,15 +81,15 @@ class FirebaseChatServices {
     //     .where("role", isEqualTo: "Beneficiary" )
     //     .snapshots();
     return query;
-
-
   }
+
   disableUserAccount(String userId) {
     return FirebaseFirestore.instance
         .collection("users")
         .doc(userId)
         .update({'isActive': false});
   }
+
   enableUserAccount(String userId) {
     return FirebaseFirestore.instance
         .collection("users")
@@ -99,5 +97,10 @@ class FirebaseChatServices {
         .update({'isActive': true});
   }
 
-
+  Future<QuerySnapshot> getArticlesDetails()  {
+    return  FirebaseFirestore.instance
+        .collection("articles")
+        .limit(1)
+        .get();
+  }
 }
