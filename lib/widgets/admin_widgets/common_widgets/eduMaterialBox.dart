@@ -5,10 +5,9 @@ import '../../../components/app_layout.dart';
 import '../../../components/constants.dart';
 
 class EduMaterialBox extends StatelessWidget {
-  const EduMaterialBox({super.key, required this.url_img, required this.text1, required this.text2});
+  const EduMaterialBox({super.key, required this.url_img, required this.text1});
   final String url_img;
   final String text1;
-  final String text2;
   @override
   Widget build(BuildContext context) {
     final size = AppLayout.getSize(context);
@@ -65,22 +64,28 @@ class EduMaterialBox extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Column(
-                            children: [
-                              Text(
-                                '$text1',
-                                style: kLabelEduMaterialContent_font,
-                                textAlign: TextAlign.center,
-                                maxLines: 3,
-                              ),
-                              Text(
-                                '$text2',
-                                style: kLabelEduMaterialContent_font,
-                                textAlign: TextAlign.center,
-                                maxLines: 3,
-                              ),
-                            ],
-                          ),
+                          Flexible(child: Text(
+                            '$text1',
+                            style: kLabelEduMaterialContent_font,
+                            textAlign: TextAlign.start,
+                            maxLines: 3,
+                          ),),
+                          // Column(
+                          //   children: [
+                          //     Text(
+                          //       '$text1',
+                          //       style: kLabelEduMaterialContent_font,
+                          //       textAlign: TextAlign.center,
+                          //       maxLines: 3,
+                          //     ),
+                          //     Text(
+                          //       '$text2',
+                          //       style: kLabelEduMaterialContent_font,
+                          //       textAlign: TextAlign.center,
+                          //       maxLines: 3,
+                          //     ),
+                          //   ],
+                          // ),
                         ],
                       ),
                       Gap(10),

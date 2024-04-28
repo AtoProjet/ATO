@@ -1,13 +1,16 @@
 import 'dart:async';
 
+import 'package:ato/widgets/admin_widgets/common_widgets/topbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 
 import '../components/constants.dart';
 import '../db/firebaseChatServices.dart';
+import '../providers/locale_provider.dart';
 
 class ArticlesPage extends StatefulWidget {
   const ArticlesPage({super.key});
@@ -38,54 +41,29 @@ class _ArticlesPageState extends State<ArticlesPage> {
   Future<String> getImageUrl(String imageName) async {
     final ref = storage.ref().child("BackgroundImages/"+imageName);
     final url = await ref.getDownloadURL();
-    if (url is String) {
-      imgUrl = url;
-    }
+    imgUrl = url;
+    // if (url is String) {
+    //   imgUrl = url;
+    // }
     print("This getImageUrl trigger");
     return imgUrl;
   }
 
   Widget build(BuildContext context) {
+    LocaleProvider loc = Provider.of(context);
     return Scaffold(
       body: SafeArea(
         child:
         ListView(
           shrinkWrap: true,
           children: [
-            Container(
-              padding: EdgeInsets.only(left: 10),
-              alignment: Alignment.bottomRight,
-              width: double.infinity,
-              height: 100.0,
-              child: SizedBox(
-                height: 80,
-                child:  Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        // Navigator.pushReplacement(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => ProfileScreen()));
-                        Navigator.pop(context);
-                      },
-                      child: Icon(
-                        Icons.arrow_back,
-                      ),
-                    ),
-                    Image(
-                      image: AssetImage('assets/images/ic_logo.jpg'),
-                      fit: BoxFit.contain,
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            Topbar(isBack: true, onTap : (){
+              Navigator.pop(context);
+            }),
             Gap(5),
             Padding(
-              padding: const EdgeInsets.fromLTRB(25,5,5,0),
-              child: Text('Articles', style: kLabelEduMaterialsH_font,),
+              padding: const EdgeInsets.fromLTRB(25,5,25,0),
+              child: Text(loc.of(Tr.articles), style: kLabelEduMaterialsH_font,),
             ),
             Gap(10),
             FutureBuilder<QuerySnapshot>(
@@ -150,13 +128,13 @@ class _ArticlesPageState extends State<ArticlesPage> {
                         Gap(20),
                         RichText(text: TextSpan(children: <TextSpan>[
 
-                          TextSpan(text: "Title :",style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
+                          TextSpan(text: "${loc.of(Tr.title)} :",style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
                           TextSpan(text: " ${data.docs[0]["title"]}",style: const TextStyle( color: Colors.black))
                         ])),
                         Gap(20),
                         RichText(text: TextSpan(children: <TextSpan>[
 
-                          TextSpan(text: "Content :",style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
+                          TextSpan(text: "${loc.of(Tr.content)} :",style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
                           TextSpan(text: " ${data.docs[0]["content"]}",style: const TextStyle( color: Colors.black))
                         ])),
                         Gap(20),

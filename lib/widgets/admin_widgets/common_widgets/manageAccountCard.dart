@@ -1,10 +1,12 @@
 import 'package:ato/admin_screens/accountActionConfirmationScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 
 import '../../../components/app_layout.dart';
 import '../../../components/constants.dart';
 import '../../../db/firebaseChatServices.dart';
+import '../../../providers/locale_provider.dart';
 
 class ManageAccountCard extends StatefulWidget {
   final String id;
@@ -47,6 +49,7 @@ class _ManageAccountCardState extends State<ManageAccountCard> {
 
   @override
   Widget build(BuildContext context) {
+    LocaleProvider loc = Provider.of(context);
     final size = AppLayout.getSize(context);
     return Material(
       child: Container(
@@ -89,10 +92,18 @@ class _ManageAccountCardState extends State<ManageAccountCard> {
                         style: kLabelManageAccountUserName_font,
                       ),
                       Gap(5),
-                      Text(
-                        "${widget.type}",
+                      if(widget.type == "Beneficiary") Text(
+                        loc.of(Tr.beneficiary),
                         style: kLabelManageAccountType_font,
                       ),
+                      if(widget.type == "Donor") Text(
+                        loc.of(Tr.donor),
+                        style: kLabelManageAccountType_font,
+                      ),
+                      // Text(
+                      //   "${widget.type}",
+                      //   style: kLabelManageAccountType_font,
+                      // ),
                       Gap(3),
                       Row(
                         children: [
@@ -101,14 +112,14 @@ class _ManageAccountCardState extends State<ManageAccountCard> {
                           ),
                           Gap(5),
                           Text(
-                            "Support must be reviewed",
+                            loc.of(Tr.supportMustBeReviewed),
                             style: kLabelManageAccountGen_font,
                           ),
                         ],
                       ),
                       Gap(4),
                       Text(
-                        "Donated Items",
+                        loc.of(Tr.donatedItems),
                         style: kLabelManageAccountGen_font,
                       ),
                       Gap(4),
@@ -120,7 +131,7 @@ class _ManageAccountCardState extends State<ManageAccountCard> {
                           Gap(5),
                           if (widget.isActive)
                             TextButton(
-                              child: Text("Disable Account",
+                              child: Text(loc.of(Tr.disableAccount),
                                   style: kLabelManageAccountDisable_font),
                               onPressed: () async {
                                 bool result = await disableAccount(widget.id);
@@ -130,15 +141,15 @@ class _ManageAccountCardState extends State<ManageAccountCard> {
                                       MaterialPageRoute(
                                           builder: (context) =>
                                               AccountActionConfirmation(
-                                                  action: "Disabled")));
+                                                  action: loc.of(Tr.disabled))));
                                 } else {
-                                  print("Failed to disable account");
+                                  print(loc.of(Tr.failedToDisableAccount));
                                 }
                               },
                             ),
                           if (!widget.isActive)
                             TextButton(
-                              child: Text("Enable Account",
+                              child: Text(loc.of(Tr.enableAccount),
                                   style: kLabelManageAccountEnable_font),
                               onPressed: () async {
                                 bool result = await enableAccount(widget.id);
@@ -148,9 +159,9 @@ class _ManageAccountCardState extends State<ManageAccountCard> {
                                       MaterialPageRoute(
                                           builder: (context) =>
                                               AccountActionConfirmation(
-                                                  action: "Enabled")));
+                                                  action: loc.of(Tr.enabled))));
                                 } else {
-                                  print("Failed to enable account");
+                                  print(loc.of(Tr.failedToEnableAccount));
                                 }
                               },
                             ),

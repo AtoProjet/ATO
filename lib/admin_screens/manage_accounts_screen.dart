@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 
 import '../components/constants.dart';
 import '../db/firebaseChatServices.dart';
+import '../providers/locale_provider.dart';
 import '../widgets/admin_widgets/common_widgets/manageAccountCard.dart';
 import '../widgets/admin_widgets/common_widgets/topbar.dart';
 
@@ -28,28 +30,18 @@ class _ManageAccountsScreenState extends State<ManageAccountsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    LocaleProvider loc = Provider.of(context);
     return Scaffold(
       body: SafeArea(
         child:
         ListView(
           shrinkWrap: true,
           children: [
-            Container(
-              alignment: Alignment.bottomRight,
-              width: double.infinity,
-              height: 100.0,
-              child: const SizedBox(
-                height: 80,
-                child:  Image(
-                  image: AssetImage('assets/images/ic_logo.jpg'),
-                  fit: BoxFit.contain,
-                ),
-              ),
-            ),
+            Topbar(isBack: false),
             Gap(5),
             Padding(
               padding: const EdgeInsets.fromLTRB(25,5,5,0),
-              child: Text('Manage Accounts', style: kLabelEduMaterialsH_font,),
+              child: Text(loc.of(Tr.manageAccounts), style: kLabelEduMaterialsH_font,),
             ),
             Gap(15),
             UserAccountsList()

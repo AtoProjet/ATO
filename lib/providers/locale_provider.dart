@@ -64,6 +64,24 @@ enum Tr {
   forG,
   details,
   continueText, thankYou, yourCartIsEmpty, name, quantity, nameIsRequired, descriptionIsRequired, quantityIsRequired,
+
+  manageAccounts,
+  supportMustBeReviewed,
+  donatedItems,
+  disableAccount,
+  enableAccount,
+  disabled,
+  enabled,
+  failedToDisableAccount,
+  failedToEnableAccount,
+  typesOfEducationalMaterials,
+  articlesWithPictures,
+  announcementOfCampaigns,
+  articles,
+  title,
+  content,
+  itemsCategory
+
 }
 
 final Map<String, Map<Tr, String>> _lang = {
@@ -137,6 +155,24 @@ final Map<String, Map<Tr, String>> _lang = {
     Tr.descriptionIsRequired: 'الوصف مطلوب!',
     Tr.quantityIsRequired: 'العدد مطلوب!',
 
+
+    Tr.manageAccounts: 'إدارة الحسابات',
+    Tr.supportMustBeReviewed: 'يجب مراجعة الدعم',
+    Tr.donatedItems: 'العناصر المتبرع بها',
+    Tr.disableAccount: 'تعطيل الحساب',
+    Tr.enableAccount: 'تمكين الحساب',
+    Tr.enabled: 'ممكّن',
+    Tr.disabled: 'عاجز',
+    Tr.failedToDisableAccount: 'فشل في تعطيل الحساب',
+    Tr.failedToEnableAccount: 'فشل في تمكين الحساب',
+    Tr.typesOfEducationalMaterials: 'أنواع المواد التعليمية',
+    Tr.articlesWithPictures: 'مقالات بالصور',
+    Tr.announcementOfCampaigns: 'إعلان الحملات',
+    Tr.articles: 'مقالات',
+    Tr.title: 'عنوان',
+    Tr.content: 'محتوى',
+    Tr.itemsCategory: 'فئة العناصر',
+
   },
   'en': {
     Tr.appName: 'ATO',
@@ -207,6 +243,23 @@ final Map<String, Map<Tr, String>> _lang = {
     Tr.nameIsRequired: 'Name is required!',
     Tr.descriptionIsRequired: 'Description is required!',
     Tr.quantityIsRequired: 'Quantity is required!',
+
+    Tr.manageAccounts: 'Manage Accounts',
+    Tr.supportMustBeReviewed: 'Support must be reviewed',
+    Tr.donatedItems: 'Donated Items',
+    Tr.disableAccount: 'Disable Account',
+    Tr.enableAccount: 'Enable Account',
+    Tr.enabled: 'Enabled',
+    Tr.disabled: 'Disabled',
+    Tr.failedToDisableAccount: 'Failed to Disable Account',
+    Tr.failedToEnableAccount: 'Failed to Enable Account',
+    Tr.typesOfEducationalMaterials: 'Types of Educational Materials',
+    Tr.articlesWithPictures: 'Articles with Pictures',
+    Tr.announcementOfCampaigns: 'Announcement of Campaigns',
+    Tr.articles: 'Articles',
+    Tr.title: 'Title',
+    Tr.content: 'Content',
+    Tr.itemsCategory: 'Items Category',
 
   },
 };
