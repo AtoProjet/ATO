@@ -18,3 +18,4 @@ void goToScreenAndClearHistory(BuildContext context, Widget screen) {
 void goBack(BuildContext context) {
   Navigator.pop(context);
 }
+

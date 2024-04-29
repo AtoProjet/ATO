@@ -1,5 +1,6 @@
-import 'package:ato/components/widgets.dart';
+import 'package:ato/components/widgets/global.dart';
 import 'package:ato/components/styles.dart';
+import 'package:ato/components/widgets/images.dart';
 import 'package:ato/models/user.dart';
 import 'package:ato/providers/locale_provider.dart';
 import 'package:ato/sr_screens/cart_screen.dart';
@@ -13,30 +14,49 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  Tr? startScreenTitle;
+  HomeScreen({super.key, this.startScreenTitle});
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
+ List<Tr> bottomNavIndexes = [
+  SliderScreen.title,
+  // if (UserModel.user != null && UserModel.user!.role == "Donor")
+  ItemCategoriesScreen.title,
+  // if (UserModel.user != null && UserModel.user!.role == "Beneficiary")
+  ShoppingScreen.title,
+  // if (UserModel.user != null && UserModel.user!.role == "Beneficiary")
+  CartScreen.title,
+  ChatScreen.title,
+  ProfileScreen.title,
+];
 
 class _HomeScreenState extends State<HomeScreen> {
-  int currentPage = 0;
+  int currentPage= 0;
+
   List<Widget> screens = [
     const SliderScreen(),
     // if (UserModel.user != null && UserModel.user!.role == "Donor")
-     const ItemCategoriesScreen(),
+    const ItemCategoriesScreen(),
     // if (UserModel.user != null && UserModel.user!.role == "Beneficiary")
-      ShoppingScreen(),
+    ShoppingScreen(),
     // if (UserModel.user != null && UserModel.user!.role == "Beneficiary")
-     const CartScreen(),
+    const CartScreen(),
     const ChatScreen(),
-     const ProfileScreen(),
+    const ProfileScreen(),
   ];
+  @override
+  void initState() {
+    currentPage=bottomNavIndexes.indexOf(widget.startScreenTitle?? SliderScreen.title);
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
     LocaleProvider loc = Provider.of(context);
     final List<BottomNavigationBarItem> buttons= bottomNavigationBarOptions(loc: loc);
-    setAsFullScreen(isFullScreen: false);
+    setAsFullScreen(true);
     return atoScaffold(
         context: context,
         showBackButton: false,
@@ -65,36 +85,36 @@ List<BottomNavigationBarItem> bottomNavigationBarOptions({
 }) {
   List<BottomNavigationBarItem> items = [
     BottomNavigationBarItem(
-        icon: assetIcon(name: "home.png"),
-        activeIcon: assetIcon(name: "home-active.png"),
+        icon: atoAssetOfIcon("home.png"),
+        activeIcon: atoAssetOfIcon("home-active.png"),
         label: loc.of(SliderScreen.title),
         backgroundColor: Colors.blueGrey),
     // if (UserModel.user != null && UserModel.user!.role == "Donor")
     BottomNavigationBarItem(
-        icon: assetIcon(name: "grid.png"),
-        activeIcon: assetIcon(name: "grid-active.png"),
+        icon: atoAssetOfIcon("grid.png"),
+        activeIcon: atoAssetOfIcon( "grid-active.png"),
         label: loc.of(ItemCategoriesScreen.title),
         backgroundColor: Colors.blueGrey),
     // if (UserModel.user != null && UserModel.user!.role == "Beneficiary")
     BottomNavigationBarItem(
-        icon: assetIcon(name: "find.png"),
-        activeIcon: assetIcon(name: "find-active.png"),
+        icon: atoAssetOfIcon("find.png"),
+        activeIcon: atoAssetOfIcon("find-active.png"),
         label: loc.of(ShoppingScreen.title),
         backgroundColor: Colors.blueGrey),
     // if (UserModel.user != null && UserModel.user!.role == "Beneficiary")
     BottomNavigationBarItem(
-        icon: assetIcon(name: "cart.png"),
-        activeIcon: assetIcon(name: "cart-active.png"),
+        icon: atoAssetOfIcon("cart.png"),
+        activeIcon: atoAssetOfIcon("cart-active.png"),
         label: loc.of(CartScreen.title),
         backgroundColor: Colors.blueGrey),
     BottomNavigationBarItem(
-        icon: assetIcon(name: "chat.png"),
-        activeIcon: assetIcon(name: "chat-active.png"),
+        icon: atoAssetOfIcon("chat.png"),
+        activeIcon: atoAssetOfIcon("chat-active.png"),
         label: loc.of(ChatScreen.title),
         backgroundColor: Colors.blueGrey),
     BottomNavigationBarItem(
-        icon: assetIcon(name: "profile.png"),
-        activeIcon: assetIcon(name: "profile-active.png"),
+        icon: atoAssetOfIcon("profile.png"),
+        activeIcon: atoAssetOfIcon("profile-active.png"),
         label: loc.of(ProfileScreen.title),
         backgroundColor: Colors.blueGrey),
   ];

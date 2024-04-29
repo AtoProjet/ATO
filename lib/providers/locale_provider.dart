@@ -80,8 +80,8 @@ enum Tr {
   articles,
   title,
   content,
-  itemsCategory
-
+  itemsCategory,
+   itemAddedSuccessfully, removeItem, success, deliveryDetails,
 }
 
 final Map<String, Map<Tr, String>> _lang = {

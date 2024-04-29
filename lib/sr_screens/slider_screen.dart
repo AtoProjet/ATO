@@ -1,4 +1,4 @@
-import 'package:ato/components/widgets.dart';
+import 'package:ato/components/widgets/global.dart';
 import 'package:ato/components/styles.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +36,8 @@ class _SliderScreenState extends State<SliderScreen> {
   int _currentPage = 0;
   @override
   Widget build(BuildContext context) {
-    setAsFullScreen(isFullScreen: false);
+    setAsFullScreen(true);
+    // setAsFullScreen(isFullScreen: false);
     return Center(
         child: ListView(
           padding: const EdgeInsets.all(16.0),

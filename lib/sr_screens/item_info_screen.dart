@@ -1,4 +1,6 @@
-import 'package:ato/components/widgets.dart';
+import 'package:ato/components/actions.dart';
+import 'package:ato/components/widgets/buttons.dart';
+import 'package:ato/components/widgets/global.dart';
 import 'package:ato/components/styles.dart';
 import 'package:ato/providers/cart_provider.dart';
 import 'package:ato/providers/locale_provider.dart';
@@ -24,7 +26,7 @@ class _ItemInfoScreenState extends State<ItemInfoScreen> {
   Widget build(BuildContext context) {
     LocaleProvider loc = Provider.of(context);
     CartProvider cart = Provider.of(context);
-    setAsFullScreen(isFullScreen: false);
+    setAsFullScreen(true);
     return atoScaffold(
       title: loc.of(ItemInfoScreen.title),
         showAppBarBackground: false,
@@ -55,7 +57,7 @@ class _ItemInfoScreenState extends State<ItemInfoScreen> {
                           ),
                   ),
                   Container(
-                    padding: EdgeInsets.only(top: 20),
+                    padding: const EdgeInsets.only(top: 20),
                     width: 250,
                     child: Text(
                       widget.item.print(loc),
@@ -66,9 +68,12 @@ class _ItemInfoScreenState extends State<ItemInfoScreen> {
                     child: SizedBox(
                       width: 150,
                       height: 40,
-                      child: atoDarkMaterialButton(
-                          onPressed: () {
+                      child: atoIconTextMaterialButton(
+                          onPressed: () async {
                             cart.addToCart(widget.item);
+                           atoToastSuccess(context, loc.of(Tr.itemAddedSuccessfully));
+
+                              goBack(context);
                           },
                           icon: "assets/icons/add-to-cart.png",
                           text: loc.of(Tr.add),

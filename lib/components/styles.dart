@@ -28,15 +28,16 @@ ButtonStyle darkButtonStyle({ double fontSize = 16.0, Color? color  , }) {
   );
 }
 
-ButtonStyle buttonStyle({double fontSize = 14.0}) {
+ButtonStyle buttonStyle({double fontSize = 14.0, Color? textColor, double borderRadius= 8}) {
   return ElevatedButton.styleFrom(
-    foregroundColor: Colors.indigo,
+    foregroundColor: textColor,
     textStyle: TextStyle(fontSize: fontSize),
     elevation: 5,
+
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(15),
+      borderRadius: BorderRadius.circular(borderRadius),
     ),
-    padding: const EdgeInsets.all(15),
+    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
   );
 }
 
@@ -48,7 +49,7 @@ TextStyle headerStyle({double fontSize = 20.0, Color color= Colors.blueGrey}) {
   );
 }
 
-void setAsFullScreen({bool isFullScreen= true}) {
+void setAsFullScreen(bool isFullScreen) {
   SystemChrome.setEnabledSystemUIMode(
     isFullScreen ? SystemUiMode.immersive : SystemUiMode.edgeToEdge,
     overlays: [SystemUiOverlay.bottom],

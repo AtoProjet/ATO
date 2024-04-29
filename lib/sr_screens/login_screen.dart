@@ -1,9 +1,9 @@
 import 'package:ato/admin_screens/admin_home.dart';
+import 'package:ato/components/widgets/buttons.dart';
 import 'package:ato/providers/locale_provider.dart';
 import 'package:ato/sr_screens/account_type_screen.dart';
-import 'package:ato/components/widgets.dart';
+import 'package:ato/components/widgets/global.dart';
 import 'package:ato/db/references.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import '../admin_screens/account_disabled_screen.dart';
 import 'home_screen.dart';
@@ -48,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     LocaleProvider loc = Provider.of(context);
-    setAsFullScreen();
+    setAsFullScreen(true);
     return atoScaffold(
       title: loc.of(LoginScreen.title),
       isLoading: _isLoading,
@@ -183,7 +183,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       goToScreenAndClearHistory(context, const AccountDisabledScreen());
                     }
                     else{
-                      goToScreenAndClearHistory(context, const HomeScreen());
+                      goToScreenAndClearHistory(context,  HomeScreen());
                     }
 
                   }

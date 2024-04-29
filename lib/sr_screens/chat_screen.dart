@@ -1,4 +1,5 @@
-import 'package:ato/components/widgets.dart';
+import 'package:ato/components/styles.dart';
+import 'package:ato/components/widgets/global.dart';
 import 'package:ato/models/user.dart';
 import 'package:ato/providers/locale_provider.dart';
 import 'package:ato/sr_screens/home_screen.dart';
@@ -20,6 +21,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    setAsFullScreen(true);
     LocaleProvider loc = Provider.of(context);
     return  Padding(
         padding: const EdgeInsets.all(16.0),

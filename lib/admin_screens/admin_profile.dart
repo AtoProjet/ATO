@@ -1,4 +1,5 @@
 import 'package:ato/widgets/admin_widgets/common_widgets/topbar.dart';
+import 'package:ato/components/widgets/images.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
@@ -6,7 +7,6 @@ import 'package:provider/provider.dart';
 import '../components/actions.dart';
 import '../components/app_layout.dart';
 import '../components/constants.dart';
-import '../components/widgets.dart';
 import '../db/references.dart';
 import '../models/locale.dart';
 import '../models/user.dart';

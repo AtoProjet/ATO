@@ -1,3 +1,4 @@
+import 'package:ato/components/widgets/buttons.dart';
 import 'package:ato/providers/locale_provider.dart';
 import 'package:ato/db/references.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +13,7 @@ import 'verification_code_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ato/components/styles.dart';
-import 'package:ato/components/widgets.dart';
+import 'package:ato/components/widgets/global.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -35,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     LocaleProvider loc = Provider.of(context);
-    setAsFullScreen();
+    setAsFullScreen(true);
     return atoScaffold(
       context: context,
       showAppBar: false,
@@ -101,7 +102,7 @@ class _SplashScreenState extends State<SplashScreen> {
                         goToScreenAndClearHistory(context, const AccountDisabledScreen());
                       }
                       else{
-                        goToScreenAndClearHistory(context, const HomeScreen());
+                        goToScreenAndClearHistory(context, HomeScreen());
                       }
                     }
                     //goToScreen(context, const HomeScreen());

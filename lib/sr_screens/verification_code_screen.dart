@@ -1,16 +1,15 @@
 import 'package:ato/components/styles.dart';
+import 'package:ato/components/widgets/buttons.dart';
 import 'package:ato/db/references.dart';
 import 'package:ato/models/user.dart';
 import 'package:ato/providers/locale_provider.dart';
 import 'package:ato/sr_screens/account_type_screen.dart';
-import 'package:ato/sr_screens/login_screen.dart';
-import 'package:ato/sr_screens/register_screen.dart';
 import 'package:provider/provider.dart';
 import 'home_screen.dart';
 import 'package:ato/components/actions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:ato/components/widgets.dart';
+import 'package:ato/components/widgets/global.dart';
 
 class VerificationCodeScreen extends StatefulWidget {
   static Tr title= Tr.verificationCode;
@@ -89,7 +88,7 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
               enabled: !_verified),
           const SizedBox(height: 20),
           atoDarkMaterialButton(onPressed: () {
-            goToScreen(context, const HomeScreen());
+            goToScreen(context, HomeScreen());
           }, enabled: _verified,
               text: loc.of(Tr.goToHome)),
           const SizedBox(height: 20),

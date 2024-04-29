@@ -1,12 +1,18 @@
 import 'dart:io';
+import 'dart:ui';
 
+import 'package:ato/components/widgets/buttons.dart';
 import 'package:ato/db/consts.dart';
 import 'package:ato/models/cloth_item.dart';
 import 'package:ato/models/item.dart';
 import 'package:ato/models/user.dart';
+import 'package:ato/providers/item_provider.dart';
 import 'package:ato/providers/locale_provider.dart';
-import 'package:ato/components/widgets.dart';
+import 'package:ato/components/widgets/global.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -25,13 +31,11 @@ class _AddItemScreenState extends State<AddItemScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _quantityController = TextEditingController();
   int _characterCount = 0;
-  String? _error;
   String? _nameError;
   String? _quantityError;
   String? _detailsError;
   final int maxCharacters = 1000;
   XFile? _imageFile;
-  final picker = ImagePicker();
   String _selectedGender = "men";
   String _selectedSize = "M";
   Color _selectedColor = Colors.black;
@@ -39,25 +43,23 @@ class _AddItemScreenState extends State<AddItemScreen> {
   @override
   Widget build(BuildContext context) {
     LocaleProvider loc = Provider.of(context);
+    ItemProvider ipo= Provider.of(context);
     String cat = widget.category;
+    bool isCloth= cat== clothCat|| cat== shoesAndBagsCat;
     String title = loc.ofStr(cat);
     return atoScaffold(
       context: context,
       showAppBarBackground: false,
+      isLoading: ipo.loading,
       title: title,
       body: Card(
-        margin: EdgeInsets.all(16),
+        margin: const EdgeInsets.all(16),
         child: Center(
           child: ListView(
             padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 64.0),
             shrinkWrap: false,
             scrollDirection: Axis.vertical,
             children: [
-              if (_error != null)
-                Text(
-                  _error!,
-                  style: const TextStyle(color: Colors.red),
-                ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -79,19 +81,37 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       onPressed: _pickImages,
                       icon: Image.file(
                         File(_imageFile!.path),
-                        height: 120,
+                        height: 100,
                         fit: BoxFit.contain,
                       ),
                     ),
                 ],
               ),
-              TextField(
-                  decoration: InputDecoration(
-                    errorText: _nameError,
-                    labelText: loc.of(Tr.name),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 180,
+                    child: TextField(
+                        decoration: InputDecoration(
+                          errorText: _nameError,
+                          labelText: loc.of(Tr.name),
+                        ),
+                        keyboardType: TextInputType.text,
+                        controller: _nameController),
                   ),
-                  keyboardType: TextInputType.text,
-                  controller: _nameController),
+                  Gap(10),
+                  SizedBox(
+                    width: 100,
+                    child: TextField(
+                        decoration: InputDecoration(
+                          errorText: _quantityError,
+                          labelText: loc.of(Tr.quantity),
+                        ),
+                        keyboardType: TextInputType.number,
+                        controller: _quantityController),
+                  ),
+                ],
+              ),
               TextField(
                 controller: _descriptionController,
                 maxLines: null,
@@ -108,17 +128,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   errorText: _detailsError,
                 ),
               ),
-              TextField(
-                  decoration: InputDecoration(
-                    errorText: _quantityError,
-                    labelText: loc.of(Tr.quantity),
-                  ),
-                  keyboardType: TextInputType.number,
-                  controller: _quantityController),
-              SizedBox(
-                height: 20,
-              ),
+              if(isCloth)
               Text("${loc.of(Tr.forG)}:"),
+              if(isCloth)
               Wrap(
                 alignment: WrapAlignment.start,
                 children: [
@@ -138,7 +150,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     )
                 ],
               ),
+
+              if(isCloth)
               Text("${loc.of(Tr.size)}:"),
+              if(isCloth)
               Wrap(
                 alignment: WrapAlignment.start,
                 direction: Axis.horizontal,
@@ -160,7 +175,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     )
                 ],
               ),
+              if(isCloth)
               Text("${loc.of(Tr.color)}:"),
+              if(isCloth)
               Container(
                 alignment:
                     loc.isAr() ? Alignment.centerRight : Alignment.centerLeft,
@@ -182,40 +199,40 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   width: 200,
                   child: atoDarkMaterialButton(
                     onPressed: () {
-                      bool hasError = false;
+                      int  errors = 0;
                       String name = _nameController.text;
-                      if (name.isEmpty) {
-                        hasError = true;
-                        setState(() {
-                          _nameError = loc.of(Tr.nameIsRequired);
-                        });
-                      }
+                      errors+= name.isEmpty? 1: 0;
+                      setState(() {
+                        _nameError = name.isEmpty? loc.of(Tr.quantityIsRequired): null;
+                      });
                       String description = _descriptionController.text;
-                      if (description.isEmpty) {
-                        hasError = true;
-                        setState(() {
-                          _detailsError = loc.of(Tr.descriptionIsRequired);
-                        });
+                      errors+= description.isEmpty? 1: 0;
+                      setState(() {
+                        _detailsError = description.isEmpty? loc.of(Tr.descriptionIsRequired): null;
+                      });
+                      String quanText= _quantityController.text;
+                      int quantity= 0;
+                      try {
+                        quantity = int.parse(quanText);
+                      } catch (ignore){
+                        errors+= 1;
                       }
-
-                      int quantity = _quantityController.text as int;
-                      if (quantity == 0) {
-                        hasError = true;
-                        setState(() {
-                          _quantityError = loc.of(Tr.quantityIsRequired);
-                        });
+                      setState(() {
+                        _quantityError = quantity==0? loc.of(Tr.quantityIsRequired): null;
+                      });
+                      if(_imageFile== null){
+                        atoToastError(context, "Image is required!");
+                        errors+=1;
                       }
-                      if (!hasError) {
+                      if (errors== 0) {
                         ItemModel item;
-                        if ([Tr.clothes.name, Tr.shoesAndBags.name]
-                            .contains(cat)) {
+                        if (isCloth) {
                           item = ClothModel(
                               name: _nameController.text,
                               category: cat,
                               quantity: quantity,
                               donorId: UserModel.user!.id,
                               details: description,
-                              //TODO
                               image: "",
                               size: _selectedSize,
                               forGender: _selectedGender,
@@ -227,10 +244,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
                               quantity: quantity,
                               donorId: UserModel.user!.id,
                               details: description,
-                              //TODO
                               image: "");
                         }
-                        uploadItem(_imageFile!, item);
+                        uploadItem(context,_imageFile!, item, ipo);
                       }
                     },
                     fontSize: 16,
@@ -246,13 +262,20 @@ class _AddItemScreenState extends State<AddItemScreen> {
   }
 
   Future<void> _pickImages() async {
+    final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     setState(() {
       _imageFile = pickedFile;
     });
   }
 
-  void uploadItem(XFile imageFile, ItemModel item) {
-    //TODO
+  Future<void> uploadItem(BuildContext context, XFile imageFile, ItemModel item, ItemProvider ipo) async {
+   await ipo.upload(item, File(imageFile.path));
+   if(ipo.error.isNotEmpty){
+     if(context.mounted) {
+       atoToastError(context, ipo.error);
+     }
+   }
+
   }
 }

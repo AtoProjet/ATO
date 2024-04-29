@@ -1,7 +1,8 @@
 import 'package:ato/admin_screens/account_disabled_screen.dart';
 import 'package:ato/admin_screens/admin_home.dart';
+import 'package:ato/components/widgets/buttons.dart';
 import 'package:ato/sr_screens/account_type_screen.dart';
-import 'package:ato/components/widgets.dart';
+import 'package:ato/components/widgets/global.dart';
 import 'package:ato/db/references.dart';
 import 'home_screen.dart';
 import 'package:ato/models/user.dart';
@@ -49,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       });
     }
-    setAsFullScreen();
+    setAsFullScreen(true);
     return atoScaffold(
       title: LoginScreen.title,
       isLoading: _isLoading,
@@ -189,7 +190,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       goToScreenAndClearHistory(context, const AccountDisabledScreen());
                     }
                     else{
-                      goToScreenAndClearHistory(context, const HomeScreen());
+                      goToScreenAndClearHistory(context, HomeScreen());
                     }
 
                   }

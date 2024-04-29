@@ -1,7 +1,8 @@
 import 'package:ato/components/actions.dart';
+import 'package:ato/components/widgets/buttons.dart';
 import 'package:ato/db/consts.dart';
 import 'package:ato/components/styles.dart';
-import 'package:ato/components/widgets.dart';
+import 'package:ato/components/widgets/global.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

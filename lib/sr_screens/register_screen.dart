@@ -1,9 +1,10 @@
+import 'package:ato/components/widgets/buttons.dart';
 import 'package:ato/sr_screens/agreement_screen.dart';
 import 'package:ato/sr_screens/login_screen.dart';
 import 'package:ato/components/actions.dart';
 import 'verification_code_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:ato/components/widgets.dart';
+import 'package:ato/components/widgets/global.dart';
 import 'package:ato/components/styles.dart';
 import 'package:ato/db/references.dart';
 import 'package:ato/models/user.dart';
@@ -89,7 +90,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         _passwordController.text = "123456";
       });
     }
-    setAsFullScreen();
+    setAsFullScreen(true);
     return atoScaffold(
       context: context,
       showAppBarBackground: true,

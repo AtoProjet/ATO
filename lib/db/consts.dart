@@ -31,7 +31,11 @@ const String conditions2 =
     '\n9. Legal Resolutions: Use of the Software is subject to the laws and regulations of the country in which it is used, and in the event of disputes they are settled by applicable laws.'
     '\n10. Communication and Support: Users can communicate with the support team via the chat in the program to solve any questions or problems they face.';
 
-const List<String> categories = ["toys", "clothes", "books", "shoesAndBags"];
+const toyCat= "toys";
+const clothCat= "clothes";
+const bookCat= "books";
+const shoesAndBagsCat= "shoesAndBags";
+const List<String> categories = [toyCat, clothCat, bookCat, shoesAndBagsCat];
 const List<String> genders= ["men", "women", "children"];
 final List<String> sizes = ["XS", "S", "M", "L", "XL"];
 

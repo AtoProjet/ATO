@@ -1,5 +1,6 @@
 import 'package:ato/components/actions.dart';
-import 'package:ato/components/widgets.dart';
+import 'package:ato/components/widgets/buttons.dart';
+import 'package:ato/components/widgets/images.dart';
 import 'package:ato/db/consts.dart';
 import 'package:ato/providers/locale_provider.dart';
 import 'package:ato/components/styles.dart';
@@ -19,6 +20,7 @@ class ItemCategoriesScreen extends StatefulWidget {
 class _ItemCategoriesScreenState extends State<ItemCategoriesScreen> {
   @override
   Widget build(BuildContext context) {
+    setAsFullScreen(true);
     LocaleProvider loc = Provider.of(context);
     return Center(
       child: ListView(
@@ -61,7 +63,7 @@ class _ItemCategoriesScreenState extends State<ItemCategoriesScreen> {
               width: screenSize(context).width / 2 - 40,
               margin: const EdgeInsets.only(right: 15),
               decoration: BoxDecoration(
-                image:  assetCategory(name: "$cat.jpg"),
+                image:  atoAssetOfCategory("$cat.jpg"),
                 ),
             ),
             SizedBox(
@@ -81,17 +83,18 @@ class _ItemCategoriesScreenState extends State<ItemCategoriesScreen> {
                   ),
                   Container(
                     alignment: AlignmentDirectional.bottomEnd,
-                    height: 32,
-                    width: 90,
-                    child: atoDarkMaterialButton(
+                    height: 28,
+                    width: 120,
+                    child: atoIconTextMaterialButton(
                       onPressed: () {
                         goToScreen(context, AddItemScreen(category: cat));
                       },
+                        fontSize: 13,
                       icon: 'assets/images/ic_add.png',
                         changeIconColor: false,
                       text:
                         loc.of(Tr.add),
-                      color: buttonColor
+                      color: buttonColor.withAlpha(50)
                     ),
                   ),
                 ],

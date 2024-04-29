@@ -1,6 +1,7 @@
 import 'package:ato/components/constants.dart';
-import 'package:ato/components/widgets.dart';
+import 'package:ato/components/widgets/global.dart';
 import 'package:ato/components/styles.dart';
+import 'package:ato/components/widgets/images.dart';
 import 'package:ato/db/firebaseChatServices.dart';
 import 'package:ato/db/references.dart';
 import 'package:ato/models/locale.dart';
@@ -37,7 +38,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
   @override
   Widget build(BuildContext context) {
-
+    setAsFullScreen(true);
     LocaleProvider loc = Provider.of(context);
     return Center(
         child: ListView(

@@ -1,12 +1,13 @@
 import 'package:ato/providers/cart_provider.dart';
+import 'package:ato/providers/item_provider.dart';
 import 'package:ato/providers/locale_provider.dart';
 import 'package:ato/models/user.dart';
 import 'package:ato/sr_screens/splash_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'db/references.dart';
+
 
 Future<UserModel?> checkUser() async {
   try {
@@ -37,6 +38,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider<LocaleProvider>(create: (_) => LocaleProvider()),
         ChangeNotifierProvider<CartProvider>(create: (_) => CartProvider()),
+        ChangeNotifierProvider<ItemProvider>(create: (_) => ItemProvider()),
       ],
       child: const MyApp(),
     ),
@@ -66,3 +68,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+

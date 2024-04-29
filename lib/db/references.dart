@@ -11,6 +11,7 @@ class Fire{
   static FirebaseStorage? _storage;
   static CollectionReference? _userRef;
   static CollectionReference? _itemRef;
+  static CollectionReference? _orderRef;
   static CollectionReference? _localeRef;
   static Reference? _userImageRef;
   static Reference? _itemImageRef;
@@ -31,6 +32,7 @@ class Fire{
     _localeRef = db.collection("locales");
     _userRef = db.collection("users");
     _itemRef = db.collection("items");
+    _orderRef = db.collection("orders");
 
   }
 
@@ -40,18 +42,13 @@ class Fire{
   }
 
   static FirebaseAuth get auth => _auth!;
-
   static FirebaseFirestore get db => _db!;
-
   static FirebaseStorage get storage => _storage!;
-
   static CollectionReference get userRef => _userRef!;
-
   static Reference get userImageRef => _userImageRef!;
-
   static Reference get itemImageRef => _itemImageRef!;
 
   static CollectionReference get itemRef => _itemRef!;
-
+  static CollectionReference get orderRef => _orderRef!;
   static CollectionReference get localeRef => _localeRef! ;
 }

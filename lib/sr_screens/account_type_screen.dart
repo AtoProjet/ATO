@@ -1,3 +1,4 @@
+import 'package:ato/components/widgets/buttons.dart';
 import 'package:ato/providers/locale_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -6,7 +7,7 @@ import 'package:ato/components/actions.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ato/components/styles.dart';
-import 'package:ato/components/widgets.dart';
+import 'package:ato/components/widgets/global.dart';
 
 class AccountTypeScreen extends StatefulWidget {
    const AccountTypeScreen({super.key});
@@ -19,7 +20,7 @@ class _AccountTypeScreenState extends State<AccountTypeScreen> {
   @override
   Widget build(BuildContext context) {
     LocaleProvider loc = Provider.of(context);
-    setAsFullScreen();
+    setAsFullScreen(true);
 
     return atoScaffold(
       title: loc.of(AccountTypeScreen.title),
