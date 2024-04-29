@@ -63,8 +63,6 @@ enum Tr {
   failedToResendVerificationEmail,
   forG,
   details,
-  continueText, thankYou, yourCartIsEmpty, name, quantity, nameIsRequired, descriptionIsRequired, quantityIsRequired,
-
   manageAccounts,
   supportMustBeReviewed,
   donatedItems,
@@ -81,7 +79,18 @@ enum Tr {
   title,
   content,
   itemsCategory,
-   itemAddedSuccessfully, removeItem, success, deliveryDetails,
+  continueText,
+  thankYou,
+  yourCartIsEmpty,
+  name,
+  quantity,
+  nameIsRequired,
+  descriptionIsRequired,
+  quantityIsRequired,
+  itemAddedSuccessfully,
+  removeItem,
+  success,
+  deliveryDetails,
 }
 
 final Map<String, Map<Tr, String>> _lang = {
@@ -154,7 +163,10 @@ final Map<String, Map<Tr, String>> _lang = {
     Tr.nameIsRequired: 'الإسم مطلوب!',
     Tr.descriptionIsRequired: 'الوصف مطلوب!',
     Tr.quantityIsRequired: 'العدد مطلوب!',
-
+    Tr.itemAddedSuccessfully: "تمت الإضافة بنجاح",
+    Tr.removeItem: "حذف العنصر",
+    Tr.success: "نجاح",
+    Tr.deliveryDetails: "معلومات التوصيل",
 
     Tr.manageAccounts: 'إدارة الحسابات',
     Tr.supportMustBeReviewed: 'يجب مراجعة الدعم',
@@ -172,7 +184,6 @@ final Map<String, Map<Tr, String>> _lang = {
     Tr.title: 'عنوان',
     Tr.content: 'محتوى',
     Tr.itemsCategory: 'فئة العناصر',
-
   },
   'en': {
     Tr.appName: 'ATO',
@@ -243,6 +254,10 @@ final Map<String, Map<Tr, String>> _lang = {
     Tr.nameIsRequired: 'Name is required!',
     Tr.descriptionIsRequired: 'Description is required!',
     Tr.quantityIsRequired: 'Quantity is required!',
+    Tr.itemAddedSuccessfully: "÷tem Added Successfully",
+    Tr.removeItem: "Remove Item",
+    Tr.success: "Success",
+    Tr.deliveryDetails: "Delivery Details",
 
     Tr.manageAccounts: 'Manage Accounts',
     Tr.supportMustBeReviewed: 'Support must be reviewed',
@@ -260,7 +275,6 @@ final Map<String, Map<Tr, String>> _lang = {
     Tr.title: 'Title',
     Tr.content: 'Content',
     Tr.itemsCategory: 'Items Category',
-
   },
 };
 
@@ -281,11 +295,11 @@ class LocaleProvider extends ChangeNotifier {
   }
 
   LocaleProvider() {
-    if(UserModel.user != null) {
+    if (UserModel.user != null) {
       Fire.localeRef.doc(UserModel.user!.id).get().then((localeDoc) {
         if (localeDoc.exists) {
           LocaleModel localeModel =
-          LocaleModel.fromJson(localeDoc.data() as Map<String, dynamic>);
+              LocaleModel.fromJson(localeDoc.data() as Map<String, dynamic>);
           String name = localeModel.name;
           if (name == "en") {
             setLocale(en());
@@ -297,7 +311,7 @@ class LocaleProvider extends ChangeNotifier {
         }
       });
     }
-    }
+  }
 
   bool isAr() {
     return _locale.languageCode == ar().languageCode;

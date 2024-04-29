@@ -6,9 +6,7 @@ import 'package:ato/providers/locale_provider.dart';
 import 'package:ato/sr_screens/item_info_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:ato/components/actions.dart';
-import 'package:flutter/physics.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 
 
