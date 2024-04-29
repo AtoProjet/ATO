@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:ato/components/actions.dart';
 import 'package:ato/components/widgets/buttons.dart';
 import 'package:ato/db/consts.dart';
 import 'package:ato/models/cloth_item.dart';
@@ -9,6 +10,7 @@ import 'package:ato/models/user.dart';
 import 'package:ato/providers/item_provider.dart';
 import 'package:ato/providers/locale_provider.dart';
 import 'package:ato/components/widgets/global.dart';
+import 'package:ato/sr_screens/home_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -246,7 +248,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                               details: description,
                               image: "");
                         }
-                        uploadItem(context,_imageFile!, item, ipo);
+                        uploadItem(context,_imageFile!, item, loc, ipo);
                       }
                     },
                     fontSize: 16,
@@ -269,11 +271,17 @@ class _AddItemScreenState extends State<AddItemScreen> {
     });
   }
 
-  Future<void> uploadItem(BuildContext context, XFile imageFile, ItemModel item, ItemProvider ipo) async {
+  Future<void> uploadItem(BuildContext context, XFile imageFile, ItemModel item,LocaleProvider loc, ItemProvider ipo) async {
    await ipo.upload(item, File(imageFile.path));
    if(ipo.error.isNotEmpty){
      if(context.mounted) {
        atoToastError(context, ipo.error);
+     }
+   }
+   else{
+     if(context.mounted){
+       atoToastSuccess(context, loc.of(Tr.itemAddedSuccessfully));
+       goBack(context);
      }
    }
 

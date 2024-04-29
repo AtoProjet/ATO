@@ -9,7 +9,6 @@ import 'package:ato/components/actions.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:provider/provider.dart';
 
-
 void openColorPicker({
   required BuildContext context,
   required Color selectedColor,
@@ -42,44 +41,33 @@ void openColorPicker({
     },
   );
 }
-Widget atoShopItemCard(BuildContext context, ItemModel item, LocaleProvider loc) {
-  String text = item.name +
-      ((item is ClothModel) ? " ${loc.of(Tr.size)}:${item.size}" : "");
 
+Widget atoShopItemCard(
+    BuildContext context, ItemModel item, LocaleProvider loc) {
+  String text = item.name;
   return Card(
     color: cardBackgroundColor,
     shape: ShapeBorder.lerp(LinearBorder.none, LinearBorder.none, 0),
     child: Stack(children: [
       Container(
+        height: 120,
+        width: 220,
         padding: const EdgeInsets.only(top: 0, left: 8, right: 8),
-        alignment: Alignment.center,
         child: IconButton(
           onPressed: () {
             goToScreen(context, ItemInfoScreen(item: item));
           },
           icon: ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: item.image.startsWith("assets")
-                  ? Image.asset(
+              child: atoNetworkImage(
                 item.image,
-                fit: BoxFit.contain,
-                alignment: Alignment.center,
-              )
-                  : atoNetworkImage(
-                item.image,
+                height: 120,
                 fit: BoxFit.contain,
               )),
         ),
       ),
-      const Padding(
-        padding: EdgeInsets.only(left: 20, top: 4),
-        child: Text(
-          "#1234",
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-        ),
-      ),
       Row(
+        mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
@@ -90,9 +78,10 @@ Widget atoShopItemCard(BuildContext context, ItemModel item, LocaleProvider loc)
                   onPressed: () {
                     goToScreen(context, ItemInfoScreen(item: item));
                   },
-                  icon: atoAssetOfIcon("add-to-cart.png", width: 16, height: 16))),
+                  icon: atoAssetOfIcon("add-to-cart.png",
+                      width: 16, height: 16))),
           Container(
-            width: 80,
+            width: 100,
             alignment: Alignment.bottomCenter,
             child: Text(
               text,

@@ -60,4 +60,15 @@ class ClothModel extends ItemModel{
   String toString() {
     return '${super.toString()} $size, $forGender ';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      super == other &&
+          other is ClothModel &&
+          runtimeType == other.runtimeType &&
+          id == other.id;
+
+  @override
+  int get hashCode => super.hashCode ^ id.hashCode;
 }

@@ -34,12 +34,12 @@ class _CartScreenState extends State<CartScreen> {
     return SizedBox(
       height: screenSize(context).height,
       child: SingleChildScrollView(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 96.0),
         dragStartBehavior: DragStartBehavior.start,
         scrollDirection: Axis.vertical,
 
         child: Column(
-          mainAxisSize: MainAxisSize.max,
+          mainAxisSize: MainAxisSize.min,
             children: [
               for(int index = 0; index < cart.items.length; index++ )
                 Builder(builder: (context) {
@@ -116,6 +116,7 @@ class _CartScreenState extends State<CartScreen> {
                 }),
 
               Container(
+                height: 80,
                 padding: EdgeInsets.only(top: cart.count()==1? 180: cart.count()==2? 120: 30),
                 alignment: Alignment.bottomCenter,
                 child: atoDarkMaterialButton(

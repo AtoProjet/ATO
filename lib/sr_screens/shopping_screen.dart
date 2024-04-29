@@ -23,69 +23,6 @@ class ShoppingScreen extends StatefulWidget {
 }
 
 class _ShoppingScreenState extends State<ShoppingScreen> {
-  // final List<ItemModel> items = [
-  //   ItemModel(
-  //       id: "123",
-  //       name: "Test",
-  //       category: "toys",
-  //       quantity: 50,
-  //       donorId: "123",
-  //       details: "details",
-  //       image: "assets/items/1.png"),
-  //   ClothModel(
-  //       id: "123",
-  //       name: "Test",
-  //       category: "books",
-  //       quantity: 50,
-  //       donorId: "123",
-  //       details: "details",
-  //       image: "assets/items/2.png",
-  //       size: "L",
-  //       forGender: "women",
-  //       color: Colors.blue.value),
-  //   ItemModel(
-  //       id: "123",
-  //       name: "Test",
-  //       category: "toys",
-  //       quantity: 50,
-  //       donorId: "123",
-  //       details: "details",
-  //       image: "assets/items/3.png"),
-  //   ClothModel(
-  //       id: "123",
-  //       name: "Test",
-  //       category: "clothes",
-  //       quantity: 50,
-  //       donorId: "123",
-  //       details: "details",
-  //       image: "assets/items/4.png",
-  //       size: "L",
-  //       forGender: "men",
-  //       color: Colors.blue.value),
-  //   ClothModel(
-  //       id: "123",
-  //       name: "Test",
-  //       category: "shoesAndBags",
-  //       quantity: 50,
-  //       donorId: "123",
-  //       details: "details",
-  //       image: "assets/items/5.png",
-  //       size: "L",
-  //       forGender: "women",
-  //       color: Colors.blue.value),
-  //   ClothModel(
-  //       id: "123",
-  //       name: "Test",
-  //       category: "clothes",
-  //       quantity: 50,
-  //       donorId: "123",
-  //       details: "details",
-  //       image: "assets/items/6.png",
-  //       size: "L",
-  //       forGender: "children",
-  //       color: Colors.blue.value),
-  // ];
-
   final List<bool> _selectedCategories = [true, true, true, true];
   final List<bool> _selectedGenders = [true, true, true];
   final List<bool> _selectedSizes = [true, true, true, true, true];
@@ -133,10 +70,10 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 10.0,
-                  mainAxisSpacing: 20.0,
-                  mainAxisExtent: 160,
+                  mainAxisSpacing: 10.0,
+                  mainAxisExtent: 140,
                 ),
-                shrinkWrap: true,
+                // shrinkWrap: true,
                 scrollDirection: Axis.vertical,
                 children: [
                   for (ItemModel item in ipo.items)
