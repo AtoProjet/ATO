@@ -1,3 +1,4 @@
+import 'package:ato/models/cloth_item.dart';
 import 'package:ato/providers/locale_provider.dart';
 import 'package:uuid/uuid.dart';
 
@@ -53,6 +54,17 @@ class ItemModel {
   String print(LocaleProvider loc) {
     return '${loc.of(Tr.details)}: $details';
   }
+
+  String searchData() {
+    String search = ' $name $category $details ';
+    if(this is ClothModel){
+      ClothModel clothModel= this as ClothModel;
+      search += " ${clothModel.size}  ${clothModel.forGender} ";
+    }
+    return search.toLowerCase();
+  }
+
+
 
   @override
   String toString() {

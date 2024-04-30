@@ -52,9 +52,10 @@ class ClothModel extends ItemModel{
   String print(LocaleProvider loc) {
     return  '\n${super.print(loc)}'
         '\n${loc.of(Tr.size)}: $size'
-        '\n${loc.of(Tr.forG)}: ${loc.ofStr(forGender)}'
-        '\n${loc.of(Tr.color)}: $color';
+        '\n${loc.of(Tr.forG)}: ${loc.ofStr(forGender)}';
   }
+
+
 
   @override
   String toString() {
@@ -71,4 +72,5 @@ class ClothModel extends ItemModel{
 
   @override
   int get hashCode => super.hashCode ^ id.hashCode;
+
 }

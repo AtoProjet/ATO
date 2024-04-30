@@ -2,11 +2,10 @@ import 'package:ato/components/actions.dart';
 import 'package:ato/components/widgets/buttons.dart';
 import 'package:ato/components/widgets/global.dart';
 import 'package:ato/components/styles.dart';
+import 'package:ato/models/cloth_item.dart';
 import 'package:ato/providers/cart_provider.dart';
 import 'package:ato/providers/locale_provider.dart';
 import 'package:ato/models/item.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -40,6 +39,7 @@ class _ItemInfoScreenState extends State<ItemInfoScreen> {
             scrollDirection: Axis.vertical,
             child: Center(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8),
@@ -57,10 +57,28 @@ class _ItemInfoScreenState extends State<ItemInfoScreen> {
                           ),
                   ),
                   Container(
-                    padding: const EdgeInsets.only(top: 20),
+                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
                     width: 250,
-                    child: Text(
-                      widget.item.print(loc),
+                    alignment: Alignment.topRight
+                    ,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            widget.item.print(loc),
+                          ),
+                        ),
+                        if(widget.item is ClothModel)
+                        Wrap(
+                          direction: Axis.horizontal,
+                          spacing: 10,
+                          children: [
+                          Text("${loc.of(Tr.color)}: "),
+                          Container(width: 35, height: 20, color: Color((widget.item as ClothModel).color),)
+                        ],)
+                      ],
                     ),
                   ),
                   Padding(
@@ -72,7 +90,6 @@ class _ItemInfoScreenState extends State<ItemInfoScreen> {
                           onPressed: () async {
                             cart.addToCart(widget.item);
                            atoToastSuccess(context, loc.of(Tr.itemAddedSuccessfully));
-
                               goBack(context);
                           },
                           icon: "assets/icons/add-to-cart.png",

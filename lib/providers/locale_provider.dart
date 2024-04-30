@@ -153,7 +153,7 @@ final Map<String, Map<Tr, String>> _lang = {
     Tr.aNewVerificationEmailHasBeenSentTo:
         'تم إرسال بريد إلكتروني جديد للتحقق إلى',
     Tr.failedToResendVerificationEmail: 'فشل في إعادة إرسال بريد التحقق',
-    Tr.forG: 'لصالح',
+    Tr.forG: 'النوع',
     Tr.details: 'التفاصيل',
     Tr.continueText: 'إستمرار',
     Tr.thankYou: 'شكرا لاستخدامك آتو',

@@ -17,8 +17,8 @@ class UserModel {
       required this.name,
       required this.email,
       required this.phone,
-        required this.birthDate,
-        required this.area,
+      required this.birthDate,
+      required this.area,
       required this.role,
       required this.isActive,
       required this.isDeleted,
@@ -39,6 +39,7 @@ class UserModel {
     };
     return map;
   }
+
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
       id: json["id"],
@@ -56,5 +57,26 @@ class UserModel {
 
   factory UserModel.fromOb(Object ob) {
     return ob as UserModel;
+  }
+
+  static bool isAdmin() {
+    if (UserModel.user == null) {
+      return false;
+    }
+    return UserModel.user!.role == "Admin";
+  }
+
+  static bool isDonor() {
+    if (UserModel.user == null) {
+      return false;
+    }
+    return UserModel.user!.role == "Donor";
+  }
+
+  static bool isBeneficiary() {
+    if (UserModel.user == null) {
+      return false;
+    }
+    return UserModel.user!.role == "Beneficiary";
   }
 }

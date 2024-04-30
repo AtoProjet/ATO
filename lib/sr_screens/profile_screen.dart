@@ -1,5 +1,4 @@
 import 'package:ato/components/constants.dart';
-import 'package:ato/components/widgets/global.dart';
 import 'package:ato/components/styles.dart';
 import 'package:ato/components/widgets/images.dart';
 import 'package:ato/db/firebaseChatServices.dart';
@@ -8,12 +7,9 @@ import 'package:ato/models/locale.dart';
 import 'package:ato/models/user.dart';
 import 'package:ato/providers/locale_provider.dart';
 import 'package:ato/sr_screens/chat_support_screen.dart';
-import 'package:ato/sr_screens/home_screen.dart';
 import 'package:ato/sr_screens/login_screen.dart';
 import 'package:ato/components/actions.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 import '../components/tools.dart';
@@ -46,20 +42,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
           shrinkWrap: false,
           scrollDirection: Axis.vertical,
           children: [
-            atoProfileImage(url: user!.image),
+            atoProfileImage(url: user.image),
             Center(
                 child: Text(
-              user!.name,
+              user.name,
               style: headerStyle(),
             )),
-            Center(child: Text(user!.email)),
+            Center(child: Text(user.email)),
             Container(
               margin: const EdgeInsets.fromLTRB(36,20, 36, 20 ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Container(
                   color: Colors.grey.shade300,
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(16),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -137,12 +133,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           print("Starting the function to create chatroom");
                           String adminId = GenAdminId;
                           var chatRoomId =
-                          getChatRoomIdById(user!.id, adminId);
+                          getChatRoomIdById(user.id, adminId);
                           print("Chat Room id is "+ chatRoomId);
                           //print("Creating chatRoomInfoMap");
 
                           Map<String, dynamic> chatRoomInfoMap = {
-                            "users": [user!.id, adminId ],
+                            "users": [user.id, adminId ],
                           };
                           print("Triggering Database methods");
 
@@ -153,7 +149,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ChatSupportScreen(
-                                      name: user!.name, userId: user!.id )));
+                                      name: user.name, userId: user.id )));
 
 
                         },

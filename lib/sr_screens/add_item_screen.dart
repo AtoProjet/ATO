@@ -11,6 +11,7 @@ import 'package:ato/providers/item_provider.dart';
 import 'package:ato/providers/locale_provider.dart';
 import 'package:ato/components/widgets/global.dart';
 import 'package:ato/sr_screens/home_screen.dart';
+import 'package:ato/sr_screens/success_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -280,8 +281,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
    }
    else{
      if(context.mounted){
-       atoToastSuccess(context, loc.of(Tr.itemAddedSuccessfully));
-       goBack(context);
+       goToScreen(context, SuccessScreen(message: Tr.thankYou));
      }
    }
 

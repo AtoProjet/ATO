@@ -116,8 +116,7 @@ class _CartScreenState extends State<CartScreen> {
                 }),
 
               Container(
-                height: 80,
-                padding: EdgeInsets.only(top: cart.count()==1? 180: cart.count()==2? 120: 30),
+                padding: EdgeInsets.only(top: cart.count()==1? screenSize(context).height/3: cart.count()==2? screenSize(context).height/6: 10),
                 alignment: Alignment.bottomCenter,
                 child: atoDarkMaterialButton(
                     onPressed: () {

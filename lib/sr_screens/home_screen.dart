@@ -21,11 +21,11 @@ class HomeScreen extends StatefulWidget {
 }
  List<Tr> bottomNavIndexes = [
   SliderScreen.title,
-  // if (UserModel.user != null && UserModel.user!.role == "Donor")
+   // if(UserModel.isDonor())
   ItemCategoriesScreen.title,
-  // if (UserModel.user != null && UserModel.user!.role == "Beneficiary")
+   // if(UserModel.isBeneficiary())
   ShoppingScreen.title,
-  // if (UserModel.user != null && UserModel.user!.role == "Beneficiary")
+   // if(UserModel.isBeneficiary())
   CartScreen.title,
   ChatScreen.title,
   ProfileScreen.title,
@@ -36,11 +36,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Widget> screens = [
     const SliderScreen(),
-    // if (UserModel.user != null && UserModel.user!.role == "Donor")
+    // if(UserModel.isDonor())
     const ItemCategoriesScreen(),
-    // if (UserModel.user != null && UserModel.user!.role == "Beneficiary")
+    // if(UserModel.isBeneficiary())
     ShoppingScreen(),
-    // if (UserModel.user != null && UserModel.user!.role == "Beneficiary")
+    // if(UserModel.isBeneficiary())
     const CartScreen(),
     const ChatScreen(),
     const ProfileScreen(),
@@ -50,7 +50,6 @@ class _HomeScreenState extends State<HomeScreen> {
     currentPage=bottomNavIndexes.indexOf(widget.startScreenTitle?? SliderScreen.title);
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +67,6 @@ class _HomeScreenState extends State<HomeScreen> {
           onTap: (value) {
             setState(() {
               currentPage = value;
-
             });
           },
         ),
@@ -89,19 +87,19 @@ List<BottomNavigationBarItem> bottomNavigationBarOptions({
         activeIcon: atoAssetOfIcon("home-active.png"),
         label: loc.of(SliderScreen.title),
         backgroundColor: Colors.blueGrey),
-    // if (UserModel.user != null && UserModel.user!.role == "Donor")
+    // if(UserModel.isDonor())
     BottomNavigationBarItem(
         icon: atoAssetOfIcon("grid.png"),
         activeIcon: atoAssetOfIcon( "grid-active.png"),
         label: loc.of(ItemCategoriesScreen.title),
         backgroundColor: Colors.blueGrey),
-    // if (UserModel.user != null && UserModel.user!.role == "Beneficiary")
+    // if(UserModel.isBeneficiary())
     BottomNavigationBarItem(
         icon: atoAssetOfIcon("find.png"),
         activeIcon: atoAssetOfIcon("find-active.png"),
         label: loc.of(ShoppingScreen.title),
         backgroundColor: Colors.blueGrey),
-    // if (UserModel.user != null && UserModel.user!.role == "Beneficiary")
+    // if(UserModel.isBeneficiary())
     BottomNavigationBarItem(
         icon: atoAssetOfIcon("cart.png"),
         activeIcon: atoAssetOfIcon("cart-active.png"),

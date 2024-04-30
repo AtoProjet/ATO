@@ -1,10 +1,10 @@
 import 'package:ato/components/actions.dart';
 import 'package:ato/components/styles.dart';
 import 'package:ato/components/widgets/buttons.dart';
-import 'package:ato/components/widgets/cards.dart';
 import 'package:ato/components/widgets/global.dart';
 import 'package:ato/components/widgets/images.dart';
 import 'package:ato/db/consts.dart';
+import 'package:ato/providers/cart_provider.dart';
 import 'package:ato/providers/item_provider.dart';
 import 'package:ato/providers/locale_provider.dart';
 import 'package:ato/models/cloth_item.dart';
@@ -16,7 +16,7 @@ import 'package:provider/provider.dart';
 class ShoppingScreen extends StatefulWidget {
   static Tr title = Tr.shopping;
 
-  ShoppingScreen({super.key});
+  const ShoppingScreen({super.key});
 
   @override
   State<ShoppingScreen> createState() => _ShoppingScreenState();
@@ -26,18 +26,12 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
   final List<bool> _selectedCategories = [true, true, true, true];
   final List<bool> _selectedGenders = [true, true, true];
   final List<bool> _selectedSizes = [true, true, true, true, true];
-  final List<Color> _selectedColors = [
-    Colors.black,
-    Colors.black,
-    Colors.black
-  ];
-
-
 
   @override
   Widget build(BuildContext context) {
     setAsFullScreen(true);
     LocaleProvider loc = Provider.of(context);
+    CartProvider cart = Provider.of(context);
     ItemProvider ipo = Provider.of(context);
     return Scaffold(
       extendBody: true,
@@ -77,7 +71,7 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
                 scrollDirection: Axis.vertical,
                 children: [
                   for (ItemModel item in ipo.items)
-                    showItemCard(loc: loc, item: item),
+                    showItemCard(item, cart, loc),
                 ],
               ),
             ],
@@ -87,7 +81,7 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
     );
   }
 
-  Widget showItemCard({required ItemModel item, required LocaleProvider loc}) {
+  Widget showItemCard(ItemModel item, CartProvider cart, LocaleProvider loc) {
     int catIndex = categories.indexOf(item.category);
     if (!_selectedCategories[catIndex]) {
       return const SizedBox(
@@ -103,10 +97,7 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
         );
       }
     }
-    String text = item.name +
-        ((item is ClothModel) ? " ${loc.of(Tr.size)}:${item.size}" : "");
-
-    return atoShopItemCard(context, item, loc);
+    return atoItemCard(context, item, cart, loc);
   }
 
   Drawer atoDrawer(LocaleProvider loc) {
@@ -185,23 +176,6 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
                   ),
               ],
             ),
-            Text("${loc.of(Tr.color)}:"),
-            Wrap(
-              children: [
-                for (int i = 0; i < 3; i++)
-                  SizedBox(
-                    width: 80,
-                    child: atoColorPickerButton(
-                        context: context,
-                        selectedColor: _selectedColors[i],
-                        onChange: (color) {
-                          setState(() {
-                            _selectedColors[i] = color;
-                          });
-                        }),
-                  ),
-              ],
-            )
           ],
         ),
       ),
@@ -209,7 +183,75 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
   }
 }
 
+atoItemCard(BuildContext context, ItemModel item, CartProvider cart,
+    LocaleProvider loc) {
+  String text = item.name;
+  return Card(
+    color: cardBackgroundColor,
+    shape: ShapeBorder.lerp(LinearBorder.none, LinearBorder.none, 0),
+    child: Stack(
+        children: [
+      Container(
+        alignment: Alignment.topCenter,
+        width: 200,
+        child: IconButton(
+          onPressed: () {
+            goToScreen(context, ItemInfoScreen(item: item));
+          },
+          icon: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: atoNetworkImage(
+                item.image,
+                height: 100,
+                alignment: Alignment.topCenter,
+                fit: BoxFit.fitHeight,
+              )),
+        ),
+      ),
+      Container(
+        alignment: Alignment.bottomCenter,
+        padding: EdgeInsets.only(right: loc.isAr()? 24:0, left: loc.isAr()?0: 24),
+        child: Text(
+          maxLines: 1,
+          text,
+          style: const TextStyle(
+              fontSize: 12, color: Colors.black, fontWeight: FontWeight.bold),
+        ),
+      ),
+      Container(
+
+          alignment: Alignment.bottomRight,
+          child: IconButton(
+              padding: const EdgeInsets.all(4),
+              alignment: Alignment.bottomRight,
+              onPressed: () {
+                cart.addToCart(item);
+                atoToastSuccess(context, loc.of(Tr.itemAddedSuccessfully));
+              },
+              icon: atoAssetOfIcon("add-to-cart.png",
+                  color: Colors.red, width: 20, height: 20))),
+          if (item is ClothModel)
+            Container(
+              padding: const EdgeInsets.all(4),
+              alignment: Alignment.topLeft,
+              child: Container(
+                width: 16,
+                height: 16,
+                decoration: BoxDecoration(
+                    color: Color(item.color),
+                    border: const Border.fromBorderSide(BorderSide(width: 1, color: Colors.grey)),
+                    borderRadius: BorderRadius.circular(2)),
+              ),
+            ),
+
+        ]
+    ),
+  );
+}
+
 class SearchBarDelegate extends SearchDelegate<ItemModel?> {
+  List<ItemModel> items = [];
+
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
@@ -234,28 +276,43 @@ class SearchBarDelegate extends SearchDelegate<ItemModel?> {
 
   @override
   Widget buildResults(BuildContext context) {
-    LocaleProvider loc = Provider.of(context);
-    List<ItemModel> items = [];
+    LocaleProvider loc = Provider.of<LocaleProvider>(context);
+    CartProvider cart = Provider.of<CartProvider>(context);
+    ItemProvider ipo = Provider.of<ItemProvider>(context);
 
+    List<ItemModel> items = ipo.items.where((item) {
+      return item.searchData().contains(query.toLowerCase());
+    }).toList();
 
-
-    return Center(
-        child: Stack(children: [
-      Text('${loc.of(Tr.searchResultsFor)}: $query'),
-      GridView(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 10.0,
-          mainAxisSpacing: 20.0,
-          mainAxisExtent: 160,
+    if (items.isEmpty) {
+      return const Center(
+        child: Text(
+          'No results found',
+          style: TextStyle(fontSize: 18.0),
         ),
-        shrinkWrap: true,
-        scrollDirection: Axis.vertical,
-        children: [
-          for (ItemModel item in items) atoShopItemCard(context, item, loc),
-        ],
-      ),
-    ]));
+      );
+    } else {
+      return Center(
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          child: GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 5.0,
+              mainAxisSpacing: 5.0,
+              mainAxisExtent: 135,
+            ),
+
+            itemCount: items.length,
+            itemBuilder: (context, index) {
+              ItemModel item = items[index];
+              return atoItemCard(
+                  context, item, cart, loc);
+            },
+          ),
+        ),
+      );
+    }
   }
 
   @override
