@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 const GenAdminId = "kjPvPNWHwsaUBpDDnea6ZZrYuri1";
 
 const kPrimaryColor = Color(0xFF456897);
+const kPrimaryBtnColor = Color(0xFFA5BCCB);
 const kPrimaryColor2 = Colors.orange;
 const kTextFeildIconColor = Color(0xFF5D5D5D);
 const kPurpleColor = Color(0xff5128ff);

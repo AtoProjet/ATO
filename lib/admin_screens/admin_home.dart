@@ -30,7 +30,7 @@ class _AdminHomeState extends State<AdminHome> {
       AdminProfile(),
       ManageAccountsScreen(),
       EduMaterialScreen(),
-      Text('page 4'),
+      Text("Notifications"),
       AdminUserChatScreen(),
       SidebarScreen(),
     ];
@@ -61,15 +61,7 @@ class _AdminHomeState extends State<AdminHome> {
               activeIcon: Icon(Icons.people,
                   color: kBottomNavBarActiveIconColor, size: 33),
               label: ""),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.grid_view,
-                  size: 30, color: kBottomNavBarInactiveIconColor),
-              activeIcon: Icon(
-                Icons.grid_view,
-                color: kBottomNavBarActiveIconColor,
-                size: 33,
-              ),
-              label: ''),
+
           BottomNavigationBarItem(
               icon: Icon(Icons.home,
                   size: 30, color: kBottomNavBarInactiveIconColor),
@@ -79,6 +71,15 @@ class _AdminHomeState extends State<AdminHome> {
                 size: 33,
               ),
 
+              label: ''),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.grid_view,
+                  size: 30, color: kBottomNavBarInactiveIconColor),
+              activeIcon: Icon(
+                Icons.grid_view,
+                color: kBottomNavBarActiveIconColor,
+                size: 33,
+              ),
               label: ''),
           BottomNavigationBarItem(
               icon: Icon(Icons.support_agent,

@@ -1,5 +1,10 @@
+import 'package:ato/db/consts.dart';
+import 'package:ato/db/references.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rxdart/rxdart.dart';
+
+import '../models/cloth_item.dart';
+import '../models/item.dart';
 
 class FirebaseChatServices {
   createChatRoom(
@@ -103,4 +108,47 @@ class FirebaseChatServices {
         .limit(1)
         .get();
   }
+  updateArticleIsView(String articleId, bool isDonorView, bool isBeneficiaryView) {
+    return FirebaseFirestore.instance
+        .collection("articles")
+        .doc(articleId)
+        .update({'isBeneficiaryView': isBeneficiaryView,
+      'isDonorView': isDonorView});
+  }
+
+    List<ItemModel> getUserDonatedItems(String UserId)  {
+      List<ItemModel> items = List.empty(growable: true);
+      Fire.itemRef
+        .snapshots()
+        .listen((event) {
+      for (var doc in event.docs) {
+
+
+        Map<String, dynamic> dataMap= doc.data() as Map<String, dynamic>;
+        print(dataMap);
+        if(dataMap["donorId"]==UserId){
+          ItemModel item;
+          if(dataMap["category"]==toyCat ||dataMap["category"]==bookCat) {
+            item = ItemModel.fromJson(dataMap);
+          }
+          else{
+            item = ClothModel.fromJson(dataMap);
+          }
+          if (items.contains(item)) {
+            int index = items.indexOf(item);
+            items[index] = item;
+          } else {
+            items.add(item);
+          }
+        }
+
+
+      }
+    });
+
+      return items;
+
+  }
+
+
 }

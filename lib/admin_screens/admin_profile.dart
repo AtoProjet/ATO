@@ -83,35 +83,35 @@ class _AdminProfileState extends State<AdminProfile> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TextButton(
-                    onPressed: (){
-
-                    },
-                    child: Row(
-                      children: [
-                        Icon(Icons.notifications_none, size: 28,color: kIconColor,),
-                        Gap(15),
-                        Text(loc.of(Tr.notifications), style: kLabelTextProfileList_font,)
-
-                      ],
-                    ),
-                  ),
-
-                  Divider(thickness: 1.5,color: Colors.grey[400],),
-                  TextButton(
-                    onPressed: (){
-
-                    },
-                    child: Row(
-                      children: [
-                        Icon(Icons.grid_view, size: 28,color: kIconColor),
-                        Gap(15),
-                        Text(loc.of(Tr.orders), style: kLabelTextProfileList_font,)
-
-                      ],
-                    ),
-                  ),
-                  Divider(thickness: 1.5,color: Colors.grey[400],),
+                  // TextButton(
+                  //   onPressed: (){
+                  //
+                  //   },
+                  //   child: Row(
+                  //     children: [
+                  //       Icon(Icons.notifications_none, size: 28,color: kIconColor,),
+                  //       Gap(15),
+                  //       Text(loc.of(Tr.notifications), style: kLabelTextProfileList_font,)
+                  //
+                  //     ],
+                  //   ),
+                  // ),
+                  //
+                  // Divider(thickness: 1.5,color: Colors.grey[400],),
+                  // TextButton(
+                  //   onPressed: (){
+                  //
+                  //   },
+                  //   child: Row(
+                  //     children: [
+                  //       Icon(Icons.grid_view, size: 28,color: kIconColor),
+                  //       Gap(15),
+                  //       Text(loc.of(Tr.orders), style: kLabelTextProfileList_font,)
+                  //
+                  //     ],
+                  //   ),
+                  // ),
+                  // Divider(thickness: 1.5,color: Colors.grey[400],),
                   TextButton(
                     onPressed: (){
                       changeLanguage(loc, loc.of(Tr.switchLang));

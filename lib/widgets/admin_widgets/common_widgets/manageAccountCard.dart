@@ -1,8 +1,10 @@
 import 'package:ato/admin_screens/accountActionConfirmationScreen.dart';
+import 'package:ato/admin_screens/donatedItems_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 
+import '../../../components/actions.dart';
 import '../../../components/app_layout.dart';
 import '../../../components/constants.dart';
 import '../../../db/firebaseChatServices.dart';
@@ -92,14 +94,16 @@ class _ManageAccountCardState extends State<ManageAccountCard> {
                         style: kLabelManageAccountUserName_font,
                       ),
                       Gap(5),
-                      if(widget.type == "Beneficiary") Text(
-                        loc.of(Tr.beneficiary),
-                        style: kLabelManageAccountType_font,
-                      ),
-                      if(widget.type == "Donor") Text(
-                        loc.of(Tr.donor),
-                        style: kLabelManageAccountType_font,
-                      ),
+                      if (widget.type == "Beneficiary")
+                        Text(
+                          loc.of(Tr.beneficiary),
+                          style: kLabelManageAccountType_font,
+                        ),
+                      if (widget.type == "Donor")
+                        Text(
+                          loc.of(Tr.donor),
+                          style: kLabelManageAccountType_font,
+                        ),
                       // Text(
                       //   "${widget.type}",
                       //   style: kLabelManageAccountType_font,
@@ -118,10 +122,16 @@ class _ManageAccountCardState extends State<ManageAccountCard> {
                         ],
                       ),
                       Gap(4),
-                      Text(
-                        loc.of(Tr.donatedItems),
-                        style: kLabelManageAccountGen_font,
+                      TextButton(
+                        onPressed: () {
+                          goToScreen(context, DonatedItemsPage());
+                        },
+                        child: Text(
+                          loc.of(Tr.donatedItems),
+                          style: kLabelManageAccountGen_font,
+                        ),
                       ),
+
                       Gap(4),
                       Row(
                         children: [
@@ -141,7 +151,8 @@ class _ManageAccountCardState extends State<ManageAccountCard> {
                                       MaterialPageRoute(
                                           builder: (context) =>
                                               AccountActionConfirmation(
-                                                  action: loc.of(Tr.disabled))));
+                                                  action:
+                                                      loc.of(Tr.disabled))));
                                 } else {
                                   print(loc.of(Tr.failedToDisableAccount));
                                 }
