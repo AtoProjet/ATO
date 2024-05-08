@@ -68,6 +68,11 @@ const kLabelTextStyle20Gray = TextStyle(
     fontSize: 18.0,
     color: Color(0xff4f4f4f)
 );
+const kLabelNotificationTimeFont = TextStyle(
+    fontWeight: FontWeight.w900,
+    fontSize: 14.0,
+    color: Color(0xff4f4f4f)
+);
 
 const kLabelItemCatH_font = TextStyle(
   fontWeight: FontWeight.normal,
@@ -143,5 +148,26 @@ const kChatBase_font = TextStyle(
   fontWeight: FontWeight.normal,
   fontSize: 14.0,
   color: Color(0xff171717),
+
+);
+
+const kNotificationTextFont = TextStyle(
+
+  fontWeight: FontWeight.w700,
+  fontSize: 16.0,
+  color: Color(0xff676767),
+);
+
+const kLabelSelectUsers_font = TextStyle(
+
+  fontWeight: FontWeight.w700,
+  fontSize: 18.0,
+  color: Color(0xff003986),
+);
+
+const kNotificationCount_font = TextStyle(
+  fontWeight: FontWeight.bold,
+  fontSize: 16.0,
+  color: Color(0xfff1f1f1),
 
 );

@@ -10,6 +10,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../components/tools.dart';
+import '../db/firebaseChatServices.dart';
+import '../models/user.dart';
+import 'chat_support_screen.dart';
+
 class ItemInfoScreen extends StatefulWidget {
   static Tr title = Tr.itemDetails;
   ItemModel item;
@@ -21,6 +26,7 @@ class ItemInfoScreen extends StatefulWidget {
 }
 
 class _ItemInfoScreenState extends State<ItemInfoScreen> {
+  UserModel user = UserModel.user!;
   @override
   Widget build(BuildContext context) {
     LocaleProvider loc = Provider.of(context);
@@ -103,7 +109,34 @@ class _ItemInfoScreenState extends State<ItemInfoScreen> {
                       width: 150,
                       height: 36,
                       child: atoDarkMaterialButton(
-                          onPressed: () {},
+                          onPressed: () async{
+
+                            print(widget.item.donorId);
+                            print("Starting the function to create chatroom");
+                            String donorId = widget.item.donorId;
+                            var chatRoomId =
+                            getChatRoomIdById(user.id, donorId);
+                            print("Chat Room id is "+ chatRoomId);
+                            //print("Creating chatRoomInfoMap");
+
+                            Map<String, dynamic> chatRoomInfoMap = {
+                              "users": [user.id, donorId ],
+                            };
+                            print("Triggering Database methods");
+
+                            await FirebaseChatServices()
+                                .createChatRoom(chatRoomId, chatRoomInfoMap);
+                            print("Completed");
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ChatSupportScreen(
+                                        name: user.name, userId2: donorId )));
+
+
+
+
+                          },
                           text: loc.of(Tr.communication),
                           fontSize: 13,
                           color: buttonColor),

@@ -11,8 +11,8 @@ import '../models/user.dart';
 
 class ChatSupportScreen extends StatefulWidget {
   final String name;
-  final String userId;
-  const ChatSupportScreen({super.key, required this.name, required this.userId});
+  final String userId2;
+  const ChatSupportScreen({super.key, required this.name, required this.userId2});
 
   @override
   State<ChatSupportScreen> createState() => _ChatSupportScreenState();
@@ -27,7 +27,8 @@ class _ChatSupportScreenState extends State<ChatSupportScreen> {
 
   ontheload() async {
     adminId = GenAdminId;
-    chatRoomId = getChatRoomIdById(widget.userId,adminId!);
+    //chatRoomId = getChatRoomIdById(widget.userId2,adminId!);
+    chatRoomId = getChatRoomIdById(user.id,widget.userId2);
 
     getAndSetMessages();
   }

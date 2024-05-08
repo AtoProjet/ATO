@@ -91,6 +91,7 @@ enum Tr {
   removeItem,
   success,
   deliveryDetails,
+  selectUsers,
 }
 
 final Map<String, Map<Tr, String>> _lang = {
@@ -184,6 +185,7 @@ final Map<String, Map<Tr, String>> _lang = {
     Tr.title: 'عنوان',
     Tr.content: 'محتوى',
     Tr.itemsCategory: 'فئة العناصر',
+    Tr.selectUsers: 'حدد المستخدمين',
   },
   'en': {
     Tr.appName: 'ATO',
@@ -275,6 +277,7 @@ final Map<String, Map<Tr, String>> _lang = {
     Tr.title: 'Title',
     Tr.content: 'Content',
     Tr.itemsCategory: 'Items Category',
+    Tr.selectUsers: 'Select Users',
   },
 };
 

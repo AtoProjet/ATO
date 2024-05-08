@@ -52,7 +52,7 @@ class _ChatListTileState extends State<ChatListTile> {
             context,
             MaterialPageRoute(
                 builder: (context) => ChatSupportScreen(
-                  name: name, userId: user2id, )));
+                  name: name, userId2: user2id, )));
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),

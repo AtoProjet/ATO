@@ -1,10 +1,14 @@
+import 'dart:ffi';
+
 import 'package:ato/db/consts.dart';
 import 'package:ato/db/references.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../components/tools.dart';
 import '../models/cloth_item.dart';
 import '../models/item.dart';
+import '../models/user.dart';
 
 class FirebaseChatServices {
   createChatRoom(
@@ -33,6 +37,20 @@ class FirebaseChatServices {
         .collection("chats")
         .doc(messageId)
         .set(messageInfomap);
+  }
+
+  Future addNotification(String notId, Map<String, dynamic> notificationDetailsMap) async {
+
+    // return FirebaseFirestore.instance
+    //     .collection("userNotifications")
+    //     .add(notificationDetailsMap);
+
+
+    return FirebaseFirestore.instance
+        .collection("userNotifications")
+        .doc(notId)
+        .set(notificationDetailsMap);
+
   }
 
   updateLastMessageSend(
@@ -68,24 +86,44 @@ class FirebaseChatServices {
   }
 
   Future<Stream<QuerySnapshot>> getUserAccounts() async {
-    var query = FirebaseFirestore.instance
+    var query = await FirebaseFirestore.instance
         .collection("users")
         .where(Filter.or(
           Filter("role", isEqualTo: "Donor"),
           Filter("role", isEqualTo: "Beneficiary"),
         ))
         .snapshots();
-
-    // Stream<QuerySnapshot> list1 = FirebaseFirestore.instance
-    //     .collection("users")
-    //     .where("role", isEqualTo: "Donor" )
-    //     .snapshots();
-    //
-    // Stream<QuerySnapshot> list2 = FirebaseFirestore.instance
-    //     .collection("users")
-    //     .where("role", isEqualTo: "Beneficiary" )
-    //     .snapshots();
     return query;
+  }
+
+  Future<List<Map<String, dynamic>>> getUserAccountsSN() async {
+    List<Map<String, dynamic>> myList = [];
+    await FirebaseFirestore.instance
+        .collection("users")
+        .where(Filter.or(
+          Filter("role", isEqualTo: "Donor"),
+          Filter("role", isEqualTo: "Beneficiary"),
+        ))
+        .get()
+        .then((querySnapshot) {
+      myList = processQuerySnapshot(querySnapshot);
+    }).catchError((error) {
+      print("Error getting documents: $error");
+    });
+    return myList;
+  }
+
+  List<Map<String, dynamic>> processQuerySnapshot(
+      QuerySnapshot<Map<String, dynamic>> snapshot) {
+    List<Map<String, dynamic>> newDataList = [];
+
+    for (var doc in snapshot.docs) {
+      Map<String, dynamic> newData = Map.from(doc.data());
+      newData['isChecked'] = false;
+
+      newDataList.add(newData);
+    }
+    return newDataList;
   }
 
   disableUserAccount(String userId) {
@@ -102,36 +140,32 @@ class FirebaseChatServices {
         .update({'isActive': true});
   }
 
-  Future<QuerySnapshot> getArticlesDetails()  {
-    return  FirebaseFirestore.instance
-        .collection("articles")
-        .limit(1)
-        .get();
+  Future<QuerySnapshot> getArticlesDetails() {
+    return FirebaseFirestore.instance.collection("articles").limit(1).get();
   }
-  updateArticleIsView(String articleId, bool isDonorView, bool isBeneficiaryView) {
+
+  updateArticleIsView(
+      String articleId, bool isDonorView, bool isBeneficiaryView) {
     return FirebaseFirestore.instance
         .collection("articles")
         .doc(articleId)
-        .update({'isBeneficiaryView': isBeneficiaryView,
-      'isDonorView': isDonorView});
+        .update({
+      'isBeneficiaryView': isBeneficiaryView,
+      'isDonorView': isDonorView
+    });
   }
 
-    List<ItemModel> getUserDonatedItems(String UserId)  {
-      List<ItemModel> items = List.empty(growable: true);
-      Fire.itemRef
-        .snapshots()
-        .listen((event) {
+  Future<List<ItemModel>> getUserDonatedItems(String UserId) async {
+    List<ItemModel> items = List.empty(growable: true);
+    await Fire.itemRef.snapshots().listen((event) {
       for (var doc in event.docs) {
-
-
-        Map<String, dynamic> dataMap= doc.data() as Map<String, dynamic>;
+        Map<String, dynamic> dataMap = doc.data() as Map<String, dynamic>;
         print(dataMap);
-        if(dataMap["donorId"]==UserId){
+        if (dataMap["donorId"] == UserId) {
           ItemModel item;
-          if(dataMap["category"]==toyCat ||dataMap["category"]==bookCat) {
+          if (dataMap["category"] == toyCat || dataMap["category"] == bookCat) {
             item = ItemModel.fromJson(dataMap);
-          }
-          else{
+          } else {
             item = ClothModel.fromJson(dataMap);
           }
           if (items.contains(item)) {
@@ -141,14 +175,44 @@ class FirebaseChatServices {
             items.add(item);
           }
         }
-
-
       }
     });
 
-      return items;
-
+    return items;
   }
 
 
+  Future<Stream<QuerySnapshot>> getUserNotifications(String userId) async {
+    var query = FirebaseFirestore.instance
+        .collection("userNotifications")
+        .where(Filter("receiverID", isEqualTo: userId),)
+        .snapshots();
+    return query;
+  }
+
+  updateUserNotification(
+      String notificationId) {
+    return FirebaseFirestore.instance
+        .collection("userNotifications")
+        .doc(notificationId)
+        .update({'isSeen': true});
+  }
+
+  Future<int> getNotificationCounts() async {
+    UserModel user = UserModel.user!;
+    print ("the user id is " + user.id);
+    var query = await FirebaseFirestore.instance
+        .collection("userNotifications")
+        .where(Filter.and(
+      Filter("receiverID", isEqualTo: user.id),
+      Filter("isSeen", isEqualTo: false),
+    ))
+        .get();
+    return query.size;
+  }
+
+
+
 }
+
+

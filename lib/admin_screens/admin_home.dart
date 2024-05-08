@@ -1,6 +1,7 @@
 import 'package:ato/admin_screens/admin_UserChatsScreen.dart';
 import 'package:ato/admin_screens/admin_profile.dart';
 import 'package:ato/admin_screens/manage_accounts_screen.dart';
+import 'package:ato/admin_screens/sendNotification_screen1.dart';
 import 'package:ato/admin_screens/sidebar_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class _AdminHomeState extends State<AdminHome> {
       AdminProfile(),
       ManageAccountsScreen(),
       EduMaterialScreen(),
-      Text("Notifications"),
+      SendNotificationPage1(),
       AdminUserChatScreen(),
       SidebarScreen(),
     ];
