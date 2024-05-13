@@ -61,6 +61,7 @@ const kLabelEduMaterialContent_font = TextStyle(
   fontSize: 18.0,
   color: Color(0xff171717),
 
+
 );
 
 const kLabelTextStyle20Gray = TextStyle(
@@ -169,5 +170,20 @@ const kNotificationCount_font = TextStyle(
   fontWeight: FontWeight.bold,
   fontSize: 16.0,
   color: Color(0xfff1f1f1),
+
+);
+
+const kLabelArticlesListTitle_font = TextStyle(
+  fontWeight: FontWeight.w700,
+  fontSize: 14.0,
+  color: Color(0xff171717),
+
+
+);
+const kLabelArticlesListContent_font = TextStyle(
+  fontWeight: FontWeight.w500,
+  fontSize: 14.0,
+  color: Color(0xff3f3f3f),
+
 
 );

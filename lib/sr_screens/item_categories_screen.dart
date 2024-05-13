@@ -8,6 +8,8 @@ import 'package:ato/sr_screens/add_item_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../db/firebaseChatServices.dart';
+
 class ItemCategoriesScreen extends StatefulWidget {
   static Tr title = Tr.categories;
 
@@ -17,6 +19,13 @@ class ItemCategoriesScreen extends StatefulWidget {
   State<ItemCategoriesScreen> createState() => _ItemCategoriesScreenState();
 }
 
+List<Map<String, dynamic>> catList = [];
+Future<List<Map<String, dynamic>>> getItemCat() async {
+  catList = await FirebaseChatServices().getItemCategories();
+  print(catList);
+  //setState(() {});
+  return catList;
+}
 class _ItemCategoriesScreenState extends State<ItemCategoriesScreen> {
   @override
   Widget build(BuildContext context) {
@@ -28,20 +37,58 @@ class _ItemCategoriesScreenState extends State<ItemCategoriesScreen> {
         shrinkWrap: false,
         scrollDirection: Axis.vertical,
         children: [
-          ...atoCategoryCardList(loc),
+
+          FutureBuilder<List<Map<String, dynamic>>>(
+          future: getItemCat(),
+          builder: (BuildContext context,
+              AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
+            if (snapshot.hasError) return Text("ERROR: ${snapshot.error}");
+            if (!snapshot.hasData)
+              return Center(child: CircularProgressIndicator());
+
+            var data = snapshot.data!;
+
+            return Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: ListView.builder(
+                itemCount: data.length,
+                itemBuilder: (context, index) {
+
+                  if(data[index]["isView"] == true){
+                    return atoCategoryCard(data[index]["catName"], loc);
+                  }
+
+
+                },
+              ),
+            );
+
+            //   Column(
+            //   children: [
+            //     ...atoCategoryCardList(loc, data)
+            //   ],
+            // );
+
+          })
+
+
         ],
       ),
     );
   }
 
-  List<Widget> atoCategoryCardList(LocaleProvider loc) {
-    List<Widget> catListWid = [];
-    for (String cat in categories) {
-      catListWid.add(atoCategoryCard(cat, loc));
-    }
-
-    return catListWid;
-  }
+  // List<Widget> atoCategoryCardList(LocaleProvider loc,List<Map<String, dynamic>> data) {
+  //   List<Widget> catListWid = [];
+  //
+  //   //for (String cat in categories) {
+  //   for (String dat in data) {
+  //
+  //     catListWid.add(atoCategoryCard(dat[""], loc));
+  //   }
+  //
+  //   return catListWid;
+  // }
 
   Card atoCategoryCard(cat, LocaleProvider loc) {
     return Card(

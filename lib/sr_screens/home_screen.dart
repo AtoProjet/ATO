@@ -10,6 +10,7 @@ import 'package:ato/sr_screens/profile_screen.dart';
 import 'package:ato/sr_screens/shopping_screen.dart';
 import 'package:ato/sr_screens/slider_screen.dart';
 import 'package:ato/sr_screens/success_screen.dart';
+import 'package:ato/sr_screens/user_chatList_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -42,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ShoppingScreen(),
     // if(UserModel.isBeneficiary())
     const CartScreen(),
-    const ChatScreen(),
+    UserChatListPage(),
     const ProfileScreen(),
   ];
   @override

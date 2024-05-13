@@ -10,13 +10,15 @@ import 'package:provider/provider.dart';
 
 import '../components/constants.dart';
 import '../db/firebaseChatServices.dart';
+import '../models/user.dart';
 import '../providers/locale_provider.dart';
 import '../widgets/admin_widgets/common_widgets/genBtn.dart';
 import '../widgets/admin_widgets/common_widgets/myBtn1.dart';
 import 'accountActionConfirmationScreen.dart';
 
 class ArticlesPage extends StatefulWidget {
-  const ArticlesPage({super.key});
+  final String articleId;
+  const ArticlesPage({super.key, required this.articleId});
 
   @override
   State<ArticlesPage> createState() => _ArticlesPageState();
@@ -28,7 +30,8 @@ class _ArticlesPageState extends State<ArticlesPage> {
   bool? isDonorChecked;
 
   onTheLoad() async {
-    articleInfo = await FirebaseChatServices().getArticlesDetails();
+    articleInfo =
+        await FirebaseChatServices().getArticlesDetails(widget.articleId);
     setState(() {});
   }
 
@@ -46,7 +49,8 @@ class _ArticlesPageState extends State<ArticlesPage> {
   }
 
   Future<QuerySnapshot> getArticleInfo() async {
-    articleInfo = await FirebaseChatServices().getArticlesDetails();
+    articleInfo =
+        await FirebaseChatServices().getArticlesDetails(widget.articleId);
     print("This article trigger");
     // setState(() {
     print("The check is  : " +
@@ -68,6 +72,7 @@ class _ArticlesPageState extends State<ArticlesPage> {
 
   Widget build(BuildContext context) {
     LocaleProvider loc = Provider.of(context);
+    UserModel user = UserModel.user!;
     return Scaffold(
       body: SafeArea(
         child: ListView(
@@ -108,51 +113,83 @@ class _ArticlesPageState extends State<ArticlesPage> {
                         padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
                         child: Column(
                           children: [
-                            FutureBuilder<String>(
-                                future: getImageUrl(data.docs[0]["img"]),
-                                builder: (BuildContext context,
-                                    AsyncSnapshot<String> snapshot) {
-                                  if (snapshot.hasError)
-                                    return Text("ERROR: ${snapshot.error}");
-                                  if (!snapshot.hasData)
+                            Container(
+                                width: 250,
+                                height: 150,
+                                child: Image.network(
+                                  data.docs[0]["img"], fit: BoxFit.fill,
+
+                                  loadingBuilder: (BuildContext context,
+                                      Widget child,
+                                      ImageChunkEvent? loadingProgress) {
+                                    if (loadingProgress == null) return child;
                                     return Center(
-                                        child: CircularProgressIndicator());
+                                      child: CircularProgressIndicator(
+                                        value: loadingProgress
+                                                    .expectedTotalBytes !=
+                                                null
+                                            ? loadingProgress
+                                                    .cumulativeBytesLoaded /
+                                                loadingProgress
+                                                    .expectedTotalBytes!
+                                            : null,
+                                      ),
+                                    );
+                                  },
 
-                                  var data = snapshot.data;
-                                  return Container(
-                                      width: 250,
-                                      height: 150,
-                                      child: Image.network(
-                                        data!, fit: BoxFit.fill,
-
-                                        loadingBuilder: (BuildContext context,
-                                            Widget child,
-                                            ImageChunkEvent? loadingProgress) {
-                                          if (loadingProgress == null)
-                                            return child;
-                                          return Center(
-                                            child: CircularProgressIndicator(
-                                              value: loadingProgress
-                                                          .expectedTotalBytes !=
-                                                      null
-                                                  ? loadingProgress
-                                                          .cumulativeBytesLoaded /
-                                                      loadingProgress
-                                                          .expectedTotalBytes!
-                                                  : null,
-                                            ),
-                                          );
-                                        },
-
-                                        // decoration: BoxDecoration(
-                                        //   borderRadius: BorderRadius.circular(2),
-                                        //   image: DecorationImage(
-                                        //     image: AssetImage("assets/images/$url_img.jpeg"),
-                                        //     fit: BoxFit.cover,
-                                        //   ),
-                                        // ),
-                                      ));
-                                }),
+                                  // decoration: BoxDecoration(
+                                  //   borderRadius: BorderRadius.circular(2),
+                                  //   image: DecorationImage(
+                                  //     image: AssetImage("assets/images/$url_img.jpeg"),
+                                  //     fit: BoxFit.cover,
+                                  //   ),
+                                  // ),
+                                )),
+                            // FutureBuilder<String>(
+                            //     future: getImageUrl("articles.jpeg"),
+                            //     builder: (BuildContext context,
+                            //         AsyncSnapshot<String> snapshot) {
+                            //       if (snapshot.hasError)
+                            //         return Text("ERROR: ${snapshot.error}");
+                            //       if (!snapshot.hasData)
+                            //         return Center(
+                            //             child: CircularProgressIndicator());
+                            //
+                            //       var dataa = snapshot.data;
+                            //       return Container(
+                            //           width: 250,
+                            //           height: 150,
+                            //           child: Image.network(
+                            //             data.docs[0]["img"], fit: BoxFit.fill,
+                            //
+                            //             loadingBuilder: (BuildContext context,
+                            //                 Widget child,
+                            //                 ImageChunkEvent? loadingProgress) {
+                            //               if (loadingProgress == null)
+                            //                 return child;
+                            //               return Center(
+                            //                 child: CircularProgressIndicator(
+                            //                   value: loadingProgress
+                            //                               .expectedTotalBytes !=
+                            //                           null
+                            //                       ? loadingProgress
+                            //                               .cumulativeBytesLoaded /
+                            //                           loadingProgress
+                            //                               .expectedTotalBytes!
+                            //                       : null,
+                            //                 ),
+                            //               );
+                            //             },
+                            //
+                            //             // decoration: BoxDecoration(
+                            //             //   borderRadius: BorderRadius.circular(2),
+                            //             //   image: DecorationImage(
+                            //             //     image: AssetImage("assets/images/$url_img.jpeg"),
+                            //             //     fit: BoxFit.cover,
+                            //             //   ),
+                            //             // ),
+                            //           ));
+                            //     }),
                             Gap(20),
                             RichText(
                                 text: TextSpan(children: <TextSpan>[
@@ -181,109 +218,115 @@ class _ArticlesPageState extends State<ArticlesPage> {
                           ],
                         ),
                       ),
-                      Gap(10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // Icon(
-                          //   Icons.person,
-                          //   size: 28,
-                          // ),
-                          Center(
-                            child: ClipRRect(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(28)),
-                                child: Image.asset(
-                                  "assets/images/ic_user_female.jpg",
-                                  width: 28,
-                                  height: 28,
-                                  fit: BoxFit.cover,
-                                  alignment: Alignment.center,
-                                )),
-                          ),
-                          Gap(10),
-                          Text(
-                            "Beneficiary",
-                            style: kLabelManageAccountUserName_font,
-                          ),
-                          Gap(5),
-                          StatefulBuilder(
-                            builder: (BuildContext context,
-                                void Function(void Function()) setState) {
-                              return Checkbox(
-                                  activeColor: kPrimaryColor,
-                                  value: isBeneficiaryChecked,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      isBeneficiaryChecked = value;
-                                    });
-                                  });
-                            },
-                          )
-                        ],
-                      ),
-                      Gap(5),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // Icon(
-                          //   Icons.person,
-                          //   size: 28,
-                          // ),
-                          Center(
-                            child: ClipRRect(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(28)),
-                                child: Image.asset(
-                                  "assets/images/ic_user_male.jpg",
-                                  width: 28,
-                                  height: 28,
-                                  fit: BoxFit.cover,
-                                  alignment: Alignment.center,
-                                )),
-                          ),
-                          Gap(10),
-                          Text(
-                            "Donor",
-                            style: kLabelManageAccountUserName_font,
-                          ),
-                          Gap(5),
-                          StatefulBuilder(
-                            builder: (BuildContext context,
-                                void Function(void Function()) setState) {
-                              return Checkbox(
-                                  activeColor: kPrimaryColor,
-                                  value: isDonorChecked,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      isDonorChecked = value;
-                                    });
-                                  });
-                            },
-                          )
-                        ],
-                      ),
-                      Gap(15),
-                      GenBtn(
-                          buttonText: 'Save Changes',
-                          onTap: () async {
-                            bool result = await updateArticleIsView(
-                                data.docs[0]["id"],
-                                isDonorChecked!,
-                                isBeneficiaryChecked!);
-                            if (result) {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          AccountActionConfirmation(
-                                              action: "Updated")));
-                            } else {
-                              print(loc.of(Tr.failedToEnableAccount));
-                              print("Btn Clicked");
-                            }
-                          }),
-                      Gap(25),
+                      if(user.role == "Admin")
+                        Column(
+                          children: [
+                            Gap(10),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                // Icon(
+                                //   Icons.person,
+                                //   size: 28,
+                                // ),
+                                Center(
+                                  child: ClipRRect(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(28)),
+                                      child: Image.asset(
+                                        "assets/images/ic_user_female.jpg",
+                                        width: 28,
+                                        height: 28,
+                                        fit: BoxFit.cover,
+                                        alignment: Alignment.center,
+                                      )),
+                                ),
+                                Gap(10),
+                                Text(
+                                  "Beneficiary",
+                                  style: kLabelManageAccountUserName_font,
+                                ),
+                                Gap(5),
+                                StatefulBuilder(
+                                  builder: (BuildContext context,
+                                      void Function(void Function()) setState) {
+                                    return Checkbox(
+                                        activeColor: kPrimaryColor,
+                                        value: isBeneficiaryChecked,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            isBeneficiaryChecked = value;
+                                          });
+                                        });
+                                  },
+                                )
+                              ],
+                            ),
+                            Gap(5),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                // Icon(
+                                //   Icons.person,
+                                //   size: 28,
+                                // ),
+                                Center(
+                                  child: ClipRRect(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(28)),
+                                      child: Image.asset(
+                                        "assets/images/ic_user_male.jpg",
+                                        width: 28,
+                                        height: 28,
+                                        fit: BoxFit.cover,
+                                        alignment: Alignment.center,
+                                      )),
+                                ),
+                                Gap(10),
+                                Text(
+                                  "Donor",
+                                  style: kLabelManageAccountUserName_font,
+                                ),
+                                Gap(5),
+                                StatefulBuilder(
+                                  builder: (BuildContext context,
+                                      void Function(void Function()) setState) {
+                                    return Checkbox(
+                                        activeColor: kPrimaryColor,
+                                        value: isDonorChecked,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            isDonorChecked = value;
+                                          });
+                                        });
+                                  },
+                                )
+                              ],
+                            ),
+                            Gap(15),
+                            GenBtn(
+                                buttonText: 'Save Changes',
+                                onTap: () async {
+                                  bool result = await updateArticleIsView(
+                                      data.docs[0]["id"],
+                                      isDonorChecked!,
+                                      isBeneficiaryChecked!);
+                                  if (result) {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                AccountActionConfirmation(
+                                                    action: "Updated")));
+                                  } else {
+                                    print(loc.of(Tr.failedToEnableAccount));
+                                    print("Btn Clicked");
+                                  }
+                                }),
+                            Gap(25),
+                          ],
+                        ),
+
                     ],
                   );
                 }),

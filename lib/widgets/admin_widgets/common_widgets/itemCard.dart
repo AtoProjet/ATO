@@ -3,14 +3,16 @@ import 'package:gap/gap.dart';
 
 import '../../../components/app_layout.dart';
 import '../../../components/constants.dart';
+import '../../../components/widgets/images.dart';
+import '../../../sr_screens/item_info_screen.dart';
 import '../btnWidgets/removeBtn.dart';
 
 class ItemCard extends StatelessWidget {
   final String img;
   final String itemNo;
   final String itemName;
-  final String itemSize;
-  const ItemCard({Key? key, required this.img, required this.itemNo, required this.itemName, required this.itemSize}) : super(key: key);
+  final String itemDetails;
+  const ItemCard({Key? key, required this.img, required this.itemNo, required this.itemName, required this.itemDetails}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,16 +31,18 @@ class ItemCard extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(8, 15, 8, 10),
           child: Column(
             children: [
-              Container(
-                height: size.height * 0.2,
-
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(2),
-                  image: DecorationImage(
-                    image: AssetImage("assets/images/$img.jpeg"),
-                    fit: BoxFit.fill,
-                  ),
-                ),
+              IconButton(
+                onPressed: () {
+                  //goToScreen(context, ItemInfoScreen(item: item));
+                },
+                icon: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: atoNetworkImage(
+                      img,
+                      height: 100,
+                      alignment: Alignment.topCenter,
+                      fit: BoxFit.fitHeight,
+                    )),
               ),
               Gap(10),
               Row(
@@ -63,7 +67,7 @@ class ItemCard extends StatelessWidget {
                 children: [
                   Flexible(
                     child: Text(
-                      'Size : ${itemSize}',
+                      'Details : ${itemDetails}',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: kLabelItemName_font,

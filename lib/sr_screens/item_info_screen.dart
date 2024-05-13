@@ -112,21 +112,16 @@ class _ItemInfoScreenState extends State<ItemInfoScreen> {
                           onPressed: () async{
 
                             print(widget.item.donorId);
-                            print("Starting the function to create chatroom");
                             String donorId = widget.item.donorId;
                             var chatRoomId =
                             getChatRoomIdById(user.id, donorId);
-                            print("Chat Room id is "+ chatRoomId);
                             //print("Creating chatRoomInfoMap");
 
                             Map<String, dynamic> chatRoomInfoMap = {
                               "users": [user.id, donorId ],
                             };
-                            print("Triggering Database methods");
-
                             await FirebaseChatServices()
                                 .createChatRoom(chatRoomId, chatRoomInfoMap);
-                            print("Completed");
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(

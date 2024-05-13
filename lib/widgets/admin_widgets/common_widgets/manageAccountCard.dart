@@ -124,7 +124,7 @@ class _ManageAccountCardState extends State<ManageAccountCard> {
                       Gap(4),
                       TextButton(
                         onPressed: () {
-                          goToScreen(context, DonatedItemsPage());
+                          goToScreen(context, DonatedItemsPage(userId: widget.id,));
                         },
                         child: Text(
                           loc.of(Tr.donatedItems),

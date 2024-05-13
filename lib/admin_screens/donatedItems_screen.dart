@@ -1,6 +1,7 @@
-
 import 'package:ato/widgets/admin_widgets/common_widgets/topbar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +21,8 @@ import '../sr_screens/item_info_screen.dart';
 import '../widgets/admin_widgets/common_widgets/itemCard.dart';
 
 class DonatedItemsPage extends StatefulWidget {
-  const DonatedItemsPage({super.key});
+  final String userId;
+  const DonatedItemsPage({super.key, required this.userId});
 
   @override
   State<DonatedItemsPage> createState() => _DonatedItemsPageState();
@@ -30,12 +32,10 @@ class _DonatedItemsPageState extends State<DonatedItemsPage> {
   final List<bool> _selectedCategories = [true, true, true, true];
   final List<bool> _selectedGenders = [true, true, true];
   final List<bool> _selectedSizes = [true, true, true, true, true];
+
   List<ItemModel> items = List.empty(growable: true);
-
-
-
-  Future<List<ItemModel>> getArticleInfo(String usrId) async {
-    items =  await FirebaseChatServices().getUserDonatedItems(usrId);
+  Future<List<ItemModel>> getDonatedItems(String usrId) async {
+    items = await FirebaseChatServices().getUserDonatedItems(usrId);
     return items;
   }
 
@@ -48,8 +48,10 @@ class _DonatedItemsPageState extends State<DonatedItemsPage> {
     return Scaffold(
       extendBody: true,
       body: SafeArea(
-        child: ListView(
-          shrinkWrap: true,
+        child: Column(
+
+          // scrollDirection: Axis.vertical,
+          // shrinkWrap: true,
           children: [
             Topbar(
               isBack: true,
@@ -57,49 +59,62 @@ class _DonatedItemsPageState extends State<DonatedItemsPage> {
                 Navigator.pop(context);
               },
             ),
-            Gap(0),
+            Gap(25),
 
             FutureBuilder<List<ItemModel>>(
-                future: getArticleInfo("hgXibmqmGUNlzrBDyQmWiPhHzOn1"),
+                future: getDonatedItems(widget.userId),
                 builder: (BuildContext context,
                     AsyncSnapshot<List<ItemModel>> snapshot) {
                   if (snapshot.hasError)
                     return Text("ERROR: ${snapshot.error}");
                   if (!snapshot.hasData)
-                    return Center(
-                        child: CircularProgressIndicator());
+                    return Center(child: CircularProgressIndicator());
 
                   var data = snapshot.data;
-                  return Container(
-                    height : size.height * 1,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(
-                        child: Stack(
-                          children: [
-                            GridView(
-                              gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 10.0,
-                                mainAxisSpacing: 10.0,
-                                mainAxisExtent: 140,
-                              ),
-                              // shrinkWrap: true,
-                              scrollDirection: Axis.vertical,
-                              children: [
-                                for (ItemModel item in data!)
-                                  showItemCard(item, loc),
-                              ],
-                            ),
-                          ],
-                        ),
+                  if (data!.length < 1) {
+                    return Center(
+                      child: Text(
+                        "No Items Found",
+                        style: kLabelSelectUsers_font,
                       ),
-                    ),
-                  );
+                    );
+                  } else {
+                    return Column(
+                      children: [
+                        Container(
+
+                          height: MediaQuery.of(context).size.height * 0.85,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(
+                              child: Stack(
+                                children: [
+                                  GridView(
+
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      crossAxisSpacing: 10.0,
+                                      mainAxisSpacing: 10.0,
+                                      mainAxisExtent: 250,
+
+                                    ),
+                                    // shrinkWrap: true,
+                                    scrollDirection: Axis.vertical,
+                                    children: [
+                                      for (ItemModel item in data!)
+                                        showItemCard(item, loc),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }
                 }),
-
-
 
             // Container(
             //   height : size.height * 1,
@@ -128,7 +143,6 @@ class _DonatedItemsPageState extends State<DonatedItemsPage> {
             //     ),
             //   ),
             // ),
-
 
             // Padding(
             //   padding: const EdgeInsets.fromLTRB(20,0,3,3),
@@ -182,41 +196,95 @@ class _DonatedItemsPageState extends State<DonatedItemsPage> {
   }
 }
 
-atoItemCard(BuildContext context, ItemModel item,
-    LocaleProvider loc) {
+atoItemCard(BuildContext context, ItemModel item, LocaleProvider loc) {
   String text = item.name;
-  return Card(
+
+  return Stack(children: [
+    ItemCard(
+      img: item.image,
+      itemNo: '123456',
+      itemName: item.name,
+      itemDetails: item.details,
+    ),
+    if (item is ClothModel)
+      Container(
+        padding: const EdgeInsets.all(4),
+        alignment: Alignment.topLeft,
+        child: Container(
+          width: 16,
+          height: 16,
+          decoration: BoxDecoration(
+              color: Color(item.color),
+              border: const Border.fromBorderSide(
+                  BorderSide(width: 1, color: Colors.grey)),
+              borderRadius: BorderRadius.circular(2)),
+        ),
+      ),
+  ]);
+
+  Card(
     color: cardBackgroundColor,
     shape: ShapeBorder.lerp(LinearBorder.none, LinearBorder.none, 0),
     child: Stack(children: [
       Container(
         alignment: Alignment.topCenter,
         width: 200,
-        child: IconButton(
-          onPressed: () {
-            goToScreen(context, ItemInfoScreen(item: item));
-          },
-          icon: ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: atoNetworkImage(
-                item.image,
-                height: 100,
-                alignment: Alignment.topCenter,
-                fit: BoxFit.fitHeight,
-              )),
+        child: Column(
+          children: [
+            IconButton(
+              onPressed: () {
+                goToScreen(context, ItemInfoScreen(item: item));
+              },
+              icon: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: atoNetworkImage(
+                    item.image,
+                    height: 100,
+                    alignment: Alignment.topCenter,
+                    fit: BoxFit.fitHeight,
+                  )),
+            ),
+            Gap(10),
+            Text(
+              maxLines: 1,
+              text,
+              style: const TextStyle(
+                  fontSize: 12,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold),
+            ),
+            Text(
+              maxLines: 1,
+              item.details,
+              style: const TextStyle(
+                  fontSize: 12,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold),
+            ),
+          ],
         ),
       ),
-      Container(
-        alignment: Alignment.bottomCenter,
-        padding: EdgeInsets.only(
-            right: loc.isAr() ? 24 : 0, left: loc.isAr() ? 0 : 24),
-        child: Text(
-          maxLines: 1,
-          text,
-          style: const TextStyle(
-              fontSize: 12, color: Colors.black, fontWeight: FontWeight.bold),
-        ),
-      ),
+      // Container(
+      //   alignment: Alignment.bottomCenter,
+      //   padding: EdgeInsets.only(
+      //       right: loc.isAr() ? 24 : 0, left: loc.isAr() ? 0 : 24),
+      //   child: Column(
+      //     children: [
+      //       Text(
+      //         maxLines: 1,
+      //         text,
+      //         style: const TextStyle(
+      //             fontSize: 12, color: Colors.black, fontWeight: FontWeight.bold),
+      //       ),
+      //       Text(
+      //         maxLines: 1,
+      //         item.details,
+      //         style: const TextStyle(
+      //             fontSize: 12, color: Colors.black, fontWeight: FontWeight.bold),
+      //       ),
+      //     ],
+      //   ),
+      // ),
       if (item is ClothModel)
         Container(
           padding: const EdgeInsets.all(4),

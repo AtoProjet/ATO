@@ -17,6 +17,7 @@ import '../db/firebaseChatServices.dart';
 import '../providers/locale_provider.dart';
 import '../widgets/admin_widgets/common_widgets/topbar.dart';
 import 'accountActionConfirmationScreen.dart';
+import 'admin_success_screen.dart';
 
 class SendNotificationPage2 extends StatefulWidget {
 
@@ -55,8 +56,8 @@ class _SendNotificationPage2State extends State<SendNotificationPage2> {
           .then((value) {
         goToScreenAndClearHistory(
             context,
-            AccountActionConfirmation(
-              action: 'Successs ',
+            AdminSuccessPage(
+              text: 'Notifications Send Successfully ',
             ));
       });
     }

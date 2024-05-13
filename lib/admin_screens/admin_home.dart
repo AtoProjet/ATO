@@ -74,10 +74,10 @@ class _AdminHomeState extends State<AdminHome> {
 
               label: ''),
           BottomNavigationBarItem(
-              icon: Icon(Icons.grid_view,
+              icon: Icon(Icons.notifications,
                   size: 30, color: kBottomNavBarInactiveIconColor),
               activeIcon: Icon(
-                Icons.grid_view,
+                Icons.notifications,
                 color: kBottomNavBarActiveIconColor,
                 size: 33,
               ),

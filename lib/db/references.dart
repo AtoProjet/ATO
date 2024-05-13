@@ -15,6 +15,7 @@ class Fire{
   static CollectionReference? _localeRef;
   static Reference? _userImageRef;
   static Reference? _itemImageRef;
+  static Reference? _articleImageRef;
   static FirebaseApp get app => _app!;
 
   static init() async{
@@ -39,6 +40,7 @@ class Fire{
   static void _initStorageReferences() {
     _userImageRef = storage.ref().child("users");
     _itemImageRef = storage.ref().child("items");
+    _articleImageRef = storage.ref().child("articles");
   }
 
   static FirebaseAuth get auth => _auth!;
@@ -47,6 +49,7 @@ class Fire{
   static CollectionReference get userRef => _userRef!;
   static Reference get userImageRef => _userImageRef!;
   static Reference get itemImageRef => _itemImageRef!;
+  static Reference get articleImageRef => _articleImageRef!;
 
   static CollectionReference get itemRef => _itemRef!;
   static CollectionReference get orderRef => _orderRef!;
