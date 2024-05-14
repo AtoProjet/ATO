@@ -12,7 +12,8 @@ class ItemCard extends StatelessWidget {
   final String itemNo;
   final String itemName;
   final String itemDetails;
-  const ItemCard({Key? key, required this.img, required this.itemNo, required this.itemName, required this.itemDetails}) : super(key: key);
+  final Function() removeOnTap;
+  const ItemCard({Key? key, required this.img, required this.itemNo, required this.itemName, required this.itemDetails,required this.removeOnTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +80,7 @@ class ItemCard extends StatelessWidget {
                 ],
               ),
               Gap(10),
-              RemoveBtn(buttonText: 'Remove',)
+              RemoveBtn(buttonText: 'Remove', onTap: removeOnTap ,)
 
             ],
           ),

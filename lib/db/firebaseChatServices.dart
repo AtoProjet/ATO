@@ -317,6 +317,14 @@ class FirebaseChatServices {
     return query;
   }
 
+  deleteItem(String itemId) {
+    //print("is view is " + isView.toString());
+    return FirebaseFirestore.instance
+        .collection("items")
+        .doc(itemId)
+        .delete();
+  }
+
   // removeItem(String ItemId) {
   //
   //
@@ -331,6 +339,39 @@ class FirebaseChatServices {
   //       .doc(notificationId)
   //       .update({'isSeen': true});
   // }
+
+
+
+  // Future<void> getArrayCount(String documentId) async {
+  //   try {
+  //     // Reference to the Firestore collection and document
+  //     DocumentReference<Map<String, dynamic>> docRef = FirebaseFirestore.instance.collection("orders") .where("pickedItems", arrayContains: ItemId)
+  //           .get();
+  //
+  //     // Fetch the document
+  //     DocumentSnapshot<Map<String, dynamic>> docSnapshot = await docRef.get();
+  //
+  //     // Check if the document exists
+  //     if (docSnapshot.exists) {
+  //       // Get the data from the document
+  //       Map<String, dynamic>? data = docSnapshot.data();
+  //
+  //       if (data != null && data.containsKey('your_array_field')) {
+  //         List<dynamic> arrayField = data['your_array_field'] as List<dynamic>;
+  //         int arrayCount = arrayField.length;
+  //         print('Array count: $arrayCount');
+  //       } else {
+  //         print('Array field not found or is null');
+  //       }
+  //     } else {
+  //       print('Document does not exist');
+  //     }
+  //   } catch (e) {
+  //     print('Error getting document: $e');
+  //   }
+  // }
+
+
 
 
 

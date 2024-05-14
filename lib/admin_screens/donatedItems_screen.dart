@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:ato/widgets/admin_widgets/common_widgets/topbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +29,7 @@ class DonatedItemsPage extends StatefulWidget {
   @override
   State<DonatedItemsPage> createState() => _DonatedItemsPageState();
 }
-
+//bool isLoading = false;
 class _DonatedItemsPageState extends State<DonatedItemsPage> {
   final List<bool> _selectedCategories = [true, true, true, true];
   final List<bool> _selectedGenders = [true, true, true];
@@ -39,8 +41,12 @@ class _DonatedItemsPageState extends State<DonatedItemsPage> {
     return items;
   }
 
+
+
   @override
   Widget build(BuildContext context) {
+
+
     final size = AppLayout.getSize(context);
     //ItemProvider ipo = Provider.of(context);
     LocaleProvider loc = Provider.of(context);
@@ -48,135 +54,148 @@ class _DonatedItemsPageState extends State<DonatedItemsPage> {
     return Scaffold(
       extendBody: true,
       body: SafeArea(
-        child: Column(
-
-          // scrollDirection: Axis.vertical,
-          // shrinkWrap: true,
+        child: Stack(
           children: [
-            Topbar(
-              isBack: true,
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            Gap(25),
+            Column(
 
-            FutureBuilder<List<ItemModel>>(
-                future: getDonatedItems(widget.userId),
-                builder: (BuildContext context,
-                    AsyncSnapshot<List<ItemModel>> snapshot) {
-                  if (snapshot.hasError)
-                    return Text("ERROR: ${snapshot.error}");
-                  if (!snapshot.hasData)
-                    return Center(child: CircularProgressIndicator());
+              // scrollDirection: Axis.vertical,
+              // shrinkWrap: true,
+              children: [
+                Topbar(
+                  isBack: true,
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                Gap(25),
 
-                  var data = snapshot.data;
-                  if (data!.length < 1) {
-                    return Center(
-                      child: Text(
-                        "No Items Found",
-                        style: kLabelSelectUsers_font,
-                      ),
-                    );
-                  } else {
-                    return Column(
-                      children: [
-                        Container(
+                FutureBuilder<List<ItemModel>>(
+                    future: getDonatedItems(widget.userId),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<List<ItemModel>> snapshot) {
+                      if (snapshot.hasError)
+                        return Text("ERROR: ${snapshot.error}");
+                      if (!snapshot.hasData)
+                        return Center(child: CircularProgressIndicator());
 
-                          height: MediaQuery.of(context).size.height * 0.85,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Center(
-                              child: Stack(
-                                children: [
-                                  GridView(
+                      var data = snapshot.data;
+                      if (data!.length < 1) {
+                        return Center(
+                          child: Text(
+                            "No Items Found",
+                            style: kLabelSelectUsers_font,
+                          ),
+                        );
+                      } else {
+                        return Column(
+                          children: [
+                            Container(
 
-                                    gridDelegate:
-                                        const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
-                                      crossAxisSpacing: 10.0,
-                                      mainAxisSpacing: 10.0,
-                                      mainAxisExtent: 250,
-
-                                    ),
-                                    // shrinkWrap: true,
-                                    scrollDirection: Axis.vertical,
+                              height: MediaQuery.of(context).size.height * 0.85,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Center(
+                                  child: Stack(
                                     children: [
-                                      for (ItemModel item in data!)
-                                        showItemCard(item, loc),
+                                      GridView(
+
+                                        gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 2,
+                                          crossAxisSpacing: 10.0,
+                                          mainAxisSpacing: 10.0,
+                                          mainAxisExtent: 250,
+
+                                        ),
+                                        // shrinkWrap: true,
+                                        scrollDirection: Axis.vertical,
+                                        children: [
+                                          for (ItemModel item in data!)
+                                            showItemCard(item, loc, widget.userId),
+                                        ],
+                                      ),
                                     ],
                                   ),
-                                ],
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                      ],
-                    );
-                  }
-                }),
+                          ],
+                        );
+                      }
+                    }),
 
-            // Container(
-            //   height : size.height * 1,
-            //   child: Padding(
-            //     padding: const EdgeInsets.all(8.0),
-            //     child: Center(
-            //       child: Stack(
-            //         children: [
-            //           GridView(
-            //             gridDelegate:
-            //             const SliverGridDelegateWithFixedCrossAxisCount(
-            //               crossAxisCount: 2,
-            //               crossAxisSpacing: 10.0,
-            //               mainAxisSpacing: 10.0,
-            //               mainAxisExtent: 140,
-            //             ),
-            //             // shrinkWrap: true,
-            //             scrollDirection: Axis.vertical,
-            //             children: [
-            //               for (ItemModel item in items)
-            //                 showItemCard(item, loc),
-            //             ],
-            //           ),
-            //         ],
-            //       ),
-            //     ),
+                // Container(
+                //   height : size.height * 1,
+                //   child: Padding(
+                //     padding: const EdgeInsets.all(8.0),
+                //     child: Center(
+                //       child: Stack(
+                //         children: [
+                //           GridView(
+                //             gridDelegate:
+                //             const SliverGridDelegateWithFixedCrossAxisCount(
+                //               crossAxisCount: 2,
+                //               crossAxisSpacing: 10.0,
+                //               mainAxisSpacing: 10.0,
+                //               mainAxisExtent: 140,
+                //             ),
+                //             // shrinkWrap: true,
+                //             scrollDirection: Axis.vertical,
+                //             children: [
+                //               for (ItemModel item in items)
+                //                 showItemCard(item, loc),
+                //             ],
+                //           ),
+                //         ],
+                //       ),
+                //     ),
+                //   ),
+                // ),
+
+                // Padding(
+                //   padding: const EdgeInsets.fromLTRB(20,0,3,3),
+                //   child: Text('Donated Items', style: kLabelEduMaterialsH_font,),
+                // ),
+                // Gap(5),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     // this is the item card where all the items details are contained.
+                //     ItemCard(img: 'bag', itemNo: '123456', itemName: 'Medium Gray and Gold Handbag', itemSize: 'L',),
+                //     Gap(2),
+                //     ItemCard(img: 'jeans', itemNo: '123456', itemName: 'Womens Medium Blue Jeans', itemSize: '40',),
+                //
+                //   ],
+                // ),
+                // Gap(7),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //
+                //     ItemCard(img: 'shoes', itemNo: '123456', itemName: 'Unisex Sneakers', itemSize: '38',),
+                //     Gap(2),
+                //     ItemCard(img: 'hoody', itemNo: '123456', itemName: 'Hooded Bluish Gray For Men', itemSize: '40',),
+                //
+                //   ],
+                // ),
+              ],
+            ),
+            // if(isLoading == true)
+            //   Container(
+            //   width: MediaQuery.of(context).size.width,
+            //   height: double.infinity,
+            //   color: const Color(0xFF0E3311).withOpacity(0.3),
+            //   child: Center(
+            //     child: CircularProgressIndicator(),
             //   ),
-            // ),
-
-            // Padding(
-            //   padding: const EdgeInsets.fromLTRB(20,0,3,3),
-            //   child: Text('Donated Items', style: kLabelEduMaterialsH_font,),
-            // ),
-            // Gap(5),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     // this is the item card where all the items details are contained.
-            //     ItemCard(img: 'bag', itemNo: '123456', itemName: 'Medium Gray and Gold Handbag', itemSize: 'L',),
-            //     Gap(2),
-            //     ItemCard(img: 'jeans', itemNo: '123456', itemName: 'Womens Medium Blue Jeans', itemSize: '40',),
-            //
-            //   ],
-            // ),
-            // Gap(7),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //
-            //     ItemCard(img: 'shoes', itemNo: '123456', itemName: 'Unisex Sneakers', itemSize: '38',),
-            //     Gap(2),
-            //     ItemCard(img: 'hoody', itemNo: '123456', itemName: 'Hooded Bluish Gray For Men', itemSize: '40',),
-            //
-            //   ],
-            // ),
+            // )
           ],
         ),
       ),
     );
   }
 
-  Widget showItemCard(ItemModel item, LocaleProvider loc) {
+  Widget showItemCard(ItemModel item, LocaleProvider loc, String userId) {
     int catIndex = categories.indexOf(item.category);
     if (!_selectedCategories[catIndex]) {
       return const SizedBox(
@@ -192,11 +211,13 @@ class _DonatedItemsPageState extends State<DonatedItemsPage> {
         );
       }
     }
-    return atoItemCard(context, item, loc);
+    return atoItemCard(context, item, loc, userId);
   }
 }
 
-atoItemCard(BuildContext context, ItemModel item, LocaleProvider loc) {
+atoItemCard(BuildContext context, ItemModel item, LocaleProvider loc, String userId) {
+  bool isLoad = false;
+  final FirebaseChatServices _serv = new FirebaseChatServices();
   String text = item.name;
 
   return Stack(children: [
@@ -205,6 +226,52 @@ atoItemCard(BuildContext context, ItemModel item, LocaleProvider loc) {
       itemNo: '123456',
       itemName: item.name,
       itemDetails: item.details,
+      removeOnTap: (){
+
+        showDialog(
+            barrierLabel: "ok",
+            barrierDismissible: true,
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Text("Warning"),
+              content: Text("Are you sure, You want to delete the item permanantly",
+              ),
+              actions: [
+                TextButton(
+                  child:
+                  Text("Ok"),
+                  onPressed: () {
+                    isLoad = !isLoad;
+                    print(isLoad);
+                    Timer(Duration(seconds: 3), () {
+                      print("Yeah, this line is printed after 3 seconds");
+                    });
+
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => DonatedItemsPage(userId: userId))
+                    );
+
+                    _serv.deleteItem(item.id!);
+                  },
+
+                ),
+                TextButton(
+                  child: Text("Cancel"),
+                  onPressed: () {
+                    Navigator.of(context,
+                        rootNavigator: true)
+                        .pop('dialog');
+                  },
+
+                ),
+              ],
+            ));
+
+      },
     ),
     if (item is ClothModel)
       Container(

@@ -89,7 +89,7 @@ class _SendNotificationPage2State extends State<SendNotificationPage2> {
             ),
             Gap(15),
             Container(
-              height: size.height * 2.5,
+              height: size.height * 3,
               width: size.width * 0.85,
 
               margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
