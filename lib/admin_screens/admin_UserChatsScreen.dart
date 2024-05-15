@@ -4,9 +4,12 @@ import 'package:ato/db/firebaseChatServices.dart';
 import 'package:ato/widgets/admin_widgets/common_widgets/topbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../models/user.dart';
+import '../providers/locale_provider.dart';
 import '../widgets/admin_widgets/chatWidgets/chatListTile.dart';
 
 class AdminUserChatScreen extends StatefulWidget {
@@ -54,11 +57,15 @@ class _AdminUserChatScreenState extends State<AdminUserChatScreen> {
                     String formattedDate =
                         DateFormat('h:mma').format(ds["time"].toDate());
 
-                    return ChatListTile(
-                      lastMessage: ds["lastMessage"],
-                      chatRoomId: ds.id,
-                      myuserid: user.id,
-                      time: formattedDate,
+                    return Column(
+                      children: [
+                        ChatListTile(
+                          lastMessage: ds["lastMessage"],
+                          chatRoomId: ds.id,
+                          myuserid: user.id,
+                          time: formattedDate,
+                        ),
+                      ],
                     );
                   })
               : Center(
@@ -84,6 +91,7 @@ class _AdminUserChatScreenState extends State<AdminUserChatScreen> {
   // }
 
   Widget _buildUI() {
+    LocaleProvider loc = Provider.of(context);
     return SafeArea(
         child: Column(
       children: [
@@ -95,6 +103,15 @@ class _AdminUserChatScreenState extends State<AdminUserChatScreen> {
           },
           isBack: true,
         ),
+        Gap(5),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(25, 5, 5, 0),
+          child: Text(
+            loc.of(Tr.support),
+            style: kLabelEduMaterialsH_font,
+          ),
+        ),
+        Gap(15),
 
         // Container(
         //   padding: EdgeInsets.only(left: 10, top: 15),
@@ -131,7 +148,7 @@ class _AdminUserChatScreenState extends State<AdminUserChatScreen> {
 
   Widget _messagesListView() {
     return SizedBox(
-        height: MediaQuery.sizeOf(context).height * 0.76,
+        height: MediaQuery.sizeOf(context).height * 0.72,
         width: MediaQuery.sizeOf(context).width,
         child: Column(
           children: [
