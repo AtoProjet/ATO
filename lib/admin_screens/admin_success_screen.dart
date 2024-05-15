@@ -6,7 +6,8 @@ import 'admin_home.dart';
 
 class AdminSuccessPage extends StatelessWidget {
   final String text;
-  const AdminSuccessPage({super.key, required this.text});
+  final Function()? onTap;
+  const AdminSuccessPage({super.key, required this.text, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -31,13 +32,10 @@ class AdminSuccessPage extends StatelessWidget {
               ),),
               Gap(25),
               MyBtn1(buttonText: "OK",
-                onTap: (){
-                  Navigator.pushReplacement(context, MaterialPageRoute(
-                      builder: (context) => AdminHome()));
-                },)
+                onTap: onTap,
 
 
-            ],
+              )],
           ),
         ),
       ),

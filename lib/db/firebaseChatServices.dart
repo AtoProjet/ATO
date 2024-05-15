@@ -325,6 +325,15 @@ class FirebaseChatServices {
         .delete();
   }
 
+  deleteArticle(String articleId) {
+    //print("is view is " + isView.toString());
+    return FirebaseFirestore.instance
+        .collection("articles")
+        .doc(articleId)
+        .delete();
+  }
+
+
   // removeItem(String ItemId) {
   //
   //

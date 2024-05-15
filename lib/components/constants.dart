@@ -189,3 +189,10 @@ const kLabelArticlesListContent_font = TextStyle(
 
 
 );
+
+const kQuranVerse_font = TextStyle(
+  fontWeight: FontWeight.bold,
+  fontSize: 16.0,
+  color: Color(0xff171717),
+
+);

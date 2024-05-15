@@ -242,11 +242,8 @@ atoItemCard(BuildContext context, ItemModel item, LocaleProvider loc, String use
                   Text("Ok"),
                   onPressed: () {
                     isLoad = !isLoad;
-                    print(isLoad);
-                    Timer(Duration(seconds: 3), () {
-                      print("Yeah, this line is printed after 3 seconds");
-                    });
 
+                    _serv.deleteItem(item.id!);
                     Navigator.pop(context);
                     Navigator.pop(context);
 
@@ -255,7 +252,7 @@ atoItemCard(BuildContext context, ItemModel item, LocaleProvider loc, String use
                       MaterialPageRoute(builder: (context) => DonatedItemsPage(userId: userId))
                     );
 
-                    _serv.deleteItem(item.id!);
+
                   },
 
                 ),

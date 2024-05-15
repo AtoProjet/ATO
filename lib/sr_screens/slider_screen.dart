@@ -2,6 +2,7 @@ import 'package:ato/components/widgets/global.dart';
 import 'package:ato/components/styles.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
@@ -88,21 +89,36 @@ class _SliderScreenState extends State<SliderScreen> {
               items: images.map((imageUrl) {
                 return Builder(
                   builder: (BuildContext context) {
-                    return Container(
-                      width: double.infinity,
-                      margin: const EdgeInsets.symmetric(horizontal: 5),
-                      decoration: BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.circular(
-                            20.0), // Adjust the radius as needed
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20.0),
-                        child: Image.asset(
-                          imageUrl,
-                          fit: BoxFit.cover,
+                    return Stack(
+                     children: [
+                       Container(
+                       width: double.infinity,
+                       margin: const EdgeInsets.symmetric(horizontal: 5),
+                       decoration: BoxDecoration(
+                         color: Colors.grey,
+                         borderRadius: BorderRadius.circular(
+                             20.0), // Adjust the radius as needed
+                       ),
+                       child: ClipRRect(
+                         borderRadius: BorderRadius.circular(20.0),
+                         child: Image.asset(
+                           imageUrl,
+                           fit: BoxFit.cover,
+                         ),
+                       ),
+                     ),
+                      Positioned(
+                        bottom: 16.0, // Adjust the value as needed
+                        right: 16.0,
+                        child: Container(
+                          padding: EdgeInsets.fromLTRB(5, 5, 0, 10),
+                          color: Colors.transparent,
+                          child: Text("(وَأَحْسِنُوا إِنَّ اللَّهَ يُحِبُّ الْمُحْسِنِينَ)", style: kQuranVerse_font,),
+
                         ),
-                      ),
+                      )
+
+                     ],
                     );
                   },
                 );
