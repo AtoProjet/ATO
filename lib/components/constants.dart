@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const GenAdminId = "kjPvPNWHwsaUBpDDnea6ZZrYuri1";
+const GenAdminId = "itafR3p3tVXO3qsxT6R3Wnrnvm13";
 
 const kPrimaryColor = Color(0xFF456897);
 const kPrimaryBtnColor = Color(0xFFA5BCCB);

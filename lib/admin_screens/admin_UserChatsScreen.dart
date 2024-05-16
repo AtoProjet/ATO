@@ -77,7 +77,7 @@ class _AdminUserChatScreenState extends State<AdminUserChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       //appBar: _appBar(),
       body: _buildUI(),
     );
@@ -101,7 +101,7 @@ class _AdminUserChatScreenState extends State<AdminUserChatScreen> {
                 context, MaterialPageRoute(builder: (context) => AdminHome()));
             //Navigator.pop(context);
           },
-          isBack: true,
+          isBack: false,
         ),
         Gap(5),
         Padding(
@@ -148,7 +148,7 @@ class _AdminUserChatScreenState extends State<AdminUserChatScreen> {
 
   Widget _messagesListView() {
     return SizedBox(
-        height: MediaQuery.sizeOf(context).height * 0.72,
+        //height: MediaQuery.sizeOf(context).height * 0.72,
         width: MediaQuery.sizeOf(context).width,
         child: Column(
           children: [

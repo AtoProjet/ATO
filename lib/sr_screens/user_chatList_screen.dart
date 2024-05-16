@@ -91,7 +91,7 @@ class _UserChatListPageState extends State<UserChatListPage> {
 
   Widget _messagesListView() {
     return SizedBox(
-        height: MediaQuery.sizeOf(context).height * 0.76,
+        //height: MediaQuery.sizeOf(context).height * 0.76,
         width: MediaQuery.sizeOf(context).width,
         child: Column(
           children: [
