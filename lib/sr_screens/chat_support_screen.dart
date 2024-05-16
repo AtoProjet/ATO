@@ -28,6 +28,7 @@ class _ChatSupportScreenState extends State<ChatSupportScreen> {
   ontheload() async {
     adminId = GenAdminId;
     //chatRoomId = getChatRoomIdById(widget.userId2,adminId!);
+
     chatRoomId = getChatRoomIdById(user.id,widget.userId2);
 
     getAndSetMessages();
