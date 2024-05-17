@@ -108,42 +108,51 @@ class _ManageAccountCardState extends State<ManageAccountCard> {
                       //   "${widget.type}",
                       //   style: kLabelManageAccountType_font,
                       // ),
-                      Gap(3),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.warning_amber_rounded,
+                      // Gap(3),
+                      // Row(
+                      //   children: [
+                      //     Icon(
+                      //       Icons.warning_amber_rounded,
+                      //     ),
+                      //     Gap(5),
+                      //     Text(
+                      //       loc.of(Tr.supportMustBeReviewed),
+                      //       style: kLabelManageAccountGen_font,
+                      //     ),
+                      //   ],
+                      // ),
+                      Gap(4),
+                      if(widget.type == "Donor")
+                        GestureDetector(
+                        onTap: () {
+                          goToScreen(context, DonatedItemsPage(userId: widget.id,));
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 7),
+                          //margin: const EdgeInsets.symmetric(horizontal: 15),
+                          decoration: BoxDecoration(
+                            color: kBtnlightColor,
+                            borderRadius: BorderRadius.circular(8),
                           ),
-                          Gap(5),
-                          Text(
-                            loc.of(Tr.supportMustBeReviewed),
+                          child: Text(
+                            loc.of(Tr.donatedItems),
                             style: kLabelManageAccountGen_font,
                           ),
-                        ],
-                      ),
-                      Gap(4),
-                      TextButton(
-                        onPressed: () {
-                          goToScreen(context, DonatedItemsPage());
-                        },
-                        child: Text(
-                          loc.of(Tr.donatedItems),
-                          style: kLabelManageAccountGen_font,
                         ),
                       ),
 
-                      Gap(4),
+                      Gap(15),
                       Row(
                         children: [
                           Icon(
                             Icons.logout,
                           ),
-                          Gap(5),
+                          Gap(8),
                           if (widget.isActive)
-                            TextButton(
+                            GestureDetector(
                               child: Text(loc.of(Tr.disableAccount),
                                   style: kLabelManageAccountDisable_font),
-                              onPressed: () async {
+                              onTap: () async {
                                 bool result = await disableAccount(widget.id);
                                 if (result) {
                                   Navigator.push(
@@ -159,10 +168,11 @@ class _ManageAccountCardState extends State<ManageAccountCard> {
                               },
                             ),
                           if (!widget.isActive)
-                            TextButton(
+                            GestureDetector(
+
                               child: Text(loc.of(Tr.enableAccount),
                                   style: kLabelManageAccountEnable_font),
-                              onPressed: () async {
+                              onTap: () async {
                                 bool result = await enableAccount(widget.id);
                                 if (result) {
                                   Navigator.push(

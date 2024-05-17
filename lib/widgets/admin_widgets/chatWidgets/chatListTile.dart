@@ -13,7 +13,7 @@ class ChatListTile extends StatefulWidget {
 }
 
 class _ChatListTileState extends State<ChatListTile> {
-
+bool isAdmin = false;
   String profilePicUrl = "", name="", user2id = "", id="", Usrname= "";
 
   Future<String> getUserInfo()async {
@@ -22,6 +22,9 @@ class _ChatListTileState extends State<ChatListTile> {
     final aname = "${querySnapshot.docs[0]["name"]}";
     if(aname is String){
       Usrname = aname;
+    }
+    if(querySnapshot.docs[0]["role"] == "Admin"){
+      isAdmin = true;
     }
     return Usrname;
   }
@@ -76,11 +79,24 @@ class _ChatListTileState extends State<ChatListTile> {
                     if (!snapshot.hasData) return CircularProgressIndicator();
 
                     var data = snapshot.data;
-                    return  Text(data!, style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w500
-                    ),);
+                    print (" the 9999 data is ");
+                    print (data);
+                    return  Column(
+                      children: [
+                        if(isAdmin)
+                          Text("ATO Admin", style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 17,
+                              fontWeight: FontWeight.w500
+                          ),),
+                        if(!isAdmin)
+                          Text(data!, style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 17,
+                              fontWeight: FontWeight.w500
+                          ),),
+                      ],
+                    );
                   }),
 
                 Container(

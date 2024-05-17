@@ -33,7 +33,6 @@ class _AdminHomeState extends State<AdminHome> {
       EduMaterialScreen(),
       SendNotificationPage1(),
       AdminUserChatScreen(),
-      SidebarScreen(),
     ];
 
 
@@ -74,10 +73,10 @@ class _AdminHomeState extends State<AdminHome> {
 
               label: ''),
           BottomNavigationBarItem(
-              icon: Icon(Icons.grid_view,
+              icon: Icon(Icons.notifications,
                   size: 30, color: kBottomNavBarInactiveIconColor),
               activeIcon: Icon(
-                Icons.grid_view,
+                Icons.notifications,
                 color: kBottomNavBarActiveIconColor,
                 size: 33,
               ),
@@ -91,15 +90,15 @@ class _AdminHomeState extends State<AdminHome> {
                 size: 33,
               ),
               label: ''),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.list,
-                  size: 30, color: kBottomNavBarInactiveIconColor),
-              activeIcon: Icon(
-                Icons.list,
-                color: kBottomNavBarActiveIconColor,
-                size: 33,
-              ),
-              label: ''),
+          // BottomNavigationBarItem(
+          //     icon: Icon(Icons.list,
+          //         size: 30, color: kBottomNavBarInactiveIconColor),
+          //     activeIcon: Icon(
+          //       Icons.list,
+          //       color: kBottomNavBarActiveIconColor,
+          //       size: 33,
+          //     ),
+          //     label: ''),
 
         ],
       ),

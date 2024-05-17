@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const GenAdminId = "kjPvPNWHwsaUBpDDnea6ZZrYuri1";
+const GenAdminId = "itafR3p3tVXO3qsxT6R3Wnrnvm13";
 
 const kPrimaryColor = Color(0xFF456897);
 const kPrimaryBtnColor = Color(0xFFA5BCCB);
@@ -14,11 +14,13 @@ const kNavigationBarPrimaryColor = Colors.black38;
 const kRatingStarColor = Color(0xff016a83);
 //const kQuoteBackgroundColor = Color(0xffe5e5e5);
 const kQuoteBackgroundColor = Color(0xFFE1E1E1);
+const kBtnlightColor = Color(0xFFD0D0D0);
 const kLightGrayColor = Color(0xff797979);
 const kAddButtonColor = Color(0xff97bfce);
 const kRemoveButtonColor = Color(0xffdcdcdc);
 const kDividerColor = Color(0xff989898);
 const kChat2Color = Color(0xFFBEDAFF);
+
 
 
 
@@ -60,6 +62,7 @@ const kLabelEduMaterialContent_font = TextStyle(
   fontWeight: FontWeight.w500,
   fontSize: 18.0,
   color: Color(0xff171717),
+
 
 );
 
@@ -104,7 +107,7 @@ const kLabelManageAccountGen_font = TextStyle(
 
   fontWeight: FontWeight.w700,
   fontSize: 14.0,
-  color: Color(0xff262626),
+  color: Color(0xff4d4d4d),
 );
 const kLabelManageAccountDisable_font = TextStyle(
 
@@ -169,5 +172,27 @@ const kNotificationCount_font = TextStyle(
   fontWeight: FontWeight.bold,
   fontSize: 16.0,
   color: Color(0xfff1f1f1),
+
+);
+
+const kLabelArticlesListTitle_font = TextStyle(
+  fontWeight: FontWeight.w700,
+  fontSize: 14.0,
+  color: Color(0xff171717),
+
+
+);
+const kLabelArticlesListContent_font = TextStyle(
+  fontWeight: FontWeight.w500,
+  fontSize: 14.0,
+  color: Color(0xff3f3f3f),
+
+
+);
+
+const kQuranVerse_font = TextStyle(
+  fontWeight: FontWeight.bold,
+  fontSize: 16.0,
+  color: Color(0xff171717),
 
 );

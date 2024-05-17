@@ -9,6 +9,7 @@ import 'package:ato/sr_screens/chat_support_screen.dart';
 import 'package:ato/sr_screens/login_screen.dart';
 import 'package:ato/components/actions.dart';
 import 'package:ato/sr_screens/user_notifications_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -91,36 +92,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 fontWeight: FontWeight.w700),
                           ),
 
-                          FutureBuilder<int>(
-                              future: getUserNotificationsCount(),
-                              builder: (BuildContext context,
-                                  AsyncSnapshot<int> count) {
-                                if (count.hasError)
-                                  return Text("ERROR: ${count.error}");
-                                if (!count.hasData)
-                                  return Center(
-                                      child: CircularProgressIndicator());
+                          Flexible(
+                            child: FutureBuilder<int>(
+                                future: getUserNotificationsCount(),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<int> count) {
+                                  if (count.hasError)
+                                    return Text("ERROR: ${count.error}");
+                                  if (!count.hasData)
+                                    return Center(
+                                        child: CircularProgressIndicator());
 
-                                return Column(
-                                  children: [
-                                    if(count.data! > 0)
-                                      Column(
-                                      children: [
+                                  return Column(
+                                    children: [
+                                      if(count.data! > 0)
+                                        Column(
+                                        children: [
 
-                                        const SizedBox(width: 60),
-                                        CircleAvatar(
-                                          radius: 13.0,
-                                          child: Text(
-                                            count.data.toString(),
-                                            style: kNotificationCount_font,
-                                          ),
-                                          backgroundColor: Colors.redAccent,
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                );
-                              })
+                                          const SizedBox(width: 60),
+                                          CircleAvatar(
+                                            radius: 13.0,
+                                            child: Text(
+                                              count.data.toString(),
+                                              style: kNotificationCount_font,
+                                            ),
+                                            backgroundColor: Colors.redAccent,
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  );
+                                }),
+                          )
+
+
+
+
 
                           // if(notification > 0)
                           //   Column(

@@ -17,6 +17,8 @@ import '../db/firebaseChatServices.dart';
 import '../providers/locale_provider.dart';
 import '../widgets/admin_widgets/common_widgets/topbar.dart';
 import 'accountActionConfirmationScreen.dart';
+import 'admin_home.dart';
+import 'admin_success_screen.dart';
 
 class SendNotificationPage2 extends StatefulWidget {
 
@@ -37,6 +39,9 @@ Future<List<Map<String, dynamic>>> getUserDetails() async {
 
 
 class _SendNotificationPage2State extends State<SendNotificationPage2> {
+
+  bool _isLoading = false;
+
   addNotification(bool sendClicked) async {
     for (final items in multipleSelected) {
       String id = randomAlphanumeric(10);
@@ -53,12 +58,39 @@ class _SendNotificationPage2State extends State<SendNotificationPage2> {
       FirebaseChatServices()
           .addNotification(id, messageInfoMap)
           .then((value) {
-        goToScreenAndClearHistory(
+
+        setState(() {
+          _isLoading = false;
+        });
+
+
+        Navigator.push(
             context,
-            AccountActionConfirmation(
-              action: 'Successs ',
-            ));
+            MaterialPageRoute(
+                builder: (context) => AdminSuccessPage(
+                  text: 'Notifications Send Successfully',
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AdminHome()));
+                  },
+                )));
       });
+
+
+      //   goToScreenAndClearHistory(
+      //       context,
+      //       AdminSuccessPage(
+      //         text: 'Notifications Send Successfully ',
+      //         onTap: (){
+      //           Navigator.pushReplacement(context, MaterialPageRoute(
+      //               builder: (context) => AdminHome()));
+      //         },
+      //       ));
+      // });
     }
   }
 
@@ -68,40 +100,53 @@ class _SendNotificationPage2State extends State<SendNotificationPage2> {
     LocaleProvider loc = Provider.of(context);
     return Scaffold(
       body: SafeArea(
-        child: ListView(
-          shrinkWrap: false,
+        child: Stack(
           children: [
-            Topbar(
-              isBack: true,
-              onTap: () {
-                multipleSelected.clear();
-                Navigator.pop(context);
-              },
-            ),
-            Gap(5),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(25, 5, 5, 0),
-              child: Text(
-                loc.of(Tr.selectUsers),
-                style: kLabelEduMaterialsH_font,
-              ),
-            ),
-            Gap(15),
-            Container(
-              height: size.height * 2.5,
-              width: size.width * 0.85,
+            ListView(
+              shrinkWrap: false,
+              children: [
+                Topbar(
+                  isBack: true,
+                  onTap: () {
+                    multipleSelected.clear();
+                    Navigator.pop(context);
+                  },
+                ),
+                Gap(5),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(25, 5, 5, 0),
+                  child: Text(
+                    loc.of(Tr.selectUsers),
+                    style: kLabelEduMaterialsH_font,
+                  ),
+                ),
+                Gap(15),
+                Container(
+                  height: size.height * 3,
+                  width: size.width * 0.85,
 
-              margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
-              decoration: BoxDecoration(
-                color: kQuoteBackgroundColor,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                children: [
-                  Expanded(child: UserAccountsList(loc)),
-                ],
-              ),
+                  margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
+                  decoration: BoxDecoration(
+                    color: kQuoteBackgroundColor,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    children: [
+                      Expanded(child: UserAccountsList(loc)),
+                    ],
+                  ),
+                ),
+              ],
             ),
+            if (_isLoading)
+              Container(
+                height: double.infinity,
+                color: Colors.black
+                    .withOpacity(0.5), // Semi-transparent background
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              )
           ],
         ),
       ),
@@ -125,6 +170,11 @@ class _SendNotificationPage2State extends State<SendNotificationPage2> {
                           GenBtn(
                             buttonText: "Send",
                             onTap: () {
+
+                              setState(() {
+                                _isLoading = true;
+                              });
+
                               addNotification(true);
                             },
                           )

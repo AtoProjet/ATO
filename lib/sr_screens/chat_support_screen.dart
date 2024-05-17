@@ -28,6 +28,7 @@ class _ChatSupportScreenState extends State<ChatSupportScreen> {
   ontheload() async {
     adminId = GenAdminId;
     //chatRoomId = getChatRoomIdById(widget.userId2,adminId!);
+
     chatRoomId = getChatRoomIdById(user.id,widget.userId2);
 
     getAndSetMessages();
@@ -43,7 +44,14 @@ class _ChatSupportScreenState extends State<ChatSupportScreen> {
     messageStream = await FirebaseChatServices().getChatRoomMessages(chatRoomId);
     setState(() {});
   }
+  bool isValid(){
+    bool valid = false;
 
+    if(_messagecontroller.text.isNotEmpty){
+      valid = true;
+    }
+    return valid;
+  }
 
   Widget chatMessageTile(String message, bool sendByMe) {
 
@@ -208,7 +216,12 @@ class _ChatSupportScreenState extends State<ChatSupportScreen> {
                             hintStyle: TextStyle(color: Colors.black45),
                             suffixIcon: GestureDetector(
                                 onTap: (){
-                                  addMessage(true);
+                                  bool validate  = isValid();
+                                  if(validate){
+                                    addMessage(true);
+                                  }
+
+
                                 },
                                 child: Icon(Icons.send_rounded))),
                       ),

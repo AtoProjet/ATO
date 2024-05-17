@@ -50,6 +50,17 @@ class _AccountDisabledScreenState extends State<AccountDisabledScreen> {
 
             ),),
           ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text("ato.966000@gmail.com", textAlign: TextAlign.center, style:
+            TextStyle(
+              color: Colors.blueAccent,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+
+            ),),
+          ),
+
           Gap(10),
           MyBtn1(buttonText: "Go Back",
             onTap: (){

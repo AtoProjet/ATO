@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import '../components/constants.dart';
 import '../providers/locale_provider.dart';
 import '../widgets/admin_widgets/common_widgets/eduMaterialBox.dart';
+import 'articles_list_screen.dart';
 
 class EduMaterialScreen extends StatefulWidget {
   const EduMaterialScreen({super.key});
@@ -90,7 +91,7 @@ class _EduMaterialScreenState extends State<EduMaterialScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ArticlesPage()));
+                              builder: (context) => ArticlesListPage()));
                     },
                     child: EduMaterialBox(
 
@@ -99,22 +100,22 @@ class _EduMaterialScreenState extends State<EduMaterialScreen> {
                     ),
                   );
                 }),
-            Gap(18),
-            FutureBuilder<String>(
-                future: getImageUrl("books.jpeg"),
-                builder:
-                    (BuildContext context, AsyncSnapshot<String> snapshot) {
-                  if (snapshot.hasError)
-                    return Text("ERROR: ${snapshot.error}");
-                  if (!snapshot.hasData)
-                    return Center(child: CircularProgressIndicator());
-
-                  var data = snapshot.data;
-                  return EduMaterialBox(
-                    url_img: data!,
-                    text1: loc.of(Tr.announcementOfCampaigns),
-                  );
-                }),
+            // Gap(18),
+            // FutureBuilder<String>(
+            //     future: getImageUrl("books.jpeg"),
+            //     builder:
+            //         (BuildContext context, AsyncSnapshot<String> snapshot) {
+            //       if (snapshot.hasError)
+            //         return Text("ERROR: ${snapshot.error}");
+            //       if (!snapshot.hasData)
+            //         return Center(child: CircularProgressIndicator());
+            //
+            //       var data = snapshot.data;
+            //       return EduMaterialBox(
+            //         url_img: data!,
+            //         text1: loc.of(Tr.announcementOfCampaigns),
+            //       );
+            //     }),
 
             // EduMaterialBox(url_img: url_img, text1: 'Articles with', text2: 'Pictures',),
             // Gap(18),
