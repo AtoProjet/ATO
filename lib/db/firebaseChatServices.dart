@@ -333,6 +333,64 @@ class FirebaseChatServices {
         .delete();
   }
 
+  Future<Stream<QuerySnapshot>> getUserOrders(String userId) async {
+    return FirebaseFirestore.instance
+        .collection("orders")
+        .where("beneficiaryId", isEqualTo: userId)
+
+        .snapshots();
+    //return query;
+  }
+
+
+  Future<List<Map<String, dynamic>>> getUserOrderss(String userId) async {
+    List<Map<String, dynamic>> myList = [];
+    await FirebaseFirestore.instance
+        .collection("orders")
+        .where("beneficiaryId", isEqualTo: userId)
+        .get()
+        .then((querySnapshot) {
+      //myList = processQuerySnapshot(querySnapshot);
+    }).catchError((error) {
+      print("Error getting documents: $error");
+    });
+    return myList;
+  }
+
+  List<Map<String, dynamic>> processQuerySnapshotProcessItems(
+      QuerySnapshot<Map<String, dynamic>> snapshot) {
+    List<Map<String, dynamic>> newDataList = [];
+    int d = 0;
+
+    for (var document in snapshot.docs) {
+      d++;
+      Map<String, dynamic> newData = Map.from(document.data());
+
+      var qsnapshot = FirebaseFirestore.instance
+          .collection("item").doc(document.id).get();
+      if(qsnapshot != null){
+        String itemName = "itemName" + d.toString();
+        String itemqty = "itemqty" + d.toString();
+
+        newData['${itemName}'] = qsnapshot;
+      }
+
+
+
+      newDataList.add(newData);
+    }
+    return newDataList;
+  }
+
+  Future<DocumentSnapshot> getItemDetails(String itemId) {
+    return FirebaseFirestore.instance.collection("items").doc(itemId).get();
+  }
+
+
+
+
+
+
 
   // removeItem(String ItemId) {
   //

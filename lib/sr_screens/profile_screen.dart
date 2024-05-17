@@ -8,6 +8,7 @@ import 'package:ato/providers/locale_provider.dart';
 import 'package:ato/sr_screens/chat_support_screen.dart';
 import 'package:ato/sr_screens/login_screen.dart';
 import 'package:ato/components/actions.dart';
+import 'package:ato/sr_screens/orders_list_screen.dart';
 import 'package:ato/sr_screens/user_notifications_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -144,32 +145,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                     //if(user.role== "Admin")
-                    const Divider(),
-                    if (user.role == "Donor" || user.role == "Admin")
-                      TextButton(
-                        onPressed: () {},
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            const SizedBox(width: 16),
-                            Icon(
-                              Icons.mark_unread_chat_alt_outlined,
-                              color: Colors.black87,
-                              size: _iconSize,
-                            ),
-                            const SizedBox(width: 16),
-                            Text(
-                              loc.of(Tr.orders),
-                              style: TextStyle(
+
+                    if (user.role == "Beneficiary")
+                      Column(
+                        children: [
+                          const Divider(),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) => OrdersListPage()));
+
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                const SizedBox(width: 16),
+                                Icon(
+                                  Icons.mark_unread_chat_alt_outlined,
                                   color: Colors.black87,
-                                  fontSize: _fontSize,
-                                  fontWeight: FontWeight.w700),
-                            )
-                          ],
-                        ),
+                                  size: _iconSize,
+                                ),
+                                const SizedBox(width: 16),
+                                Text(
+                                  loc.of(Tr.orders),
+                                  style: TextStyle(
+                                      color: Colors.black87,
+                                      fontSize: _fontSize,
+                                      fontWeight: FontWeight.w700),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                    if (user.role == "Donor" || user.role == "Admin")
-                      const Divider(),
+
+                    //if (user.role == "Donor" || user.role == "Admin")
+                    const Divider(),
                     TextButton(
                       onPressed: () {
                         changeLanguage(loc, loc.of(Tr.switchLang));

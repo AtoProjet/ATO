@@ -40,27 +40,35 @@ class _UserChatListPageState extends State<UserChatListPage> {
     return StreamBuilder(
         stream: chatRoomStream,
         builder: (context, AsyncSnapshot snapshot) {
-          return snapshot.hasData
-              ? ListView.builder(
-              padding: EdgeInsets.zero,
-              itemCount: snapshot.data.docs.length,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                DocumentSnapshot ds = snapshot.data.docs[index];
+          print (snapshot.data);
+          if(snapshot.data != null){
+            return snapshot.hasData
+                ? ListView.builder(
+                padding: EdgeInsets.zero,
+                itemCount: snapshot.data.docs.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  DocumentSnapshot ds = snapshot.data.docs[index];
 
-                String formattedDate =
-                DateFormat('h:mma').format(ds["time"].toDate());
+                  String formattedDate =
+                  DateFormat('h:mma').format(ds["time"].toDate());
 
-                return ChatListTile(
-                  lastMessage: ds["lastMessage"],
-                  chatRoomId: ds.id,
-                  myuserid: user.id,
-                  time: formattedDate,
-                );
-              })
-              : Center(
-            child: CircularProgressIndicator(),
-          );
+                  return ChatListTile(
+                    lastMessage: ds["lastMessage"],
+                    chatRoomId: ds.id,
+                    myuserid: user.id,
+                    time: formattedDate,
+                  );
+                })
+                : Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          else{
+            return Text("No chats to display");
+          }
+
+
         });
   }
 

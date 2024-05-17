@@ -4,6 +4,7 @@ import 'package:ato/providers/locale_provider.dart';
 import 'package:ato/sr_screens/account_type_screen.dart';
 import 'package:ato/components/widgets/global.dart';
 import 'package:ato/db/references.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import '../admin_screens/account_disabled_screen.dart';
 import 'home_screen.dart';
@@ -99,8 +100,9 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             const SizedBox(height: 20),
-            Wrap(
-              alignment: WrapAlignment.center,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              //alignment: WrapAlignment.center,
               children: [
                  Text(loc.of(Tr.youDontHaveAnAccount), ),
                 TextButton(
@@ -126,33 +128,54 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  login(LocaleProvider loc) {
+  login(LocaleProvider loc) async{
     setState(() {
       _isLoading = true;
     });
     String email = _emailController.text.trim();
     String password = _passwordController.text.trim();
     try {
-      Fire.auth
-          .signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      )
-          .then((userCredential) {
+      final FirebaseAuth auth = FirebaseAuth.instance;
+      UserCredential result =  await auth.signInWithEmailAndPassword(email: email, password: password);
+
+      // var res  = Fire.auth
+      //     .signInWithEmailAndPassword(
+      //   email: email,
+      //   password: password,
+      // )
+      //     .then((userCredential) {
+      //   print ("this is 1");
+      //   _isLoading = false;
+      //   if (userCredential.user != null) {
+      //     loadUser();
+      //   } else {
+      //     print ("this is 2");
+      //     setState(() {
+      //       _isLoading = false;
+      //       _error = loc.of(Tr.notFound);
+      //     });
+      //   }
+      // });
+      if(result != null){
+        print("res is null");
         _isLoading = false;
-        if (userCredential.user != null) {
-          loadUser();
-        } else {
-          setState(() {
-            _isLoading = false;
-            _error = loc.of(Tr.notFound);
-          });
-        }
-      });
+        loadUser();
+      }
+
+
+
     } catch (e) {
       setState(() {
+        //print ("this is 3");
         _isLoading = false;
-        _error = '${loc.of(Tr.registrationError)}: $e';
+        var snackBar = SnackBar(
+          content: Text('Invalid Credentials'),
+          backgroundColor: Colors.redAccent,
+        );
+        ScaffoldMessenger.of(context)
+            .showSnackBar(snackBar);
+
+        //_error = '${loc.of(Tr.registrationError)}: $e';
       });
     }
   }
@@ -197,16 +220,20 @@ class _LoginScreenState extends State<LoginScreen> {
         } else {
           setState(() {
             _isLoading = false;
+
           });
         }
       }).onError((error, stackTrace) {
         setState(() {
           _isLoading = false;
+
         });
       });
     } else {
       setState(() {
+
         _isLoading = false;
+
       });
     }
   }

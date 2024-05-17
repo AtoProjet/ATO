@@ -365,7 +365,7 @@ class SearchBarDelegate extends SearchDelegate<ItemModel?> {
   Widget buildSuggestions(BuildContext context) {
     LocaleProvider loc = Provider.of(context);
     final List<String> suggestions = [
-      loc.of(Tr.clothes),
+
     ];
 
     final List<String> filteredSuggestions = suggestions

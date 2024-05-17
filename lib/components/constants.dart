@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 const GenAdminId = "itafR3p3tVXO3qsxT6R3Wnrnvm13";
 
 const kPrimaryColor = Color(0xFF456897);
+const kPrimaryColor3 = Colors.blueGrey;
 const kPrimaryBtnColor = Color(0xFFA5BCCB);
 const kPrimaryColor2 = Colors.orange;
 const kTextFeildIconColor = Color(0xFF5D5D5D);
@@ -195,4 +196,18 @@ const kQuranVerse_font = TextStyle(
   fontSize: 16.0,
   color: Color(0xff171717),
 
+);
+
+const kItemName = TextStyle(
+  fontWeight: FontWeight.w700,
+  fontSize: 20.0,
+  color: Color(0xff003986),
+  overflow: TextOverflow.ellipsis
+
+);
+const kOrderId = TextStyle(
+
+  fontWeight: FontWeight.w700,
+  fontSize: 16.0,
+  color: Color(0xFF277A00),
 );

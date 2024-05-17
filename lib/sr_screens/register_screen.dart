@@ -250,8 +250,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
             ),
             const SizedBox(height: 20),
-            Wrap(
-              alignment: WrapAlignment.center,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              //alignment: WrapAlignment.center,
               children: [
                 const Text('Already have an account?', style: TextStyle(fontSize: 16),),
                 TextButton(

@@ -41,7 +41,7 @@ class _AdminHomeState extends State<AdminHome> {
 
       body: Center(child: _widgetoptions[_selectedindex]),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: kPrimaryColor,
+        backgroundColor: kPrimaryColor3,
         currentIndex: _selectedindex,
         onTap: _onItemTapped,
         elevation: 10,
