@@ -41,6 +41,8 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
     LocaleProvider loc = Provider.of(context);
     CartProvider cart = Provider.of(context);
     ItemProvider ipo = Provider.of(context);
+    print("The ipo items are");
+    print(ipo.items);
     return Scaffold(
       extendBody: true,
       appBar: AppBar(

@@ -4,33 +4,45 @@ import 'package:ato/db/consts.dart';
 import 'package:ato/db/references.dart';
 import 'package:ato/models/cloth_item.dart';
 import 'package:ato/models/item.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 
 class ItemProvider extends ChangeNotifier {
 
-  List<ItemModel> items = List.empty(growable: true);
   String error="";
+  List<ItemModel> items = List.empty(growable: true);
+
   int status = -1;
   bool loading= false;
   ItemProvider() {
+
+
+
     Fire.itemRef
         .snapshots()
         .listen((event) {
+          print("the event is");
+          print(event.docs.length);
       for (var doc in event.docs) {
         Map<String, dynamic> dataMap= doc.data() as Map<String, dynamic>;
         print(dataMap);
        ItemModel item;
         if(dataMap["category"]==toyCat ||dataMap["category"]==bookCat) {
+          print("the ItemModel");
+
           item = ItemModel.fromJson(dataMap);
+          print(item);
         }
         else{
+          print("the ClothModel");
           item = ClothModel.fromJson(dataMap);
+          print(item);
         }
         if (items.contains(item)) {
           int index = items.indexOf(item);
           items[index] = item;
-          // print(item.toString());
+          print(item.toString());
           notifyListeners();
         } else {
           items.add(item);
@@ -39,6 +51,8 @@ class ItemProvider extends ChangeNotifier {
       }
     });
   }
+
+
 
   Future<String?> uploadImage(String itemId, File imageFile) async {
     try{

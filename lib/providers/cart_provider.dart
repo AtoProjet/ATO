@@ -5,6 +5,7 @@ class CartProvider extends ChangeNotifier {
   Map<ItemModel, int> items = {};
 
   CartProvider() {
+    print("in CartProvider");
     items.clear();
   }
 

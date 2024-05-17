@@ -356,6 +356,7 @@ class LocaleProvider extends ChangeNotifier {
   }
 
   LocaleProvider() {
+    print("in LocaleProvider");
     SharedPreferences.getInstance()
     .then((prefs){
       String lang= prefs.getString('lang') ?? "ar";

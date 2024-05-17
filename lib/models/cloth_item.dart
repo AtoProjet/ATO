@@ -59,9 +59,9 @@ class ClothModel extends ItemModel{
 
   @override
   String toString() {
-    return ' $name';
+    //return ' $name';
 
-    //return '${super.toString()} $size | $forGender ';
+    return '${super.toString()} $size , $forGender ';
   }
 
   @override
