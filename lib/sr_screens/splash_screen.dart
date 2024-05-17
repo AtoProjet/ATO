@@ -89,8 +89,6 @@ class _SplashScreenState extends State<SplashScreen> {
           Fire.userRef.doc(Fire.auth.currentUser!.uid).get().then((doc) async {
             if (doc.exists) {
               Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-              data["role"]= "Beneficiary";
-              print(data);
               setState(() {
                   UserModel.user = UserModel.fromJson(data);
                   if (Fire.auth.currentUser!.emailVerified) {

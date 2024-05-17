@@ -98,10 +98,8 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
     }
     if (item is ClothModel) {
       int genderIndex = genders.indexOf(item.forGender);
-      int usSizeIndex = usSizes.indexOf(item.usSize);
-      int ukSizeIndex = ukSizes.indexOf(item.ukSize);
-      bool ukSizeSelected= ukSizes.length %7<= ukSizeIndex ;
-      if (!ukSizeSelected|| !_selectedGenders[genderIndex]
+      int usSizeIndex = usSizes.indexOf(item.size);
+      if (!_selectedGenders[genderIndex]
           || !_selectedUsSizes[usSizeIndex]) {
         return const SizedBox(
           height: 0,

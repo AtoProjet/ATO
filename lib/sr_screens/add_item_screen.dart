@@ -182,8 +182,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       )
                   ],
                 ),
-              if (isShoes || isCloth) Text("${loc.of(Tr.size)}(UK):"),
-              if (isShoes || isCloth)
+              if (isShoes) Text("${loc.of(Tr.size)}(UK):"),
+              if (isShoes)
                 Container(
                   height: 35,
                   color: cardBackgroundColor,
@@ -271,8 +271,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                               donorId: UserModel.user!.id,
                               details: description,
                               image: "",
-                              usSize: _selectedUsSize,
-                              ukSize: _selectedUkSize,
+                              size: _selectedUsSize,
                               forGender: _selectedGender,
                               color: _selectedColor.value);
                         } else if (isBag) {

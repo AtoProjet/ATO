@@ -204,7 +204,7 @@ class _DonatedItemsPageState extends State<DonatedItemsPage> {
     }
     if (item is ClothModel) {
       int genderIndex = genders.indexOf(item.forGender);
-      int sizeIndex = usSizes.indexOf(item.usSize);
+      int sizeIndex = usSizes.indexOf(item.size);
       if (!_selectedGenders[genderIndex] || !_selectedSizes[sizeIndex]) {
         return const SizedBox(
           height: 0,

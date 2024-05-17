@@ -2,15 +2,13 @@ import 'package:ato/providers/locale_provider.dart';
 import 'package:ato/models/item.dart';
 
 class ClothModel extends ItemModel{
-  String usSize;
-  String ukSize;
+  String size;
   String forGender;
   int color;
   ClothModel(
       {super.id, required super.name, required super.category, required super.quantity, required super.donorId, required super.details,
         required super.image,
-        this.usSize="",
-        this.ukSize="",
+        required this.size,
         required this.forGender,
         required this.color,
       });
@@ -21,8 +19,7 @@ class ClothModel extends ItemModel{
       "id": id,
       "name": name,
       "category": category,
-      'usSize': usSize,
-      'ukSize': ukSize,
+      'size': size,
       'forGender': forGender,
       'color': color,
       'quantity': quantity,
@@ -34,8 +31,7 @@ class ClothModel extends ItemModel{
   }
   factory ClothModel.fromJson(Map<String, dynamic> json) {
     return ClothModel(
-      usSize: json["usSize"],
-      ukSize: json["ukSize"],
+      size: json["size"],
       forGender: json["forGender"],
       color: json["color"],
       quantity: json["quantity"],
@@ -55,7 +51,7 @@ class ClothModel extends ItemModel{
   @override
   String print(LocaleProvider loc) {
     return  '\n${super.print(loc)}'
-        '\n${loc.of(Tr.size)}: $usSize'
+        '\n${loc.of(Tr.size)}: $size'
         '\n${loc.of(Tr.forGender)}: ${loc.ofStr(forGender)}';
   }
 
@@ -63,7 +59,7 @@ class ClothModel extends ItemModel{
 
   @override
   String toString() {
-    return '${super.toString()} $usSize, $forGender ';
+    return '${super.toString()} $size, $forGender ';
   }
 
   @override
