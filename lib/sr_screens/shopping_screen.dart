@@ -4,6 +4,7 @@ import 'package:ato/components/widgets/buttons.dart';
 import 'package:ato/components/widgets/global.dart';
 import 'package:ato/components/widgets/images.dart';
 import 'package:ato/db/consts.dart';
+import 'package:ato/models/shoe_item.dart';
 import 'package:ato/providers/cart_provider.dart';
 import 'package:ato/providers/item_provider.dart';
 import 'package:ato/providers/locale_provider.dart';
@@ -23,10 +24,17 @@ class ShoppingScreen extends StatefulWidget {
 }
 
 class _ShoppingScreenState extends State<ShoppingScreen> {
-  final List<bool> _selectedCategories = [true, true, true, true];
-  final List<bool> _selectedGenders = [true, true, true];
-  final List<bool> _selectedSizes = [true, true, true, true, true];
+  final List<bool> _selectedCategories = List.generate(categories.length, (index) => true);
+  final List<bool> _selectedGenders = List.generate(genders.length, (index) => true);
+  final List<bool> _selectedUsSizes = List.generate(usSizes.length, (index) => true);
+  final List<bool> _selectedUkSizes = List.generate(ukSizes.length, (index) => true);
+  bool isClothSelected(){
+    return _selectedCategories[categories.indexOf(clothCat)];
+  }
 
+  bool isShoeSelected(){
+    return _selectedCategories[categories.indexOf(shoesCat)];
+  }
   @override
   Widget build(BuildContext context) {
     setAsFullScreen(true);
@@ -90,8 +98,21 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
     }
     if (item is ClothModel) {
       int genderIndex = genders.indexOf(item.forGender);
-      int sizeIndex = sizes.indexOf(item.size);
-      if (!_selectedGenders[genderIndex] || !_selectedSizes[sizeIndex]) {
+      int usSizeIndex = usSizes.indexOf(item.usSize);
+      int ukSizeIndex = ukSizes.indexOf(item.ukSize);
+      bool ukSizeSelected= ukSizes.length %7<= ukSizeIndex ;
+      if (!ukSizeSelected|| !_selectedGenders[genderIndex]
+          || !_selectedUsSizes[usSizeIndex]) {
+        return const SizedBox(
+          height: 0,
+        );
+      }
+    }
+    if (item is ShoeModel) {
+      int genderIndex = genders.indexOf(item.forGender);
+      int ukSizeIndex = ukSizes.indexOf(item.size);
+      bool ukSizeSelected= ukSizes.length %7<= ukSizeIndex ;
+      if (!ukSizeSelected|| !_selectedGenders[genderIndex]) {
         return const SizedBox(
           height: 0,
         );
@@ -116,7 +137,7 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 20),
             ),
-            Text("${loc.of(Tr.forG)}:"),
+            Text("${loc.of(Tr.forGender)}:"),
             Wrap(
               direction: Axis.horizontal,
               children: [
@@ -142,7 +163,9 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
               direction: Axis.horizontal,
               children: [
                 for (int i = 0; i < categories.length; i++)
-                  atoCheckBox(
+                  SizedBox(
+                    width: screenSize(context).width/3,
+                  child:atoCheckBox(
                     context: context,
                     index: i,
                     text: loc.ofStr(categories[i]),
@@ -152,24 +175,49 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
                         _selectedCategories[index] = value;
                       });
                     },
-                  ),
+                    ), ),
               ],
             ),
-            Text("${loc.of(Tr.size)}:"),
+            if(isClothSelected() || isShoeSelected())
+            Text("${loc.of(Tr.size)}(US):"),
+            if(isClothSelected() || isShoeSelected())
             Wrap(
               direction: Axis.horizontal,
               children: [
-                for (int i = 0; i < sizes.length; i++)
+                for (int i = 0; i < usSizes.length; i++)
                   SizedBox(
                     width: 80,
                     child: atoCheckBox(
                       context: context,
                       index: i,
-                      text: loc.ofStr(sizes[i]),
-                      val: _selectedSizes[i],
+                      text: loc.ofStr(usSizes[i]),
+                      val: _selectedUsSizes[i],
                       onChange: (index, value) {
                         setState(() {
-                          _selectedSizes[index] = value;
+                          _selectedUsSizes[index] = value;
+                        });
+                      },
+                    ),
+                  ),
+              ],
+            ),
+            if(isClothSelected())
+            Text("${loc.of(Tr.size)}(UK):"),
+            if(isClothSelected())
+            Wrap(
+              direction: Axis.horizontal,
+              children: [
+                for (int i = 0; i < ukSizes.length; i+=7)
+                  SizedBox(
+                    width: 120,
+                    child: atoCheckBox(
+                      context: context,
+                      index: i,
+                      text: "${ukSizes[i]} - ${ukSizes.length> i+6? ukSizes[i+6]: ukSizes.length}",
+                      val: _selectedUkSizes[i],
+                      onChange: (index, value) {
+                        setState(() {
+                          _selectedUkSizes[index] = value;
                         });
                       },
                     ),

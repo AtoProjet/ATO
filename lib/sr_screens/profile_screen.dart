@@ -3,7 +3,6 @@ import 'package:ato/components/styles.dart';
 import 'package:ato/components/widgets/images.dart';
 import 'package:ato/db/firebaseChatServices.dart';
 import 'package:ato/db/references.dart';
-import 'package:ato/models/locale.dart';
 import 'package:ato/models/user.dart';
 import 'package:ato/providers/locale_provider.dart';
 import 'package:ato/sr_screens/chat_support_screen.dart';
@@ -276,16 +275,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   notifications() {}
 
-  changeLanguage(LocaleProvider loc, String lang) async {
+  changeLanguage(LocaleProvider loc, String lang) {
     Locale target;
     if (lang == "English") {
       target = loc.en();
     } else {
       target = loc.ar();
     }
-    await Fire.localeRef
-        .doc(user.id)
-        .set(LocaleModel(name: target.languageCode).toMap());
     loc.setLocale(target);
   }
 

@@ -64,9 +64,9 @@ class _DeliveryDetailsScreenState extends State<DeliveryDetailsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const Text("The item will be delivered by the donor"),
+             Text(loc.of(Tr.theOrderWillBeDeliveredByTheDonor)),
             const Gap(20),
-            const Text("Select Delivery Date:"),
+             Text(loc.of(Tr.selectDeliveryDate)),
             Container(
               padding: const EdgeInsets.only(right: 12, left: 12, bottom: 16),
               alignment: Alignment.centerLeft,
@@ -86,7 +86,7 @@ class _DeliveryDetailsScreenState extends State<DeliveryDetailsScreen> {
                 ),
               ),
             ),
-            const Text("Select Delivery Time:"),
+             Text(loc.of(Tr.selectDeliveryTime)),
             Container(
               padding: const EdgeInsets.only(right: 12, left: 12, bottom: 8),
               alignment: Alignment.centerLeft,

@@ -88,37 +88,35 @@ class _SplashScreenState extends State<SplashScreen> {
         if (Fire.auth.currentUser != null) {
           Fire.userRef.doc(Fire.auth.currentUser!.uid).get().then((doc) async {
             if (doc.exists) {
-              var data = doc.data();
+              Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+              data["role"] = "Donor";
+              print(data);
               setState(() {
-                UserModel.user =
-                    UserModel.fromJson(data as Map<String, dynamic>);
-                  if (Fire.auth.currentUser!.emailVerified) {
-                    if(UserModel.user!.role == "Admin"){
-                      goToScreenAndClearHistory(context, const AdminHome());
-                    }
-                    else{
-                      // check if the user account isActive is false, Admin has disabled the account
-                      if(UserModel.user!.isActive == false){
-                        goToScreenAndClearHistory(context, const AccountDisabledScreen());
-                      }
-                      else{
-                        goToScreenAndClearHistory(context, HomeScreen());
-                      }
-                    }
-                    //goToScreen(context, const HomeScreen());
+                UserModel.user = UserModel.fromJson(data);
+                if (Fire.auth.currentUser!.emailVerified) {
+                  if (UserModel.isAdmin()) {
+                    goToScreenAndClearHistory(context, const AdminHome());
                   } else {
-                    goToScreen(context, const VerificationCodeScreen());
+                    // check if the user account isActive is false, Admin has disabled the account
+                    if (!UserModel.isActiveUser()) {
+                      goToScreenAndClearHistory(
+                          context, const AccountDisabledScreen());
+                    } else {
+                      goToScreenAndClearHistory(context, HomeScreen());
+                    }
                   }
+                  //goToScreen(context, const HomeScreen());
+                } else {
+                  goToScreen(context, const VerificationCodeScreen());
+                }
+              });
+            } else {
+              setState(() {
+                _isLoading = false;
               });
             }
-            else {
-                setState(() {
-                  _isLoading = false;
-                });
-            }
           });
-        }
-        else {
+        } else {
           setState(() {
             _isLoading = false;
           });
@@ -128,8 +126,7 @@ class _SplashScreenState extends State<SplashScreen> {
           _isLoading = false;
         });
       });
-    }
-    else {
+    } else {
       setState(() {
         _isLoading = false;
       });

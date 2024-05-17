@@ -1,16 +1,14 @@
 import 'package:ato/providers/locale_provider.dart';
 import 'package:ato/models/item.dart';
 
-class ClothModel extends ItemModel{
-  String usSize;
-  String ukSize;
+class ShoeModel extends ItemModel{
+  String size;
   String forGender;
   int color;
-  ClothModel(
+  ShoeModel(
       {super.id, required super.name, required super.category, required super.quantity, required super.donorId, required super.details,
         required super.image,
-        this.usSize="",
-        this.ukSize="",
+        required this.size,
         required this.forGender,
         required this.color,
       });
@@ -21,8 +19,7 @@ class ClothModel extends ItemModel{
       "id": id,
       "name": name,
       "category": category,
-      'usSize': usSize,
-      'ukSize': ukSize,
+      'size': size,
       'forGender': forGender,
       'color': color,
       'quantity': quantity,
@@ -32,10 +29,9 @@ class ClothModel extends ItemModel{
     };
     return map;
   }
-  factory ClothModel.fromJson(Map<String, dynamic> json) {
-    return ClothModel(
-      usSize: json["usSize"],
-      ukSize: json["ukSize"],
+  factory ShoeModel.fromJson(Map<String, dynamic> json) {
+    return ShoeModel(
+      size: json["size"],
       forGender: json["forGender"],
       color: json["color"],
       quantity: json["quantity"],
@@ -48,14 +44,14 @@ class ClothModel extends ItemModel{
     );
   }
 
-  factory ClothModel.fromOb(Object ob) {
-    return ob as ClothModel;
+  factory ShoeModel.fromOb(Object ob) {
+    return ob as ShoeModel;
   }
 
   @override
   String print(LocaleProvider loc) {
     return  '\n${super.print(loc)}'
-        '\n${loc.of(Tr.size)}: $usSize'
+        '\n${loc.of(Tr.size)}: $size'
         '\n${loc.of(Tr.forGender)}: ${loc.ofStr(forGender)}';
   }
 
@@ -63,14 +59,14 @@ class ClothModel extends ItemModel{
 
   @override
   String toString() {
-    return '${super.toString()} $usSize, $forGender ';
+    return '${super.toString()} $size, $forGender ';
   }
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       super == other &&
-          other is ClothModel &&
+          other is ShoeModel &&
           runtimeType == other.runtimeType &&
           id == other.id;
 

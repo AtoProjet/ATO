@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 const String conditions1 = ''
     '1) Safety and security conditions'
     '\n    - Users should install security updates regularly.'
@@ -34,8 +36,10 @@ const String conditions2 =
 const toyCat= "toys";
 const clothCat= "clothes";
 const bookCat= "books";
-const shoesAndBagsCat= "shoesAndBags";
-const List<String> categories = [toyCat, clothCat, bookCat, shoesAndBagsCat];
+const shoesCat= "shoes";
+const bagsCat= "bags";
+const List<String> categories = [toyCat, clothCat, bookCat, bagsCat, shoesCat];
 const List<String> genders= ["men", "women", "children"];
-final List<String> sizes = ["XS", "S", "M", "L", "XL"];
+final List<String> usSizes = ["XS", "S", "M", "L", "XL"];
+final List<String> ukSizes = List.generate(41, (index) => "${index + 4}");
 

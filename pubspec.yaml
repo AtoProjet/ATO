@@ -49,6 +49,7 @@ dependencies:
   flutter_colorpicker: ^1.0.3
   uuid: ^4.4.0
   toastification: ^1.2.1
+  shared_preferences: ^2.2.3
 
 dev_dependencies:
   flutter_test:
@@ -84,7 +85,8 @@ flutter:
       - assets/images/ic_users.jpg
       - assets/categories/books.jpg
       - assets/categories/clothes.jpg
-      - assets/categories/shoesAndBags.jpg
+      - assets/categories/shoes.jpg
+      - assets/categories/bags.jpg
       - assets/categories/toys.jpg
       - assets/images/success.png
       - assets/icons/add-to-cart.png

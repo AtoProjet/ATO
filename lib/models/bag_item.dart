@@ -1,17 +1,11 @@
 import 'package:ato/providers/locale_provider.dart';
 import 'package:ato/models/item.dart';
 
-class ClothModel extends ItemModel{
-  String usSize;
-  String ukSize;
-  String forGender;
+class BagModel extends ItemModel{
   int color;
-  ClothModel(
+  BagModel(
       {super.id, required super.name, required super.category, required super.quantity, required super.donorId, required super.details,
         required super.image,
-        this.usSize="",
-        this.ukSize="",
-        required this.forGender,
         required this.color,
       });
 
@@ -21,9 +15,6 @@ class ClothModel extends ItemModel{
       "id": id,
       "name": name,
       "category": category,
-      'usSize': usSize,
-      'ukSize': ukSize,
-      'forGender': forGender,
       'color': color,
       'quantity': quantity,
       'donorId': donorId,
@@ -32,11 +23,8 @@ class ClothModel extends ItemModel{
     };
     return map;
   }
-  factory ClothModel.fromJson(Map<String, dynamic> json) {
-    return ClothModel(
-      usSize: json["usSize"],
-      ukSize: json["ukSize"],
-      forGender: json["forGender"],
+  factory BagModel.fromJson(Map<String, dynamic> json) {
+    return BagModel(
       color: json["color"],
       quantity: json["quantity"],
       donorId: json["donorId"],
@@ -48,29 +36,20 @@ class ClothModel extends ItemModel{
     );
   }
 
-  factory ClothModel.fromOb(Object ob) {
-    return ob as ClothModel;
+  factory BagModel.fromOb(Object ob) {
+    return ob as BagModel;
   }
 
   @override
   String print(LocaleProvider loc) {
-    return  '\n${super.print(loc)}'
-        '\n${loc.of(Tr.size)}: $usSize'
-        '\n${loc.of(Tr.forGender)}: ${loc.ofStr(forGender)}';
-  }
-
-
-
-  @override
-  String toString() {
-    return '${super.toString()} $usSize, $forGender ';
+    return  '\n${super.print(loc)}';
   }
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       super == other &&
-          other is ClothModel &&
+          other is BagModel &&
           runtimeType == other.runtimeType &&
           id == other.id;
 

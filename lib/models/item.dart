@@ -59,7 +59,7 @@ class ItemModel {
     String search = ' $name $category $details ';
     if(this is ClothModel){
       ClothModel clothModel= this as ClothModel;
-      search += " ${clothModel.size}  ${clothModel.forGender} ";
+      search += " ${clothModel.usSize}  ${clothModel.forGender} ";
     }
     return search.toLowerCase();
   }

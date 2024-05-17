@@ -12,7 +12,6 @@ class Fire{
   static CollectionReference? _userRef;
   static CollectionReference? _itemRef;
   static CollectionReference? _orderRef;
-  static CollectionReference? _localeRef;
   static Reference? _userImageRef;
   static Reference? _itemImageRef;
   static FirebaseApp get app => _app!;
@@ -29,7 +28,6 @@ class Fire{
   }
 
   static void _initDBReferences() {
-    _localeRef = db.collection("locales");
     _userRef = db.collection("users");
     _itemRef = db.collection("items");
     _orderRef = db.collection("orders");
@@ -50,5 +48,4 @@ class Fire{
 
   static CollectionReference get itemRef => _itemRef!;
   static CollectionReference get orderRef => _orderRef!;
-  static CollectionReference get localeRef => _localeRef! ;
 }

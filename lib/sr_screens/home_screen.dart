@@ -21,11 +21,11 @@ class HomeScreen extends StatefulWidget {
 }
  List<Tr> bottomNavIndexes = [
   SliderScreen.title,
-   // if(UserModel.isDonor())
+   if(UserModel.isDonor())
   ItemCategoriesScreen.title,
-   // if(UserModel.isBeneficiary())
+   if(UserModel.isBeneficiary())
   ShoppingScreen.title,
-   // if(UserModel.isBeneficiary())
+   if(UserModel.isBeneficiary())
   CartScreen.title,
   ChatScreen.title,
   ProfileScreen.title,
@@ -36,13 +36,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Widget> screens = [
     const SliderScreen(),
-    // if(UserModel.isDonor())
+    if(UserModel.isDonor())
     const ItemCategoriesScreen(),
-    // if(UserModel.isBeneficiary())
-    ShoppingScreen(),
-    // if(UserModel.isBeneficiary())
+    if(UserModel.isBeneficiary())
+    const ShoppingScreen(),
+    if(UserModel.isBeneficiary())
     const CartScreen(),
-    const ChatScreen(),
+    ChatScreen(name:UserModel.user!.name, userId2:UserModel.user!.id ),
     const ProfileScreen(),
   ];
   @override
@@ -87,19 +87,19 @@ List<BottomNavigationBarItem> bottomNavigationBarOptions({
         activeIcon: atoAssetOfIcon("home-active.png"),
         label: loc.of(SliderScreen.title),
         backgroundColor: Colors.blueGrey),
-    // if(UserModel.isDonor())
+    if(UserModel.isDonor())
     BottomNavigationBarItem(
         icon: atoAssetOfIcon("grid.png"),
         activeIcon: atoAssetOfIcon( "grid-active.png"),
         label: loc.of(ItemCategoriesScreen.title),
         backgroundColor: Colors.blueGrey),
-    // if(UserModel.isBeneficiary())
+    if(UserModel.isBeneficiary())
     BottomNavigationBarItem(
         icon: atoAssetOfIcon("find.png"),
         activeIcon: atoAssetOfIcon("find-active.png"),
         label: loc.of(ShoppingScreen.title),
         backgroundColor: Colors.blueGrey),
-    // if(UserModel.isBeneficiary())
+    if(UserModel.isBeneficiary())
     BottomNavigationBarItem(
         icon: atoAssetOfIcon("cart.png"),
         activeIcon: atoAssetOfIcon("cart-active.png"),

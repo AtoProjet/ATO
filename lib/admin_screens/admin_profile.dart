@@ -8,7 +8,6 @@ import '../components/actions.dart';
 import '../components/app_layout.dart';
 import '../components/constants.dart';
 import '../db/references.dart';
-import '../models/locale.dart';
 import '../models/user.dart';
 import '../providers/locale_provider.dart';
 import '../sr_screens/login_screen.dart';
@@ -141,31 +140,25 @@ class _AdminProfileState extends State<AdminProfile> {
                       ],
                     ),
                   ),
-
                 ],
-
               )
           ),
         ),
-
-
-
-
       ],
     );
 
 
   }
-  changeLanguage(LocaleProvider loc, String lang) async{
+  changeLanguage(LocaleProvider loc, String lang){
     Locale target;
     if(lang== "English") {
       target = loc.en();
     } else{
       target= loc.ar();
     }
-    await Fire.localeRef.doc(user.id).set(LocaleModel(name: target.languageCode).toMap());
     loc.setLocale(target);
   }
+
   logout(){
     Fire.auth.signOut().then((value){
       setState(() {

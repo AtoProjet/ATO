@@ -1,8 +1,4 @@
-import 'package:ato/db/references.dart';
 import 'package:ato/models/item.dart';
-import 'package:ato/models/locale.dart';
-import 'package:ato/models/user.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 
 class CartProvider extends ChangeNotifier {

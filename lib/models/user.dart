@@ -79,4 +79,11 @@ class UserModel {
     }
     return UserModel.user!.role == "Beneficiary";
   }
+
+  static bool isActiveUser(){
+    if (UserModel.user == null) {
+      return false;
+    }
+    return UserModel.user!.isActive;
+  }
 }

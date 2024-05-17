@@ -9,30 +9,9 @@ import 'package:flutter/material.dart';
 import 'db/references.dart';
 
 
-Future<UserModel?> checkUser() async {
-  try {
-    if (Fire.auth.currentUser != null) {
-      await Fire.auth.currentUser!.reload();
-      if (Fire.auth.currentUser != null) {
-        var doc = await Fire.userRef.doc(Fire.auth.currentUser!.uid).get();
-        if (doc.exists) {
-          var data = doc.data();
-          return UserModel.fromJson(data as Map<String, dynamic>);
-        }
-      }
-    }
-  } catch (_) {
-    return null;
-  }
-  return null;
-}
-
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Fire.init();
-  UserModel.user = await checkUser();
-
   runApp(
     MultiProvider(
       providers: [

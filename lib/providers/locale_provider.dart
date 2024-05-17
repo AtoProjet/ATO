@@ -1,7 +1,5 @@
-import 'package:ato/db/references.dart';
-import 'package:ato/models/locale.dart';
-import 'package:ato/models/user.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 enum Tr {
   appName,
@@ -14,7 +12,8 @@ enum Tr {
   clothes,
   books,
   toys,
-  shoesAndBags,
+  shoes,
+  bags,
   categories,
   color,
   ok,
@@ -61,7 +60,7 @@ enum Tr {
   resend,
   aNewVerificationEmailHasBeenSentTo,
   failedToResendVerificationEmail,
-  forG,
+  forGender,
   details,
   manageAccounts,
   supportMustBeReviewed,
@@ -91,7 +90,7 @@ enum Tr {
   removeItem,
   success,
   deliveryDetails,
-  selectUsers,
+  selectUsers, selectDeliveryTime, theOrderWillBeDeliveredByTheDonor, selectDeliveryDate,
 }
 
 final Map<String, Map<Tr, String>> _lang = {
@@ -106,7 +105,8 @@ final Map<String, Map<Tr, String>> _lang = {
     Tr.clothes: "الملابس",
     Tr.books: "الكتب",
     Tr.toys: "الألعاب",
-    Tr.shoesAndBags: "الأحذية والحقائب",
+    Tr.shoes: "الأحذية",
+    Tr.bags: "الحقائب",
     Tr.categories: "التصنيفات",
     Tr.color: 'اللون',
     Tr.ok: 'موافق',
@@ -154,7 +154,7 @@ final Map<String, Map<Tr, String>> _lang = {
     Tr.aNewVerificationEmailHasBeenSentTo:
         'تم إرسال بريد إلكتروني جديد للتحقق إلى',
     Tr.failedToResendVerificationEmail: 'فشل في إعادة إرسال بريد التحقق',
-    Tr.forG: 'النوع',
+    Tr.forGender: 'النوع',
     Tr.details: 'التفاصيل',
     Tr.continueText: 'إستمرار',
     Tr.thankYou: 'شكرا لاستخدامك آتو',
@@ -184,9 +184,13 @@ final Map<String, Map<Tr, String>> _lang = {
     Tr.articles: 'مقالات',
     Tr.title: 'عنوان',
     Tr.content: 'محتوى',
-    Tr.itemsCategory: 'فئة العناصر',
+    Tr.itemsCategory: 'فئات العناصر',
     Tr.selectUsers: 'حدد المستخدمين',
+    Tr.selectDeliveryTime:"اختر وقت التوصيل:",
+    Tr.theOrderWillBeDeliveredByTheDonor:"سيتم توصيل الطلب بواسطة المتبرع",
+    Tr.selectDeliveryDate:"اختر تاريخ التسليم:"
   },
+
   'en': {
     Tr.appName: 'ATO',
     Tr.switchLang: 'عربي',
@@ -198,7 +202,8 @@ final Map<String, Map<Tr, String>> _lang = {
     Tr.clothes: "Clothes",
     Tr.books: "Books",
     Tr.toys: "Toys",
-    Tr.shoesAndBags: "Shoes and Pages",
+    Tr.shoes: "Shoes",
+    Tr.bags: "Bags",
     Tr.categories: "Categories",
     Tr.color: 'Color',
     Tr.ok: 'OK',
@@ -246,7 +251,7 @@ final Map<String, Map<Tr, String>> _lang = {
     Tr.aNewVerificationEmailHasBeenSentTo:
         'A new verification email has been sent to',
     Tr.failedToResendVerificationEmail: 'Failed to resend verification email',
-    Tr.forG: 'For G',
+    Tr.forGender: 'For',
     Tr.details: 'Details',
     Tr.continueText: 'Continue',
     Tr.thankYou: 'Thank you for choosing ATO',
@@ -278,6 +283,9 @@ final Map<String, Map<Tr, String>> _lang = {
     Tr.content: 'Content',
     Tr.itemsCategory: 'Items Category',
     Tr.selectUsers: 'Select Users',
+    Tr.selectDeliveryTime:"Select Delivery Time:",
+    Tr.theOrderWillBeDeliveredByTheDonor:"The order will be delivered by the donor",
+    Tr.selectDeliveryDate:"Select Delivery Date:"
   },
 };
 
@@ -294,26 +302,45 @@ class LocaleProvider extends ChangeNotifier {
       return;
     }
     _locale = newLocale;
+    if(isAr()){
+      _saveLang("ar");
+    }
+    else{
+      _saveLang("en");
+    }
     notifyListeners();
+  }
+  // void loadLang(){
+  //   SharedPreferences.getInstance()
+  //       .then((prefs){
+  //     String lang= prefs.getString('lang') ?? "ar";
+  //     if (lang == "en") {
+  //       setLocale(en());
+  //     } else {
+  //       setLocale(ar());
+  //     }
+  //     notifyListeners();
+  //   });
+  // }
+
+  void _saveLang(String lang) {
+    SharedPreferences.getInstance()
+    .then((prefs){
+
+      prefs.setString('lang', lang);
+    });
   }
 
   LocaleProvider() {
-    if (UserModel.user != null) {
-      Fire.localeRef.doc(UserModel.user!.id).get().then((localeDoc) {
-        if (localeDoc.exists) {
-          LocaleModel localeModel =
-              LocaleModel.fromJson(localeDoc.data() as Map<String, dynamic>);
-          String name = localeModel.name;
-          if (name == "en") {
-            setLocale(en());
-          } else {
-            setLocale(ar());
-          }
-        } else {
-          setLocale(en());
-        }
-      });
-    }
+    SharedPreferences.getInstance()
+    .then((prefs){
+      String lang= prefs.getString('lang') ?? "ar";
+      if (lang == "en") {
+        setLocale(en());
+      } else {
+        setLocale(ar());
+      }
+    });
   }
 
   bool isAr() {
