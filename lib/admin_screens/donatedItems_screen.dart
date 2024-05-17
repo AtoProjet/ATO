@@ -35,10 +35,22 @@ class _DonatedItemsPageState extends State<DonatedItemsPage> {
   final List<bool> _selectedGenders = [true, true, true];
   final List<bool> _selectedSizes = [true, true, true, true, true];
 
-  List<ItemModel> items = List.empty(growable: true);
-  Future<List<ItemModel>> getDonatedItems(String usrId) async {
-    items = await FirebaseChatServices().getUserDonatedItems(usrId);
+  List<Map<String, dynamic>> items = List.empty(growable: true);
+  Future<List<Map<String, dynamic>>> getDonatedItems(String usrId) async {
+    print("attempting get items");
+    items = await FirebaseChatServices().getDonItems(usrId);
+    print(items);
     return items;
+  }
+
+  List<Map<String, dynamic>> removeDuplicates(List<Map<String, dynamic>> list, String key) {
+    Map<dynamic, Map<String, dynamic>> uniqueMap = {};
+    for (var item in list) {
+      if (!uniqueMap.containsKey(item[key])) {
+        uniqueMap[item[key]] = item;
+      }
+    }
+    return uniqueMap.values.toList();
   }
 
 
@@ -69,17 +81,19 @@ class _DonatedItemsPageState extends State<DonatedItemsPage> {
                 ),
                 Gap(25),
 
-                FutureBuilder<List<ItemModel>>(
+                FutureBuilder<List<Map<String, dynamic>>>(
                     future: getDonatedItems(widget.userId),
                     builder: (BuildContext context,
-                        AsyncSnapshot<List<ItemModel>> snapshot) {
+                        AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
                       if (snapshot.hasError)
                         return Text("ERROR: ${snapshot.error}");
                       if (!snapshot.hasData)
                         return Center(child: CircularProgressIndicator());
 
                       var data = snapshot.data;
-                      if (data!.length < 1) {
+                      print("Sample demo");
+                      print(data);
+                      if (data!.isEmpty) {
                         return Center(
                           child: Text(
                             "No Items Found",
@@ -87,35 +101,67 @@ class _DonatedItemsPageState extends State<DonatedItemsPage> {
                           ),
                         );
                       } else {
+                        print("the count is ");
+                        print(data.length);
+                        //data = removeDuplicates(data, 'name');
                         return Column(
                           children: [
+
+                        // ListView.builder(
+                        //     scrollDirection: Axis.vertical,
+                        //     shrinkWrap: true,
+                        //     itemCount: data.length,
+                        //     itemBuilder: (context, index){
+                        //
+                        //       return Row(
+                        //         children: [
+                        //           for (ItemModel item in data!)
+                        //             showItemCard(item, loc, widget.userId),
+                        //         ],
+                        //       );
+                        //
+                        //     }),
+
+
                             Container(
 
                               height: MediaQuery.of(context).size.height * 0.85,
+                              //height: double.infinity,
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Center(
-                                  child: Stack(
-                                    children: [
-                                      GridView(
+                                child: GridView(
 
-                                        gridDelegate:
-                                        const SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 2,
-                                          crossAxisSpacing: 10.0,
-                                          mainAxisSpacing: 10.0,
-                                          mainAxisExtent: 250,
+                                  gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    crossAxisSpacing: 10.0,
+                                    mainAxisSpacing: 10.0,
+                                    mainAxisExtent: 250,
 
-                                        ),
-                                        // shrinkWrap: true,
-                                        scrollDirection: Axis.vertical,
-                                        children: [
-                                          for (ItemModel item in data!)
-                                            showItemCard(item, loc, widget.userId),
-                                        ],
-                                      ),
-                                    ],
                                   ),
+                                  // shrinkWrap: true,
+                                  scrollDirection: Axis.vertical,
+                                  children: [
+
+                                    // ListView.builder(
+                                    //
+                                    //   scrollDirection: Axis.vertical,
+                                    //   //shrinkWrap: true,
+                                    //   itemCount: data.length,
+                                    //   itemBuilder: (context, index) {
+                                    //
+                                    //     data = removeDuplicates(data!, 'name');
+                                    //
+                                    //     return showItemCard(data![index], loc, widget.userId);
+                                    //
+                                    //   }
+                                    //
+                                    //    ),
+
+
+                                    for (Map<String, dynamic> item in data!)
+                                      showItemCard(item, loc, widget.userId),
+                                  ],
                                 ),
                               ),
                             ),
@@ -195,37 +241,88 @@ class _DonatedItemsPageState extends State<DonatedItemsPage> {
     );
   }
 
-  Widget showItemCard(ItemModel item, LocaleProvider loc, String userId) {
-    int catIndex = categories.indexOf(item.category);
-    if (!_selectedCategories[catIndex]) {
-      return const SizedBox(
-        height: 0,
-      );
-    }
-    if (item is ClothModel) {
-      int genderIndex = genders.indexOf(item.forGender);
-      int sizeIndex = usSizes.indexOf(item.size);
-      if (!_selectedGenders[genderIndex] || !_selectedSizes[sizeIndex]) {
-        return const SizedBox(
-          height: 0,
-        );
-      }
-    }
+  Widget showItemCard(Map<String, dynamic> item, LocaleProvider loc, String userId) {
+    //int catIndex = categories.indexOf(item["category"]);
+    // if (!_selectedCategories[catIndex]) {
+    //   return const SizedBox(
+    //     height: 0,
+    //   );
+    // }
+    // if (item is ClothModel) {
+    //   int genderIndex = genders.indexOf(item["gender"]);
+    //   int sizeIndex = usSizes.indexOf(item.size);
+    //   if (!_selectedGenders[genderIndex] || !_selectedSizes[sizeIndex]) {
+    //     return const SizedBox(
+    //       height: 0,
+    //     );
+    //   }
+    // }
     return atoItemCard(context, item, loc, userId);
   }
 }
 
-atoItemCard(BuildContext context, ItemModel item, LocaleProvider loc, String userId) {
+atoItemCard(BuildContext context, Map<String, dynamic> item, LocaleProvider loc, String userId) {
   bool isLoad = false;
   final FirebaseChatServices _serv = new FirebaseChatServices();
-  String text = item.name;
+  String text = item["name"];
+
+  // return Card(
+  //   color: cardBackgroundColor,
+  //   shape: ShapeBorder.lerp(LinearBorder.none, LinearBorder.none, 0),
+  //   child: Stack(
+  //       children: [
+  //         Container(
+  //           alignment: Alignment.topCenter,
+  //           width: 200,
+  //           child: IconButton(
+  //             onPressed: () {
+  //               //goToScreen(context, ItemInfoScreen(item: item));
+  //             },
+  //             icon: ClipRRect(
+  //                 borderRadius: BorderRadius.circular(8),
+  //                 child: atoNetworkImage(
+  //                   item["image"],
+  //                   height: 100,
+  //                   alignment: Alignment.topCenter,
+  //                   fit: BoxFit.fitHeight,
+  //                 )),
+  //           ),
+  //         ),
+  //         Container(
+  //           alignment: Alignment.bottomCenter,
+  //           padding: EdgeInsets.only(right: loc.isAr()? 24:0, left: loc.isAr()?0: 24),
+  //           child: Text(
+  //             maxLines: 1,
+  //             text,
+  //             style: const TextStyle(
+  //                 fontSize: 12, color: Colors.black, fontWeight: FontWeight.bold),
+  //           ),
+  //         ),
+  //
+  //         if (item is ClothModel)
+  //           Container(
+  //             padding: const EdgeInsets.all(4),
+  //             alignment: Alignment.topLeft,
+  //             child: Container(
+  //               width: 16,
+  //               height: 16,
+  //               decoration: BoxDecoration(
+  //                   color: Color(item["color"]),
+  //                   border: const Border.fromBorderSide(BorderSide(width: 1, color: Colors.grey)),
+  //                   borderRadius: BorderRadius.circular(2)),
+  //             ),
+  //           ),
+  //
+  //       ]
+  //   ),
+  // );
 
   return Stack(children: [
     ItemCard(
-      img: item.image,
+      img: item["image"],
       itemNo: '123456',
-      itemName: item.name,
-      itemDetails: item.details,
+      itemName: item["name"],
+      itemDetails: item["details"],
       removeOnTap: (){
 
         showDialog(
@@ -243,7 +340,7 @@ atoItemCard(BuildContext context, ItemModel item, LocaleProvider loc, String use
                   onPressed: () {
                     isLoad = !isLoad;
 
-                    _serv.deleteItem(item.id!);
+                    _serv.deleteItem(item["id"]);
                     Navigator.pop(context);
                     Navigator.pop(context);
 
@@ -278,7 +375,7 @@ atoItemCard(BuildContext context, ItemModel item, LocaleProvider loc, String use
           width: 16,
           height: 16,
           decoration: BoxDecoration(
-              color: Color(item.color),
+              color: Color(item["color"]),
               border: const Border.fromBorderSide(
                   BorderSide(width: 1, color: Colors.grey)),
               borderRadius: BorderRadius.circular(2)),
@@ -286,83 +383,83 @@ atoItemCard(BuildContext context, ItemModel item, LocaleProvider loc, String use
       ),
   ]);
 
-  Card(
-    color: cardBackgroundColor,
-    shape: ShapeBorder.lerp(LinearBorder.none, LinearBorder.none, 0),
-    child: Stack(children: [
-      Container(
-        alignment: Alignment.topCenter,
-        width: 200,
-        child: Column(
-          children: [
-            IconButton(
-              onPressed: () {
-                goToScreen(context, ItemInfoScreen(item: item));
-              },
-              icon: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: atoNetworkImage(
-                    item.image,
-                    height: 100,
-                    alignment: Alignment.topCenter,
-                    fit: BoxFit.fitHeight,
-                  )),
-            ),
-            Gap(10),
-            Text(
-              maxLines: 1,
-              text,
-              style: const TextStyle(
-                  fontSize: 12,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold),
-            ),
-            Text(
-              maxLines: 1,
-              item.details,
-              style: const TextStyle(
-                  fontSize: 12,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
-      ),
-      // Container(
-      //   alignment: Alignment.bottomCenter,
-      //   padding: EdgeInsets.only(
-      //       right: loc.isAr() ? 24 : 0, left: loc.isAr() ? 0 : 24),
-      //   child: Column(
-      //     children: [
-      //       Text(
-      //         maxLines: 1,
-      //         text,
-      //         style: const TextStyle(
-      //             fontSize: 12, color: Colors.black, fontWeight: FontWeight.bold),
-      //       ),
-      //       Text(
-      //         maxLines: 1,
-      //         item.details,
-      //         style: const TextStyle(
-      //             fontSize: 12, color: Colors.black, fontWeight: FontWeight.bold),
-      //       ),
-      //     ],
-      //   ),
-      // ),
-      if (item is ClothModel)
-        Container(
-          padding: const EdgeInsets.all(4),
-          alignment: Alignment.topLeft,
-          child: Container(
-            width: 16,
-            height: 16,
-            decoration: BoxDecoration(
-                color: Color(item.color),
-                border: const Border.fromBorderSide(
-                    BorderSide(width: 1, color: Colors.grey)),
-                borderRadius: BorderRadius.circular(2)),
-          ),
-        ),
-    ]),
-  );
+  // Card(
+  //   color: cardBackgroundColor,
+  //   shape: ShapeBorder.lerp(LinearBorder.none, LinearBorder.none, 0),
+  //   child: Stack(children: [
+  //     Container(
+  //       alignment: Alignment.topCenter,
+  //       width: 200,
+  //       child: Column(
+  //         children: [
+  //           IconButton(
+  //             onPressed: () {
+  //               goToScreen(context, ItemInfoScreen(item: item));
+  //             },
+  //             icon: ClipRRect(
+  //                 borderRadius: BorderRadius.circular(8),
+  //                 child: atoNetworkImage(
+  //                   item.image,
+  //                   height: 100,
+  //                   alignment: Alignment.topCenter,
+  //                   fit: BoxFit.fitHeight,
+  //                 )),
+  //           ),
+  //           Gap(10),
+  //           Text(
+  //             maxLines: 1,
+  //             text,
+  //             style: const TextStyle(
+  //                 fontSize: 12,
+  //                 color: Colors.black,
+  //                 fontWeight: FontWeight.bold),
+  //           ),
+  //           Text(
+  //             maxLines: 1,
+  //             item.details,
+  //             style: const TextStyle(
+  //                 fontSize: 12,
+  //                 color: Colors.black,
+  //                 fontWeight: FontWeight.bold),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //     // Container(
+  //     //   alignment: Alignment.bottomCenter,
+  //     //   padding: EdgeInsets.only(
+  //     //       right: loc.isAr() ? 24 : 0, left: loc.isAr() ? 0 : 24),
+  //     //   child: Column(
+  //     //     children: [
+  //     //       Text(
+  //     //         maxLines: 1,
+  //     //         text,
+  //     //         style: const TextStyle(
+  //     //             fontSize: 12, color: Colors.black, fontWeight: FontWeight.bold),
+  //     //       ),
+  //     //       Text(
+  //     //         maxLines: 1,
+  //     //         item.details,
+  //     //         style: const TextStyle(
+  //     //             fontSize: 12, color: Colors.black, fontWeight: FontWeight.bold),
+  //     //       ),
+  //     //     ],
+  //     //   ),
+  //     // ),
+  //     if (item is ClothModel)
+  //       Container(
+  //         padding: const EdgeInsets.all(4),
+  //         alignment: Alignment.topLeft,
+  //         child: Container(
+  //           width: 16,
+  //           height: 16,
+  //           decoration: BoxDecoration(
+  //               color: Color(item.color),
+  //               border: const Border.fromBorderSide(
+  //                   BorderSide(width: 1, color: Colors.grey)),
+  //               borderRadius: BorderRadius.circular(2)),
+  //         ),
+  //       ),
+  //   ]),
+  // );
 }

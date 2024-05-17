@@ -145,31 +145,141 @@ class FirebaseChatServices {
     });
   }
 
-  Future<List<ItemModel>> getUserDonatedItems(String UserId) async {
-    List<ItemModel> items = List.empty(growable: true);
-    Fire.itemRef.snapshots().listen((event) {
-      for (var doc in event.docs) {
-        Map<String, dynamic> dataMap = doc.data() as Map<String, dynamic>;
+  // List<ItemModel> getUserDonatedItems(String UserId) {
+  //   List<ItemModel> items = List.empty(growable: true);
+  //   Fire.itemRef.snapshots().listen((event) {
+  //     for (var doc in event.docs) {
+  //       Map<String, dynamic> dataMap = doc.data() as Map<String, dynamic>;
+  //
+  //       if (dataMap["donorId"] == UserId) {
+  //         ItemModel item;
+  //         if (dataMap["category"] == toyCat || dataMap["category"] == bookCat) {
+  //           item = ItemModel.fromJson(dataMap);
+  //         } else {
+  //           item = ClothModel.fromJson(dataMap);
+  //         }
+  //         if (items.contains(item)) {
+  //           int index = items.indexOf(item);
+  //           items[index] = item;
+  //         } else {
+  //           items.add(item);
+  //         }
+  //       }
+  //     }
+  //   });
+  //
+  //   return items;
+  // }
 
-        if (dataMap["donorId"] == UserId) {
-          ItemModel item;
-          if (dataMap["category"] == toyCat || dataMap["category"] == bookCat) {
-            item = ItemModel.fromJson(dataMap);
-          } else {
-            item = ClothModel.fromJson(dataMap);
-          }
-          if (items.contains(item)) {
-            int index = items.indexOf(item);
-            items[index] = item;
-          } else {
-            items.add(item);
-          }
+
+  Future<List<Map<String, dynamic>>> getDonItems(String userId) async {
+    List<Map<String, dynamic>> myList = [];
+    var snapList  = await FirebaseFirestore.instance
+        .collection("items")
+        .where( Filter("donorId", isEqualTo: userId),)
+        .get();
+
+    List<Map<String, dynamic>> dataList = snapList.docs
+        .map((doc) => doc.data())
+        .toList();
+
+    dataList = removeDuplicates(dataList, 'name');
+
+    print (" the snap is ");
+    print (dataList);
+    return dataList;
+  }
+
+  List<Map<String, dynamic>> removeDuplicates(List<Map<String, dynamic>> list, String key) {
+    Map<dynamic, Map<String, dynamic>> uniqueMap = {};
+    for (var item in list) {
+      if (!uniqueMap.containsKey(item[key])) {
+        uniqueMap[item[key]] = item;
+      }
+    }
+    return uniqueMap.values.toList();
+  }
+
+
+
+
+
+  Future<List<ItemModel>> getUserDonatedItems(String UserId) async{
+    List<ItemModel> myList = List.empty(growable: true);
+    print("the user id is");
+    print (UserId);
+    await FirebaseFirestore.instance
+        .collection("items")
+        .where( Filter("donorId", isEqualTo: UserId),)
+        .get()
+        .then((querySnapshot) {
+          print("the data is");
+          print (querySnapshot.docs);
+      myList = processdonatedItems(querySnapshot, UserId);
+    }).catchError((error) {
+      print("Error getting documents: $error");
+    });
+return myList;
+
+    //var items  =
+
+    // Fire.itemRef.snapshots().listen((event) {
+    //   for (var doc in event.docs) {
+    //     Map<String, dynamic> dataMap = doc.data() as Map<String, dynamic>;
+    //
+    //     if (dataMap["donorId"] == UserId) {
+    //       ItemModel item;
+    //       if (dataMap["category"] == toyCat || dataMap["category"] == bookCat) {
+    //         item = ItemModel.fromJson(dataMap);
+    //       } else {
+    //         item = ClothModel.fromJson(dataMap);
+    //       }
+    //       if (items.contains(item)) {
+    //         int index = items.indexOf(item);
+    //         items[index] = item;
+    //       } else {
+    //         items.add(item);
+    //       }
+    //     }
+    //   }
+    // });
+    //
+    // return items;
+  }
+
+
+  List<ItemModel> processdonatedItems(
+      QuerySnapshot<Map<String, dynamic>> snapshot, String userId) {
+    List<ItemModel> items = List.empty(growable: true);
+
+    for (var doc in snapshot.docs) {
+      Map<String, dynamic> dataMap = doc.data();
+
+      if (dataMap["donorId"] == userId) {
+        ItemModel item;
+        if (dataMap["category"] == toyCat || dataMap["category"] == bookCat) {
+          item = ItemModel.fromJson(dataMap);
+          print("This is item model");
+          print(item);
+        } else {
+          item = ClothModel.fromJson(dataMap);
+          print("This is cloth model");
+          print(item);
+        }
+        if (items.contains(item)) {
+          int index = items.indexOf(item);
+          items[index] = item;
+        } else {
+          items.add(item);
         }
       }
-    });
+    }
 
     return items;
   }
+
+
+
 
   Future addNotification(String notId, Map<String, dynamic> notificationDetailsMap) async {
     return FirebaseFirestore.instance
