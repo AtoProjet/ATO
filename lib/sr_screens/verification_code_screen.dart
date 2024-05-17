@@ -112,8 +112,8 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
               ],
             ),
           ),
-          Wrap(
-            alignment: WrapAlignment.center,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
                Text(loc.of(Tr.didNotReceiveCode),
           style: const TextStyle(
