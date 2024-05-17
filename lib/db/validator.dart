@@ -22,6 +22,9 @@ String? validatePhone(String phone) {
   } else if (!RegExp(r'^[+]*[0-9]{10,}$').hasMatch(phone)) {
     return 'Please enter a valid 10-digit phone number';
   }
+  else if (!phone.startsWith("+966") && !phone.startsWith("05")) {
+    return 'The Number should start with +966 or 05';
+  }
   return null;
 }
 

@@ -81,15 +81,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    if (addTest) {
-      setState(() {
-        _nameController.text = "User 1323";
-        _emailController.text = "ato.966000@gmail.com";
-        _phoneController.text = "0598765432";
-        _confirmPasswordController.text = "123456";
-        _passwordController.text = "123456";
-      });
-    }
+    // if (addTest) {
+    //   setState(() {
+    //     _nameController.text = "User 1323";
+    //     _emailController.text = "ato.966000@gmail.com";
+    //     _phoneController.text = "0598765432";
+    //     _confirmPasswordController.text = "123456";
+    //     _passwordController.text = "123456";
+    //   });
+    // }
     setAsFullScreen(true);
     return atoScaffold(
       context: context,
