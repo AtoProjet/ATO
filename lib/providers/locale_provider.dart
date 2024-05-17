@@ -91,6 +91,13 @@ enum Tr {
   success,
   deliveryDetails,
   selectUsers, selectDeliveryTime, theOrderWillBeDeliveredByTheDonor, selectDeliveryDate,
+  item,
+  orderId,
+  qty,
+  noChatsAvailable,
+  invalidCredential,
+
+
 }
 
 final Map<String, Map<Tr, String>> _lang = {
@@ -169,6 +176,8 @@ final Map<String, Map<Tr, String>> _lang = {
     Tr.success: "نجاح",
     Tr.deliveryDetails: "معلومات التوصيل",
 
+
+
     Tr.manageAccounts: 'إدارة الحسابات',
     Tr.supportMustBeReviewed: 'يجب مراجعة الدعم',
     Tr.donatedItems: 'العناصر المتبرع بها',
@@ -188,7 +197,15 @@ final Map<String, Map<Tr, String>> _lang = {
     Tr.selectUsers: 'حدد المستخدمين',
     Tr.selectDeliveryTime:"اختر وقت التوصيل:",
     Tr.theOrderWillBeDeliveredByTheDonor:"سيتم توصيل الطلب بواسطة المتبرع",
-    Tr.selectDeliveryDate:"اختر تاريخ التسليم:"
+    Tr.selectDeliveryDate:"اختر تاريخ التسليم:",
+
+    Tr.item:"غرض",
+    Tr.orderId:"رقم الأمر",
+    Tr.qty:"كمية",
+    Tr.noChatsAvailable:"لا توجد محادثات متاحة",
+    Tr.invalidCredential:"شهادة اعتماد غير صالحة",
+
+
   },
 
   'en': {
@@ -285,7 +302,14 @@ final Map<String, Map<Tr, String>> _lang = {
     Tr.selectUsers: 'Select Users',
     Tr.selectDeliveryTime:"Select Delivery Time:",
     Tr.theOrderWillBeDeliveredByTheDonor:"The order will be delivered by the donor",
-    Tr.selectDeliveryDate:"Select Delivery Date:"
+    Tr.selectDeliveryDate:"Select Delivery Date:",
+    Tr.item:"Item",
+    Tr.orderId:"Order Id",
+    Tr.qty:"Qty",
+    Tr.noChatsAvailable:"No Chats Available",
+    Tr.invalidCredential:"Invalid Credentials",
+
+
   },
 };
 

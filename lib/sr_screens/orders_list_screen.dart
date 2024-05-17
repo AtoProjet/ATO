@@ -77,6 +77,7 @@ class _OrdersListPageState extends State<OrdersListPage> {
 
   Widget UserAccountsList() {
     final size = AppLayout.getSize(context);
+    LocaleProvider loc = Provider.of(context);
     return StreamBuilder(
         stream: getUserOrders,
         builder: (context, AsyncSnapshot snapshot) {
@@ -122,7 +123,7 @@ class _OrdersListPageState extends State<OrdersListPage> {
                                   Row(
                                     children: [
                                       Text(
-                                        "Order Id :",
+                                        loc.of(Tr.orderId),
                                         style:
                                         kNotificationTextFont,
                                       ),
@@ -173,8 +174,7 @@ class _OrdersListPageState extends State<OrdersListPage> {
 
                                               late DocumentSnapshot data =
                                                   snapshot.data!;
-                                              print("45");
-                                              print(data);
+                                             
                                               return Row(
                                                 children: [
 
@@ -183,7 +183,7 @@ class _OrdersListPageState extends State<OrdersListPage> {
                                                       child: Row(
                                                         children: [
                                                           Text(
-                                                            "Item : ",
+                                                            loc.of(Tr.item),
                                                             style:
                                                                 kNotificationTextFont,
                                                           ),
@@ -204,7 +204,7 @@ class _OrdersListPageState extends State<OrdersListPage> {
                                                       child: Row(
                                                     children: [
                                                       Text(
-                                                        "Qty : ",
+                                                        loc.of(Tr.qty),
                                                         style:
                                                             kNotificationTextFont,
                                                       ),

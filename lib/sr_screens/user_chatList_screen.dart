@@ -40,8 +40,13 @@ class _UserChatListPageState extends State<UserChatListPage> {
     return StreamBuilder(
         stream: chatRoomStream,
         builder: (context, AsyncSnapshot snapshot) {
-          print (snapshot.data);
-          if(snapshot.data != null){
+
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          else{
+
             return snapshot.hasData
                 ? ListView.builder(
                 padding: EdgeInsets.zero,
@@ -63,9 +68,6 @@ class _UserChatListPageState extends State<UserChatListPage> {
                 : Center(
               child: CircularProgressIndicator(),
             );
-          }
-          else{
-            return Text("No chats to display");
           }
 
 

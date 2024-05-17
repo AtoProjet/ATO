@@ -169,7 +169,7 @@ class _LoginScreenState extends State<LoginScreen> {
         //print ("this is 3");
         _isLoading = false;
         var snackBar = SnackBar(
-          content: Text('Invalid Credentials'),
+          content: Text( loc.of(Tr.invalidCredential)),
           backgroundColor: Colors.redAccent,
         );
         ScaffoldMessenger.of(context)
