@@ -125,7 +125,7 @@ class _DonatedItemsPageState extends State<DonatedItemsPage> {
 
                             Container(
 
-                              height: MediaQuery.of(context).size.height * 0.85,
+                              height: MediaQuery.of(context).size.height * 0.81,
                               //height: double.infinity,
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
