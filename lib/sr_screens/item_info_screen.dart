@@ -37,7 +37,7 @@ class _ItemInfoScreenState extends State<ItemInfoScreen> {
         showAppBarBackground: false,
         context: context,
         body: Card(
-          margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 36),
+          margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
           color: cardBackgroundColor,
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(8.0),
@@ -54,11 +54,14 @@ class _ItemInfoScreenState extends State<ItemInfoScreen> {
                             widget.item.image,
                             fit: BoxFit.contain,
                             height: 250,
+                      width: 300,
                             alignment: Alignment.center,
                           )
                         : Image.network(
                             widget.item.image,
-                            fit: BoxFit.contain,
+                      height: 250,
+                            width: 300,
+                            fit: BoxFit.cover,
                             alignment: Alignment.center,
                           ),
                   ),

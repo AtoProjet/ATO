@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:ato/db/consts.dart';
 import 'package:ato/db/references.dart';
+import 'package:ato/models/bag_item.dart';
 import 'package:ato/models/cloth_item.dart';
 import 'package:ato/models/item.dart';
+import 'package:ato/models/shoe_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,9 +18,6 @@ class ItemProvider extends ChangeNotifier {
   int status = -1;
   bool loading= false;
   ItemProvider() {
-
-
-
     Fire.itemRef
         .snapshots()
         .listen((event) {
@@ -29,12 +28,15 @@ class ItemProvider extends ChangeNotifier {
         print(dataMap);
        ItemModel item;
         if(dataMap["category"]==toyCat ||dataMap["category"]==bookCat) {
-          print("the ItemModel");
-
           item = ItemModel.fromJson(dataMap);
-          print(item);
         }
-        else{
+        else if(dataMap["category"]==bagsCat){
+          item = BagModel.fromJson(dataMap);
+        }
+        else if(dataMap["category"]==shoesCat){
+          item = ShoeModel.fromJson(dataMap);
+        }
+        else {
           print("the ClothModel");
           item = ClothModel.fromJson(dataMap);
           print(item);

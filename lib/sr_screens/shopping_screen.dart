@@ -96,6 +96,7 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
     if (!_selectedCategories[catIndex]) {
       return const SizedBox(
         height: 0,
+        width: 0,
       );
     }
     if (item is ClothModel) {
@@ -105,6 +106,7 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
           || !_selectedUsSizes[usSizeIndex]) {
         return const SizedBox(
           height: 0,
+          width: 0,
         );
       }
     }
@@ -115,6 +117,7 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
       if (!ukSizeSelected|| !_selectedGenders[genderIndex]) {
         return const SizedBox(
           height: 0,
+          width: 0,
         );
       }
     }
