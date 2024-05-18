@@ -48,24 +48,21 @@ class _AdminUserChatScreenState extends State<AdminUserChatScreen> {
         builder: (context, AsyncSnapshot snapshot) {
           return snapshot.hasData
               ? ListView.builder(
+                  primary: false,
+                  shrinkWrap: true,
                   padding: EdgeInsets.zero,
                   itemCount: snapshot.data.docs.length,
-                  shrinkWrap: true,
                   itemBuilder: (context, index) {
                     DocumentSnapshot ds = snapshot.data.docs[index];
 
                     String formattedDate =
                         DateFormat('h:mma').format(ds["time"].toDate());
 
-                    return Column(
-                      children: [
-                        ChatListTile(
-                          lastMessage: ds["lastMessage"],
-                          chatRoomId: ds.id,
-                          myuserid: user.id,
-                          time: formattedDate,
-                        ),
-                      ],
+                    return ChatListTile(
+                      lastMessage: ds["lastMessage"],
+                      chatRoomId: ds.id,
+                      myuserid: user.id,
+                      time: formattedDate,
                     );
                   })
               : Center(
@@ -83,17 +80,11 @@ class _AdminUserChatScreenState extends State<AdminUserChatScreen> {
     );
   }
 
-  // PreferredSizeWidget _appBar() {
-  //   return AppBar(
-  //     backgroundColor: Colors.white,
-  //     title:
-  //   );
-  // }
-
   Widget _buildUI() {
     LocaleProvider loc = Provider.of(context);
     return SafeArea(
-        child: Column(
+        child: ListView(
+      shrinkWrap: true,
       children: [
         Topbar(
           onTap: () {
@@ -113,51 +104,18 @@ class _AdminUserChatScreenState extends State<AdminUserChatScreen> {
         ),
         Gap(15),
 
-        // Container(
-        //   padding: EdgeInsets.only(left: 10, top: 15),
-        //   alignment: Alignment.bottomRight,
-        //   width: double.infinity,
-        //   height: 100.0,
-        //   child: SizedBox(
-        //     height: 80,
-        //     child:  Row(
-        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //       children: [
-        //         GestureDetector(
-        //           onTap: () {
-        //             Navigator.pushReplacement(context, MaterialPageRoute(
-        //                 builder: (context) => AdminHome()));
-        //             //Navigator.pop(context);
-        //           },
-        //           child: Icon(
-        //             Icons.arrow_back,
-        //           ),
-        //         ),
-        //         Image(
-        //           image: AssetImage('assets/images/ic_logo.jpg'),
-        //           fit: BoxFit.contain,
-        //         ),
-        //       ],
-        //     ),
-        //   ),
-        // ),
-        _messagesListView(),
+        ChatRoomList()
+        //_messagesListView(),
       ],
     ));
   }
 
   Widget _messagesListView() {
     return SizedBox(
-        //height: MediaQuery.sizeOf(context).height * 0.72,
+        height: MediaQuery.sizeOf(context).height * 0.72,
         width: MediaQuery.sizeOf(context).width,
         child: Column(
-          children: [
-            ListView(
-              shrinkWrap: true,
-              primary: false,
-              children: [ChatRoomList()],
-            )
-          ],
+          children: [ChatRoomList()],
         ));
   }
 }

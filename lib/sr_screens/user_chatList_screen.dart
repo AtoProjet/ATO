@@ -49,9 +49,11 @@ class _UserChatListPageState extends State<UserChatListPage> {
 
             return snapshot.hasData
                 ? ListView.builder(
+                shrinkWrap: true,
+                primary: false,
                 padding: EdgeInsets.zero,
                 itemCount: snapshot.data.docs.length,
-                shrinkWrap: true,
+
                 itemBuilder: (context, index) {
                   DocumentSnapshot ds = snapshot.data.docs[index];
 
@@ -78,39 +80,40 @@ class _UserChatListPageState extends State<UserChatListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+
       //appBar: _appBar(),
-      body: _buildUI(),
+      body: SafeArea(
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            ChatRoomList(),],
+        ),
+      )
     );
   }
 
-  // PreferredSizeWidget _appBar() {
-  //   return AppBar(
-  //     backgroundColor: Colors.white,
-  //     title:
-  //   );
+
+  // Widget _buildUI() {
+  //   return SafeArea(
+  //       child: ListView(
+  //         children: [
+  //           _messagesListView(),
+  //         ],
+  //       ));
   // }
-
-  Widget _buildUI() {
-    return SafeArea(
-        child: Column(
-          children: [
-            _messagesListView(),
-          ],
-        ));
-  }
-
-  Widget _messagesListView() {
-    return SizedBox(
-        //height: MediaQuery.sizeOf(context).height * 0.76,
-        width: MediaQuery.sizeOf(context).width,
-        child: Column(
-          children: [
-            ListView(
-              shrinkWrap: true,
-              primary: false,
-              children: [ChatRoomList()],
-            )
-          ],
-        ));
-  }
+  //
+  // Widget _messagesListView() {
+  //   return SizedBox(
+  //       //height: MediaQuery.sizeOf(context).height * 0.76,
+  //       width: MediaQuery.sizeOf(context).width,
+  //       child: Column(
+  //         children: [
+  //           ListView(
+  //             shrinkWrap: true,
+  //             primary: false,
+  //             children: [ChatRoomList()],
+  //           )
+  //         ],
+  //       ));
+  // }
 }
