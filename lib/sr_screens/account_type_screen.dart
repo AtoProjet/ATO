@@ -31,7 +31,7 @@ class _AccountTypeScreenState extends State<AccountTypeScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-               Text("${loc.of(Tr.selectAccountType)}:"),
+               Text("اختر نوع الحساب / Select Account Type"),
               Container(
                 width: double.infinity,
                 margin: const EdgeInsets.fromLTRB(48.0, 32.0, 48.0, 4.0),
