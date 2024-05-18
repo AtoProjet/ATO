@@ -41,5 +41,5 @@ const bagsCat= "bags";
 const List<String> categories = [toyCat, clothCat, bookCat, bagsCat, shoesCat];
 const List<String> genders= ["men", "women", "children"];
 final List<String> usSizes = ["XS", "S", "M", "L", "XL"];
-final List<String> ukSizes = List.generate(41, (index) => "${index + 4}");
+final List<String> ukSizes = List.generate(42, (index) => "${index + 4}");
 

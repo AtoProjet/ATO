@@ -41,8 +41,7 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
     LocaleProvider loc = Provider.of(context);
     CartProvider cart = Provider.of(context);
     ItemProvider ipo = Provider.of(context);
-    print("The ipo items are");
-    print(ipo.items);
+
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
@@ -102,6 +101,7 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
     if (item is ClothModel) {
       int genderIndex = genders.indexOf(item.forGender);
       int usSizeIndex = usSizes.indexOf(item.size);
+
       if (!_selectedGenders[genderIndex]
           || !_selectedUsSizes[usSizeIndex]) {
         return const SizedBox(
@@ -113,8 +113,12 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
     if (item is ShoeModel) {
       int genderIndex = genders.indexOf(item.forGender);
       int ukSizeIndex = ukSizes.indexOf(item.size);
-      bool ukSizeSelected= ukSizes.length %7<= ukSizeIndex ;
-      if (!ukSizeSelected|| !_selectedGenders[genderIndex]) {
+      //33%7 = 5
+      //bool ukSizeSelected= ukSizes.length %7<= ukSizeIndex ;
+      bool ukSizeSelected= _selectedUkSizes[ukSizeIndex];
+
+
+      if (!ukSizeSelected || !_selectedGenders[genderIndex]) {
         return const SizedBox(
           height: 0,
           width: 0,
@@ -220,7 +224,14 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
                       val: _selectedUkSizes[i],
                       onChange: (index, value) {
                         setState(() {
-                          _selectedUkSizes[index] = value;
+                        int fromIndex = index as int;
+                        int toIndex = fromIndex +7;
+                        for (var i = fromIndex; i < toIndex; i++) {
+                          _selectedUkSizes[i] = value;
+                        }
+
+
+                         // _selectedUkSizes[index] = value;
                         });
                       },
                     ),
