@@ -39,7 +39,7 @@ class _AccountTypeScreenState extends State<AccountTypeScreen> {
                   onPressed: () {
                     goToScreen(context, const RegisterScreen(accountType: "Donor"));
                   },
-                  text: loc.of(Tr.donor),
+                  text: "المتبرع / Donor",
                 ),
               ),
               Container(
@@ -49,7 +49,7 @@ class _AccountTypeScreenState extends State<AccountTypeScreen> {
                   onPressed: () {
                     goToScreen(context, const RegisterScreen(accountType: "Beneficiary"));
                   },
-                  text:loc.of(Tr.beneficiary),
+                  text: "المستفيد / Beneficiary",
                 ),
               ),
             ],

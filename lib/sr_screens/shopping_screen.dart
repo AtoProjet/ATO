@@ -30,9 +30,11 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
   final List<bool> _selectedUkSizes = List.generate(ukSizes.length, (index) => true);
   bool isClothSelected(){
     return _selectedCategories[categories.indexOf(clothCat)];
+
   }
 
   bool isShoeSelected(){
+
     return _selectedCategories[categories.indexOf(shoesCat)];
   }
   @override
@@ -185,9 +187,9 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
                     ), ),
               ],
             ),
-            if(isClothSelected() || isShoeSelected())
+            if(isClothSelected())
             Text("${loc.of(Tr.size)}(US):"),
-            if(isClothSelected() || isShoeSelected())
+            if(isClothSelected())
             Wrap(
               direction: Axis.horizontal,
               children: [
@@ -208,9 +210,11 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
                   ),
               ],
             ),
-            if(isClothSelected())
+
+
+            if(isShoeSelected())
             Text("${loc.of(Tr.size)}(UK):"),
-            if(isClothSelected())
+            if(isShoeSelected())
             Wrap(
               direction: Axis.horizontal,
               children: [

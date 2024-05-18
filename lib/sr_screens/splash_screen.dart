@@ -61,7 +61,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     onPressed: () {
                       goToScreen(context, const AccountTypeScreen());
                     },
-                    text: loc.of(Tr.iAmNewUser),
+                    text: " أنا مستخدم جديد / I am new User",
                   ),
                 ),
               if (!_isLoading && UserModel.user == null)
@@ -72,7 +72,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     onPressed: () {
                       goToScreen(context, const LoginScreen());
                     },
-                    text: loc.of(Tr.iHaveAnAccount),
+                    text: "لدي حساب / I have an Account ",
                   ),
                 ),
             ],
